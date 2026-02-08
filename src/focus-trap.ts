@@ -1,0 +1,74 @@
+const FOCUSABLE_SELECTOR =
+  'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
+
+export function createFocusTrap(container: HTMLElement) {
+  let previouslyFocused: HTMLElement | null = null;
+
+  function getFocusableElements() {
+    return Array.from(
+      container.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR)
+    ).filter((el) => !el.hasAttribute('disabled'));
+  }
+
+  function handleKeyDown(e: KeyboardEvent) {
+    if (e.key !== 'Tab') return;
+
+    const focusable = getFocusableElements();
+    if (focusable.length === 0) return;
+
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+
+    if (e.shiftKey) {
+      if (document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      }
+    } else {
+      if (document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    }
+  }
+
+  function setInert(value: boolean) {
+    const siblings = document.body.children;
+    for (let i = 0; i < siblings.length; i++) {
+      const el = siblings[i] as HTMLElement;
+      if (!container.contains(el) && el !== container.parentElement) {
+        if (value) {
+          el.setAttribute('inert', '');
+        } else {
+          el.removeAttribute('inert');
+        }
+      }
+    }
+  }
+
+  function activate(initialFocusRef?: HTMLElement | null) {
+    previouslyFocused = document.activeElement as HTMLElement;
+    setInert(true);
+    document.addEventListener('keydown', handleKeyDown);
+
+    // Focus initial element (cancel button) on next frame
+    requestAnimationFrame(() => {
+      if (initialFocusRef) {
+        initialFocusRef.focus();
+      } else {
+        const focusable = getFocusableElements();
+        if (focusable.length > 0) {
+          focusable[0].focus();
+        }
+      }
+    });
+  }
+
+  function deactivate() {
+    setInert(false);
+    document.removeEventListener('keydown', handleKeyDown);
+    previouslyFocused?.focus();
+  }
+
+  return { activate, deactivate };
+}
