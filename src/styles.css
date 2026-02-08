@@ -214,7 +214,7 @@
 [data-affirm-overlay] {
   position: fixed;
   inset: 0;
-  z-index: 50;
+  z-index: 49;
   background: var(--affirm-overlay-bg);
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
@@ -257,6 +257,7 @@
    ============================================ */
 [data-affirm-dialog] {
   position: relative;
+  z-index: 51;
   width: 100%;
   max-width: 28rem;
   padding: 1.5rem;
