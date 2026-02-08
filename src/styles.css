@@ -1,0 +1,555 @@
+/* ============================================
+   Affirm — Confirm Dialog Stylesheet
+   ============================================ */
+
+/* --- CSS Custom Properties (Light Theme) --- */
+[data-affirm] {
+  --affirm-font: 'Geist Sans', 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+
+  /* Overlay */
+  --affirm-overlay-bg: rgba(0, 0, 0, 0.5);
+
+  /* Dialog */
+  --affirm-dialog-bg: #ffffff;
+  --affirm-dialog-shadow: 0 0 0 1px rgba(0, 0, 0, 0.03),
+    0 2px 4px rgba(0, 0, 0, 0.04),
+    0 12px 24px rgba(0, 0, 0, 0.08);
+  --affirm-dialog-border: transparent;
+
+  /* Typography */
+  --affirm-title-color: #171717;
+  --affirm-desc-color: #737373;
+
+  /* Buttons */
+  --affirm-cancel-bg: #ffffff;
+  --affirm-cancel-border: #e5e5e5;
+  --affirm-cancel-text: #171717;
+  --affirm-cancel-hover-bg: #f5f5f5;
+
+  --affirm-confirm-bg: #171717;
+  --affirm-confirm-border: #171717;
+  --affirm-confirm-text: #ffffff;
+  --affirm-confirm-hover-bg: #171717;
+
+  /* Focus ring */
+  --affirm-ring-color: rgba(59, 130, 246, 0.5);
+
+  /* Icon */
+  --affirm-icon-bg: #f5f5f5;
+  --affirm-icon-color: #171717;
+
+  /* Spinner */
+  --affirm-spinner-color: currentColor;
+}
+
+/* --- Dark Theme --- */
+[data-affirm].dark {
+  --affirm-overlay-bg: rgba(0, 0, 0, 0.7);
+
+  --affirm-dialog-bg: #171717;
+  --affirm-dialog-shadow: 0 0 0 1px rgba(255, 255, 255, 0.05),
+    0 2px 4px rgba(0, 0, 0, 0.2),
+    0 12px 24px rgba(0, 0, 0, 0.4);
+
+  --affirm-title-color: #fafafa;
+  --affirm-desc-color: #a3a3a3;
+
+  --affirm-cancel-bg: #262626;
+  --affirm-cancel-border: #404040;
+  --affirm-cancel-text: #fafafa;
+  --affirm-cancel-hover-bg: #333333;
+
+  --affirm-confirm-bg: #fafafa;
+  --affirm-confirm-border: #fafafa;
+  --affirm-confirm-text: #171717;
+  --affirm-confirm-hover-bg: #fafafa;
+
+  --affirm-ring-color: rgba(96, 165, 250, 0.5);
+
+  --affirm-icon-bg: #262626;
+  --affirm-icon-color: #fafafa;
+}
+
+/* --- Variant: Danger (Light) --- */
+[data-affirm][data-variant="danger"] {
+  --affirm-dialog-bg: #FFF1F2;
+  --affirm-dialog-border: #FECDD3;
+
+  --affirm-title-color: #991B1B;
+  --affirm-desc-color: #B91C1C;
+
+  --affirm-confirm-bg: #DC2626;
+  --affirm-confirm-border: #DC2626;
+  --affirm-confirm-text: #ffffff;
+  --affirm-confirm-hover-bg: #B91C1C;
+
+  --affirm-icon-bg: #FEE2E2;
+  --affirm-icon-color: #DC2626;
+}
+
+/* --- Variant: Danger (Dark) --- */
+[data-affirm].dark[data-variant="danger"] {
+  --affirm-dialog-bg: hsl(358, 76%, 10%);
+  --affirm-dialog-border: hsl(358, 50%, 20%);
+
+  --affirm-title-color: #FCA5A5;
+  --affirm-desc-color: #F87171;
+
+  --affirm-confirm-bg: #EF4444;
+  --affirm-confirm-border: #EF4444;
+  --affirm-confirm-text: #ffffff;
+  --affirm-confirm-hover-bg: #DC2626;
+
+  --affirm-icon-bg: hsl(358, 60%, 15%);
+  --affirm-icon-color: #EF4444;
+}
+
+/* --- Variant: Warning (Light) --- */
+[data-affirm][data-variant="warning"] {
+  --affirm-dialog-bg: #FFFBEB;
+  --affirm-dialog-border: #FDE68A;
+
+  --affirm-title-color: #92400E;
+  --affirm-desc-color: #D97706;
+
+  --affirm-confirm-bg: #D97706;
+  --affirm-confirm-border: #D97706;
+  --affirm-confirm-text: #ffffff;
+  --affirm-confirm-hover-bg: #B45309;
+
+  --affirm-icon-bg: #FEF3C7;
+  --affirm-icon-color: #D97706;
+}
+
+/* --- Variant: Warning (Dark) --- */
+[data-affirm].dark[data-variant="warning"] {
+  --affirm-dialog-bg: hsl(40, 80%, 8%);
+  --affirm-dialog-border: hsl(40, 50%, 20%);
+
+  --affirm-title-color: #FCD34D;
+  --affirm-desc-color: #FBBF24;
+
+  --affirm-confirm-bg: #D97706;
+  --affirm-confirm-border: #D97706;
+  --affirm-confirm-text: #ffffff;
+  --affirm-confirm-hover-bg: #B45309;
+
+  --affirm-icon-bg: hsl(40, 60%, 12%);
+  --affirm-icon-color: #FCD34D;
+}
+
+/* --- Variant: Info (Light) --- */
+[data-affirm][data-variant="info"] {
+  --affirm-dialog-bg: #EFF6FF;
+  --affirm-dialog-border: #BFDBFE;
+
+  --affirm-title-color: #1E40AF;
+  --affirm-desc-color: #2563EB;
+
+  --affirm-confirm-bg: #2563EB;
+  --affirm-confirm-border: #2563EB;
+  --affirm-confirm-text: #ffffff;
+  --affirm-confirm-hover-bg: #1D4ED8;
+
+  --affirm-icon-bg: #DBEAFE;
+  --affirm-icon-color: #2563EB;
+}
+
+/* --- Variant: Info (Dark) --- */
+[data-affirm].dark[data-variant="info"] {
+  --affirm-dialog-bg: hsl(215, 80%, 8%);
+  --affirm-dialog-border: hsl(215, 50%, 20%);
+
+  --affirm-title-color: #93C5FD;
+  --affirm-desc-color: #60A5FA;
+
+  --affirm-confirm-bg: #2563EB;
+  --affirm-confirm-border: #2563EB;
+  --affirm-confirm-text: #ffffff;
+  --affirm-confirm-hover-bg: #1D4ED8;
+
+  --affirm-icon-bg: hsl(215, 60%, 12%);
+  --affirm-icon-color: #93C5FD;
+}
+
+/* --- Variant: Success (Light) --- */
+[data-affirm][data-variant="success"] {
+  --affirm-dialog-bg: #F0FDF4;
+  --affirm-dialog-border: #BBF7D0;
+
+  --affirm-title-color: #166534;
+  --affirm-desc-color: #16A34A;
+
+  --affirm-confirm-bg: #16A34A;
+  --affirm-confirm-border: #16A34A;
+  --affirm-confirm-text: #ffffff;
+  --affirm-confirm-hover-bg: #15803D;
+
+  --affirm-icon-bg: #DCFCE7;
+  --affirm-icon-color: #16A34A;
+}
+
+/* --- Variant: Success (Dark) --- */
+[data-affirm].dark[data-variant="success"] {
+  --affirm-dialog-bg: hsl(150, 100%, 6%);
+  --affirm-dialog-border: hsl(150, 50%, 15%);
+
+  --affirm-title-color: #86EFAC;
+  --affirm-desc-color: #4ADE80;
+
+  --affirm-confirm-bg: #16A34A;
+  --affirm-confirm-border: #16A34A;
+  --affirm-confirm-text: #ffffff;
+  --affirm-confirm-hover-bg: #15803D;
+
+  --affirm-icon-bg: hsl(150, 60%, 10%);
+  --affirm-icon-color: #86EFAC;
+}
+
+/* ============================================
+   Overlay
+   ============================================ */
+[data-affirm-overlay] {
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  background: var(--affirm-overlay-bg);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+[data-affirm-overlay][data-state="open"] {
+  animation: affirm-overlay-in 200ms ease-out forwards;
+}
+
+[data-affirm-overlay][data-state="closed"] {
+  animation: affirm-overlay-out 150ms ease-in forwards;
+}
+
+@keyframes affirm-overlay-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes affirm-overlay-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+/* ============================================
+   Dialog Container (centering wrapper)
+   ============================================ */
+[data-affirm] {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  font-family: var(--affirm-font);
+}
+
+/* ============================================
+   Dialog
+   ============================================ */
+[data-affirm-dialog] {
+  position: relative;
+  width: 100%;
+  max-width: 448px;
+  padding: 24px;
+  border-radius: 12px;
+  background: var(--affirm-dialog-bg);
+  border: 1px solid var(--affirm-dialog-border);
+  box-shadow: var(--affirm-dialog-shadow);
+  outline: none;
+}
+
+[data-affirm-dialog][data-state="open"] {
+  animation: affirm-dialog-in 200ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+[data-affirm-dialog][data-state="closed"] {
+  animation: affirm-dialog-out 150ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes affirm-dialog-in {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes affirm-dialog-out {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+}
+
+/* ============================================
+   Content
+   ============================================ */
+[data-affirm-content] {
+  display: flex;
+  flex-direction: column;
+}
+
+/* ============================================
+   Header
+   ============================================ */
+[data-affirm-header] {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+/* ============================================
+   Icon
+   ============================================ */
+[data-affirm-icon] {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: var(--affirm-icon-bg);
+  color: var(--affirm-icon-color);
+}
+
+[data-affirm-icon] svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* ============================================
+   Typography
+   ============================================ */
+[data-affirm-title] {
+  margin: 0;
+  font-family: var(--affirm-font);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.5;
+  color: var(--affirm-title-color);
+}
+
+[data-affirm-description] {
+  margin: 8px 0 0;
+  font-family: var(--affirm-font);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--affirm-desc-color);
+}
+
+/* ============================================
+   Footer
+   ============================================ */
+[data-affirm-footer] {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 24px;
+}
+
+/* ============================================
+   Buttons
+   ============================================ */
+[data-affirm-button] {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 36px;
+  padding: 0 16px;
+  border-radius: 8px;
+  font-family: var(--affirm-font);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1;
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+  transition: opacity 150ms ease, transform 100ms ease, background-color 150ms ease;
+}
+
+[data-affirm-button]:hover {
+  opacity: 0.9;
+}
+
+[data-affirm-button]:active {
+  transform: scale(0.97);
+}
+
+[data-affirm-button]:focus-visible {
+  outline: 2px solid var(--affirm-ring-color);
+  outline-offset: 2px;
+}
+
+[data-affirm-button]:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+[data-affirm-button]:disabled:active {
+  transform: none;
+}
+
+/* Cancel button */
+[data-affirm-cancel] {
+  background: var(--affirm-cancel-bg);
+  border: 1px solid var(--affirm-cancel-border);
+  color: var(--affirm-cancel-text);
+}
+
+[data-affirm-cancel]:hover:not(:disabled) {
+  background: var(--affirm-cancel-hover-bg);
+}
+
+/* Confirm button */
+[data-affirm-confirm] {
+  background: var(--affirm-confirm-bg);
+  border: 1px solid var(--affirm-confirm-border);
+  color: var(--affirm-confirm-text);
+}
+
+[data-affirm-confirm]:hover:not(:disabled) {
+  background: var(--affirm-confirm-hover-bg);
+}
+
+/* ============================================
+   Shake animation (danger variant)
+   ============================================ */
+@keyframes affirm-shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  10%,
+  30%,
+  50%,
+  70%,
+  90% {
+    transform: translateX(-4px);
+  }
+  20%,
+  40%,
+  60%,
+  80% {
+    transform: translateX(4px);
+  }
+}
+
+[data-affirm-dialog][data-shake="true"] {
+  animation: affirm-shake 500ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ============================================
+   Loading Spinner
+   ============================================ */
+[data-affirm-spinner] {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid transparent;
+  border-top-color: var(--affirm-spinner-color);
+  border-right-color: var(--affirm-spinner-color);
+  border-radius: 50%;
+  animation: affirm-spin 600ms linear infinite;
+}
+
+@keyframes affirm-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ============================================
+   Reduced Motion
+   ============================================ */
+@media (prefers-reduced-motion: reduce) {
+  [data-affirm-overlay][data-state="open"] {
+    animation: affirm-overlay-in 200ms ease-out forwards;
+  }
+
+  [data-affirm-overlay][data-state="closed"] {
+    animation: affirm-overlay-out 150ms ease-in forwards;
+  }
+
+  [data-affirm-dialog][data-state="open"] {
+    animation: affirm-fade-in 200ms ease-out forwards;
+  }
+
+  [data-affirm-dialog][data-state="closed"] {
+    animation: affirm-fade-out 150ms ease-in forwards;
+  }
+
+  [data-affirm-dialog][data-shake="true"] {
+    animation: none;
+  }
+
+  [data-affirm-button]:active {
+    transform: none;
+  }
+}
+
+@keyframes affirm-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes affirm-fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+/* ============================================
+   Responsive
+   ============================================ */
+@media (max-width: 480px) {
+  [data-affirm] {
+    padding: 12px;
+  }
+
+  [data-affirm-dialog] {
+    padding: 20px;
+  }
+
+  [data-affirm-footer] {
+    flex-direction: column-reverse;
+  }
+
+  [data-affirm-button] {
+    width: 100%;
+  }
+}
