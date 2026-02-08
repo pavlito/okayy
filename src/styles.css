@@ -4,206 +4,208 @@
 
 /* --- CSS Custom Properties (Light Theme) --- */
 [data-affirm] {
-  --affirm-font: 'Geist Sans', 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --affirm-font: 'Geist Sans', 'Inter', -apple-system, BlinkMacSystemFont,
+    'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 
   /* Overlay */
-  --affirm-overlay-bg: rgba(0, 0, 0, 0.5);
+  --affirm-overlay-bg: rgba(0, 0, 0, 0.8);
 
   /* Dialog */
   --affirm-dialog-bg: #ffffff;
   --affirm-dialog-shadow: 0 0 0 1px rgba(0, 0, 0, 0.03),
-    0 2px 4px rgba(0, 0, 0, 0.04),
-    0 12px 24px rgba(0, 0, 0, 0.08);
-  --affirm-dialog-border: transparent;
+    0 2px 4px rgba(0, 0, 0, 0.04), 0 12px 24px rgba(0, 0, 0, 0.08);
+  --affirm-dialog-border: #e5e5e5;
 
   /* Typography */
-  --affirm-title-color: #171717;
+  --affirm-title-color: #0a0a0a;
   --affirm-desc-color: #737373;
 
   /* Buttons */
-  --affirm-cancel-bg: #ffffff;
+  --affirm-cancel-bg: transparent;
   --affirm-cancel-border: #e5e5e5;
-  --affirm-cancel-text: #171717;
+  --affirm-cancel-text: #0a0a0a;
   --affirm-cancel-hover-bg: #f5f5f5;
 
-  --affirm-confirm-bg: #171717;
-  --affirm-confirm-border: #171717;
-  --affirm-confirm-text: #ffffff;
+  --affirm-confirm-bg: #0a0a0a;
+  --affirm-confirm-border: #0a0a0a;
+  --affirm-confirm-text: #fafafa;
   --affirm-confirm-hover-bg: #171717;
 
   /* Focus ring */
-  --affirm-ring-color: rgba(59, 130, 246, 0.5);
+  --affirm-ring-color: #0a0a0a;
 
   /* Icon */
   --affirm-icon-bg: #f5f5f5;
-  --affirm-icon-color: #171717;
+  --affirm-icon-color: #0a0a0a;
 
   /* Spinner */
   --affirm-spinner-color: currentColor;
+
+  /* Muted (drag handle, etc.) */
+  --affirm-muted: #737373;
 }
 
 /* --- Dark Theme --- */
-[data-affirm].dark {
-  --affirm-overlay-bg: rgba(0, 0, 0, 0.7);
+[data-affirm-theme='dark'] [data-affirm],
+.dark [data-affirm] {
+  --affirm-overlay-bg: rgba(0, 0, 0, 0.8);
 
-  --affirm-dialog-bg: #171717;
+  --affirm-dialog-bg: #0a0a0a;
   --affirm-dialog-shadow: 0 0 0 1px rgba(255, 255, 255, 0.05),
-    0 2px 4px rgba(0, 0, 0, 0.2),
-    0 12px 24px rgba(0, 0, 0, 0.4);
+    0 2px 4px rgba(0, 0, 0, 0.2), 0 12px 24px rgba(0, 0, 0, 0.4);
+  --affirm-dialog-border: #262626;
 
   --affirm-title-color: #fafafa;
   --affirm-desc-color: #a3a3a3;
 
-  --affirm-cancel-bg: #262626;
-  --affirm-cancel-border: #404040;
+  --affirm-cancel-bg: transparent;
+  --affirm-cancel-border: #262626;
   --affirm-cancel-text: #fafafa;
-  --affirm-cancel-hover-bg: #333333;
+  --affirm-cancel-hover-bg: #171717;
 
   --affirm-confirm-bg: #fafafa;
   --affirm-confirm-border: #fafafa;
-  --affirm-confirm-text: #171717;
-  --affirm-confirm-hover-bg: #fafafa;
+  --affirm-confirm-text: #0a0a0a;
+  --affirm-confirm-hover-bg: #e5e5e5;
 
-  --affirm-ring-color: rgba(96, 165, 250, 0.5);
+  --affirm-ring-color: #d4d4d4;
 
   --affirm-icon-bg: #262626;
   --affirm-icon-color: #fafafa;
+
+  --affirm-muted: #a3a3a3;
 }
 
-/* --- Variant: Danger (Light) --- */
-[data-affirm][data-variant="danger"] {
-  --affirm-dialog-bg: #FFF1F2;
-  --affirm-dialog-border: #FECDD3;
+/* ============================================
+   Variant: Danger
+   ============================================ */
 
-  --affirm-title-color: #991B1B;
-  --affirm-desc-color: #B91C1C;
-
-  --affirm-confirm-bg: #DC2626;
-  --affirm-confirm-border: #DC2626;
+/* Light */
+[data-affirm] [data-variant='danger'] {
+  --affirm-dialog-bg: #fff1f2;
+  --affirm-dialog-border: #fecdd3;
+  --affirm-title-color: #991b1b;
+  --affirm-desc-color: #b91c1c;
+  --affirm-confirm-bg: #dc2626;
+  --affirm-confirm-border: #dc2626;
   --affirm-confirm-text: #ffffff;
-  --affirm-confirm-hover-bg: #B91C1C;
-
-  --affirm-icon-bg: #FEE2E2;
-  --affirm-icon-color: #DC2626;
+  --affirm-confirm-hover-bg: #b91c1c;
+  --affirm-icon-bg: #fee2e2;
+  --affirm-icon-color: #dc2626;
 }
 
-/* --- Variant: Danger (Dark) --- */
-[data-affirm].dark[data-variant="danger"] {
+/* Dark */
+[data-affirm-theme='dark'] [data-affirm] [data-variant='danger'],
+.dark [data-affirm] [data-variant='danger'] {
   --affirm-dialog-bg: hsl(358, 76%, 10%);
   --affirm-dialog-border: hsl(358, 50%, 20%);
-
-  --affirm-title-color: #FCA5A5;
-  --affirm-desc-color: #F87171;
-
-  --affirm-confirm-bg: #EF4444;
-  --affirm-confirm-border: #EF4444;
+  --affirm-title-color: #fca5a5;
+  --affirm-desc-color: #f87171;
+  --affirm-confirm-bg: #ef4444;
+  --affirm-confirm-border: #ef4444;
   --affirm-confirm-text: #ffffff;
-  --affirm-confirm-hover-bg: #DC2626;
-
+  --affirm-confirm-hover-bg: #dc2626;
   --affirm-icon-bg: hsl(358, 60%, 15%);
-  --affirm-icon-color: #EF4444;
+  --affirm-icon-color: #ef4444;
 }
 
-/* --- Variant: Warning (Light) --- */
-[data-affirm][data-variant="warning"] {
-  --affirm-dialog-bg: #FFFBEB;
-  --affirm-dialog-border: #FDE68A;
+/* ============================================
+   Variant: Warning
+   ============================================ */
 
-  --affirm-title-color: #92400E;
-  --affirm-desc-color: #D97706;
-
-  --affirm-confirm-bg: #D97706;
-  --affirm-confirm-border: #D97706;
+/* Light */
+[data-affirm] [data-variant='warning'] {
+  --affirm-dialog-bg: #fffbeb;
+  --affirm-dialog-border: #fde68a;
+  --affirm-title-color: #92400e;
+  --affirm-desc-color: #d97706;
+  --affirm-confirm-bg: #d97706;
+  --affirm-confirm-border: #d97706;
   --affirm-confirm-text: #ffffff;
-  --affirm-confirm-hover-bg: #B45309;
-
-  --affirm-icon-bg: #FEF3C7;
-  --affirm-icon-color: #D97706;
+  --affirm-confirm-hover-bg: #b45309;
+  --affirm-icon-bg: #fef3c7;
+  --affirm-icon-color: #d97706;
 }
 
-/* --- Variant: Warning (Dark) --- */
-[data-affirm].dark[data-variant="warning"] {
+/* Dark */
+[data-affirm-theme='dark'] [data-affirm] [data-variant='warning'],
+.dark [data-affirm] [data-variant='warning'] {
   --affirm-dialog-bg: hsl(40, 80%, 8%);
   --affirm-dialog-border: hsl(40, 50%, 20%);
-
-  --affirm-title-color: #FCD34D;
-  --affirm-desc-color: #FBBF24;
-
-  --affirm-confirm-bg: #D97706;
-  --affirm-confirm-border: #D97706;
+  --affirm-title-color: #fcd34d;
+  --affirm-desc-color: #fbbf24;
+  --affirm-confirm-bg: #d97706;
+  --affirm-confirm-border: #d97706;
   --affirm-confirm-text: #ffffff;
-  --affirm-confirm-hover-bg: #B45309;
-
+  --affirm-confirm-hover-bg: #b45309;
   --affirm-icon-bg: hsl(40, 60%, 12%);
-  --affirm-icon-color: #FCD34D;
+  --affirm-icon-color: #fcd34d;
 }
 
-/* --- Variant: Info (Light) --- */
-[data-affirm][data-variant="info"] {
-  --affirm-dialog-bg: #EFF6FF;
-  --affirm-dialog-border: #BFDBFE;
+/* ============================================
+   Variant: Info
+   ============================================ */
 
-  --affirm-title-color: #1E40AF;
-  --affirm-desc-color: #2563EB;
-
-  --affirm-confirm-bg: #2563EB;
-  --affirm-confirm-border: #2563EB;
+/* Light */
+[data-affirm] [data-variant='info'] {
+  --affirm-dialog-bg: #eff6ff;
+  --affirm-dialog-border: #bfdbfe;
+  --affirm-title-color: #1e40af;
+  --affirm-desc-color: #2563eb;
+  --affirm-confirm-bg: #2563eb;
+  --affirm-confirm-border: #2563eb;
   --affirm-confirm-text: #ffffff;
-  --affirm-confirm-hover-bg: #1D4ED8;
-
-  --affirm-icon-bg: #DBEAFE;
-  --affirm-icon-color: #2563EB;
+  --affirm-confirm-hover-bg: #1d4ed8;
+  --affirm-icon-bg: #dbeafe;
+  --affirm-icon-color: #2563eb;
 }
 
-/* --- Variant: Info (Dark) --- */
-[data-affirm].dark[data-variant="info"] {
+/* Dark */
+[data-affirm-theme='dark'] [data-affirm] [data-variant='info'],
+.dark [data-affirm] [data-variant='info'] {
   --affirm-dialog-bg: hsl(215, 80%, 8%);
   --affirm-dialog-border: hsl(215, 50%, 20%);
-
-  --affirm-title-color: #93C5FD;
-  --affirm-desc-color: #60A5FA;
-
-  --affirm-confirm-bg: #2563EB;
-  --affirm-confirm-border: #2563EB;
+  --affirm-title-color: #93c5fd;
+  --affirm-desc-color: #60a5fa;
+  --affirm-confirm-bg: #2563eb;
+  --affirm-confirm-border: #2563eb;
   --affirm-confirm-text: #ffffff;
-  --affirm-confirm-hover-bg: #1D4ED8;
-
+  --affirm-confirm-hover-bg: #1d4ed8;
   --affirm-icon-bg: hsl(215, 60%, 12%);
-  --affirm-icon-color: #93C5FD;
+  --affirm-icon-color: #93c5fd;
 }
 
-/* --- Variant: Success (Light) --- */
-[data-affirm][data-variant="success"] {
-  --affirm-dialog-bg: #F0FDF4;
-  --affirm-dialog-border: #BBF7D0;
+/* ============================================
+   Variant: Success
+   ============================================ */
 
+/* Light */
+[data-affirm] [data-variant='success'] {
+  --affirm-dialog-bg: #f0fdf4;
+  --affirm-dialog-border: #bbf7d0;
   --affirm-title-color: #166534;
-  --affirm-desc-color: #16A34A;
-
-  --affirm-confirm-bg: #16A34A;
-  --affirm-confirm-border: #16A34A;
+  --affirm-desc-color: #16a34a;
+  --affirm-confirm-bg: #16a34a;
+  --affirm-confirm-border: #16a34a;
   --affirm-confirm-text: #ffffff;
-  --affirm-confirm-hover-bg: #15803D;
-
-  --affirm-icon-bg: #DCFCE7;
-  --affirm-icon-color: #16A34A;
+  --affirm-confirm-hover-bg: #15803d;
+  --affirm-icon-bg: #dcfce7;
+  --affirm-icon-color: #16a34a;
 }
 
-/* --- Variant: Success (Dark) --- */
-[data-affirm].dark[data-variant="success"] {
+/* Dark */
+[data-affirm-theme='dark'] [data-affirm] [data-variant='success'],
+.dark [data-affirm] [data-variant='success'] {
   --affirm-dialog-bg: hsl(150, 100%, 6%);
   --affirm-dialog-border: hsl(150, 50%, 15%);
-
-  --affirm-title-color: #86EFAC;
-  --affirm-desc-color: #4ADE80;
-
-  --affirm-confirm-bg: #16A34A;
-  --affirm-confirm-border: #16A34A;
+  --affirm-title-color: #86efac;
+  --affirm-desc-color: #4ade80;
+  --affirm-confirm-bg: #16a34a;
+  --affirm-confirm-border: #16a34a;
   --affirm-confirm-text: #ffffff;
-  --affirm-confirm-hover-bg: #15803D;
-
+  --affirm-confirm-hover-bg: #15803d;
   --affirm-icon-bg: hsl(150, 60%, 10%);
-  --affirm-icon-color: #86EFAC;
+  --affirm-icon-color: #86efac;
 }
 
 /* ============================================
@@ -212,36 +214,28 @@
 [data-affirm-overlay] {
   position: fixed;
   inset: 0;
-  z-index: 9998;
+  z-index: 50;
   background: var(--affirm-overlay-bg);
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
 }
 
-[data-affirm-overlay][data-state="open"] {
+[data-affirm-overlay][data-state='open'] {
   animation: affirm-overlay-in 200ms ease-out forwards;
 }
 
-[data-affirm-overlay][data-state="closed"] {
+[data-affirm-overlay][data-state='closed'] {
   animation: affirm-overlay-out 150ms ease-in forwards;
 }
 
 @keyframes affirm-overlay-in {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 @keyframes affirm-overlay-out {
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
-  }
+  from { opacity: 1; }
+  to { opacity: 0; }
 }
 
 /* ============================================
@@ -250,11 +244,11 @@
 [data-affirm] {
   position: fixed;
   inset: 0;
-  z-index: 9999;
+  z-index: 50;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 16px;
+  padding: 1rem;
   font-family: var(--affirm-font);
 }
 
@@ -264,42 +258,42 @@
 [data-affirm-dialog] {
   position: relative;
   width: 100%;
-  max-width: 448px;
-  padding: 24px;
-  border-radius: 12px;
+  max-width: 28rem;
+  padding: 1.5rem;
+  border-radius: 0.75rem;
   background: var(--affirm-dialog-bg);
   border: 1px solid var(--affirm-dialog-border);
   box-shadow: var(--affirm-dialog-shadow);
   outline: none;
 }
 
-[data-affirm-dialog][data-state="open"] {
+[data-affirm-dialog][data-state='open'] {
   animation: affirm-dialog-in 200ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-[data-affirm-dialog][data-state="closed"] {
+[data-affirm-dialog][data-state='closed'] {
   animation: affirm-dialog-out 150ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 @keyframes affirm-dialog-in {
   from {
     opacity: 0;
-    transform: scale(0.95);
+    transform: scale(0.95) translateY(4px);
   }
   to {
     opacity: 1;
-    transform: scale(1);
+    transform: scale(1) translateY(0);
   }
 }
 
 @keyframes affirm-dialog-out {
   from {
     opacity: 1;
-    transform: scale(1);
+    transform: scale(1) translateY(0);
   }
   to {
     opacity: 0;
-    transform: scale(0.95);
+    transform: scale(0.95) translateY(4px);
   }
 }
 
@@ -317,7 +311,7 @@
 [data-affirm-header] {
   display: flex;
   align-items: flex-start;
-  gap: 12px;
+  gap: 0.75rem;
 }
 
 /* ============================================
@@ -328,16 +322,16 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  width: 40px;
-  height: 40px;
-  border-radius: 10px;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 0.625rem;
   background: var(--affirm-icon-bg);
   color: var(--affirm-icon-color);
 }
 
 [data-affirm-icon] svg {
-  width: 20px;
-  height: 20px;
+  width: 1.25rem;
+  height: 1.25rem;
 }
 
 /* ============================================
@@ -346,18 +340,20 @@
 [data-affirm-title] {
   margin: 0;
   font-family: var(--affirm-font);
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: 600;
   line-height: 1.5;
+  letter-spacing: -0.011em;
   color: var(--affirm-title-color);
 }
 
 [data-affirm-description] {
-  margin: 8px 0 0;
+  margin: 0.5rem 0 0;
   font-family: var(--affirm-font);
-  font-size: 14px;
+  font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.5;
+  letter-spacing: -0.006em;
   color: var(--affirm-desc-color);
 }
 
@@ -367,8 +363,8 @@
 [data-affirm-footer] {
   display: flex;
   justify-content: flex-end;
-  gap: 8px;
-  margin-top: 24px;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
 }
 
 /* ============================================
@@ -378,18 +374,24 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  height: 36px;
-  padding: 0 16px;
-  border-radius: 8px;
+  position: relative;
+  gap: 0.5rem;
+  height: 2.25rem;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
   font-family: var(--affirm-font);
-  font-size: 14px;
+  font-size: 0.875rem;
   font-weight: 500;
   line-height: 1;
   cursor: pointer;
+  -webkit-user-select: none;
   user-select: none;
   white-space: nowrap;
-  transition: opacity 150ms ease, transform 100ms ease, background-color 150ms ease;
+  outline: none;
+  transition:
+    opacity 150ms ease,
+    transform 100ms ease,
+    background-color 150ms ease;
 }
 
 [data-affirm-button]:hover {
@@ -408,10 +410,7 @@
 [data-affirm-button]:disabled {
   opacity: 0.5;
   cursor: not-allowed;
-}
-
-[data-affirm-button]:disabled:active {
-  transform: none;
+  pointer-events: none;
 }
 
 /* Cancel button */
@@ -437,76 +436,60 @@
 }
 
 /* ============================================
-   Shake animation (danger variant)
+   Shake Animation (danger variant emphasis)
    ============================================ */
 @keyframes affirm-shake {
-  0%,
-  100% {
-    transform: translateX(0);
-  }
-  10%,
-  30%,
-  50%,
-  70%,
-  90% {
-    transform: translateX(-4px);
-  }
-  20%,
-  40%,
-  60%,
-  80% {
-    transform: translateX(4px);
-  }
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-4px); }
+  20%, 40%, 60%, 80% { transform: translateX(4px); }
 }
 
-[data-affirm-dialog][data-shake="true"] {
-  animation: affirm-shake 500ms cubic-bezier(0.16, 1, 0.3, 1);
+[data-affirm-dialog][data-shake='true'] {
+  animation: affirm-shake 500ms cubic-bezier(0.36, 0.07, 0.19, 0.97);
 }
 
 /* ============================================
    Loading Spinner
    ============================================ */
-[data-affirm-spinner] {
-  display: inline-block;
-  width: 16px;
-  height: 16px;
-  border: 2px solid transparent;
-  border-top-color: var(--affirm-spinner-color);
-  border-right-color: var(--affirm-spinner-color);
+[data-affirm-button][data-loading='true'] {
+  color: transparent;
+  pointer-events: none;
+}
+
+[data-affirm-button][data-loading='true']::after {
+  content: '';
+  position: absolute;
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid var(--affirm-confirm-text);
+  border-right-color: transparent;
   border-radius: 50%;
   animation: affirm-spin 600ms linear infinite;
 }
 
 @keyframes affirm-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
 /* ============================================
    Reduced Motion
    ============================================ */
 @media (prefers-reduced-motion: reduce) {
-  [data-affirm-overlay][data-state="open"] {
-    animation: affirm-overlay-in 200ms ease-out forwards;
+  [data-affirm-overlay][data-state='open'],
+  [data-affirm-overlay][data-state='closed'] {
+    animation-duration: 1ms;
   }
 
-  [data-affirm-overlay][data-state="closed"] {
-    animation: affirm-overlay-out 150ms ease-in forwards;
-  }
-
-  [data-affirm-dialog][data-state="open"] {
+  [data-affirm-dialog][data-state='open'] {
     animation: affirm-fade-in 200ms ease-out forwards;
   }
 
-  [data-affirm-dialog][data-state="closed"] {
+  [data-affirm-dialog][data-state='closed'] {
     animation: affirm-fade-out 150ms ease-in forwards;
   }
 
-  [data-affirm-dialog][data-shake="true"] {
+  [data-affirm-dialog][data-shake='true'] {
     animation: none;
   }
 
@@ -516,40 +499,89 @@
 }
 
 @keyframes affirm-fade-in {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 @keyframes affirm-fade-out {
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
-  }
+  from { opacity: 1; }
+  to { opacity: 0; }
 }
 
 /* ============================================
-   Responsive
+   Mobile Bottom Sheet (< 640px)
    ============================================ */
-@media (max-width: 480px) {
+@media (max-width: 639px) {
   [data-affirm] {
-    padding: 12px;
+    align-items: flex-end;
+    padding: 0;
   }
 
   [data-affirm-dialog] {
-    padding: 20px;
+    max-width: 100%;
+    border-radius: 1rem 1rem 0 0;
+    padding-bottom: calc(1.5rem + env(safe-area-inset-bottom));
   }
 
+  [data-affirm-dialog][data-state='open'] {
+    animation: affirm-sheet-in 350ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  [data-affirm-dialog][data-state='closed'] {
+    animation: affirm-sheet-out 200ms ease-in forwards;
+  }
+
+  /* Drag handle */
+  [data-affirm-dialog]::before {
+    content: '';
+    display: block;
+    width: 2.5rem;
+    height: 0.25rem;
+    background: var(--affirm-muted, #737373);
+    opacity: 0.3;
+    border-radius: 9999px;
+    margin: 0 auto 1rem;
+  }
+
+  /* Stack buttons vertically */
   [data-affirm-footer] {
     flex-direction: column-reverse;
   }
 
   [data-affirm-button] {
     width: 100%;
+  }
+
+  /* Reduced motion on mobile */
+  @media (prefers-reduced-motion: reduce) {
+    [data-affirm-dialog][data-state='open'] {
+      animation: affirm-fade-in 200ms ease-out forwards;
+    }
+
+    [data-affirm-dialog][data-state='closed'] {
+      animation: affirm-fade-out 150ms ease-in forwards;
+    }
+  }
+}
+
+@keyframes affirm-sheet-in {
+  from {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes affirm-sheet-out {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(100%);
   }
 }
