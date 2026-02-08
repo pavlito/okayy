@@ -1,0 +1,21 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "name": "affirm",
+  "homepage": "https://github.com/pav-affirm/affirm",
+  "items": [
+    {
+      "name": "confirm-dialog",
+      "type": "registry:ui",
+      "title": "Confirm Dialog",
+      "description": "A beautiful confirm dialog with variants, async actions, focus trap, and full accessibility.",
+      "dependencies": ["react", "react-dom"],
+      "files": [
+        {
+          "path": "registry/confirm-dialog.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/confirm-dialog.tsx"
+        }
+      ]
+    }
+  ]
+}
