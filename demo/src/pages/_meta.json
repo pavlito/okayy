@@ -1,0 +1,30 @@
+{
+  "getting-started": {
+    "title": "Getting Started",
+    "href": "/getting-started"
+  },
+  "-- API": {
+    "type": "separator",
+    "title": "API"
+  },
+  "confirm": {
+    "title": "confirm()",
+    "href": "/confirm"
+  },
+  "confirmer": {
+    "title": "Confirmer",
+    "href": "/confirmer"
+  },
+  "use-affirm": {
+    "title": "useAffirm",
+    "href": "/use-affirm"
+  },
+  "-- Guides": {
+    "type": "separator",
+    "title": "Guides"
+  },
+  "styling": {
+    "title": "Styling",
+    "href": "/styling"
+  }
+}

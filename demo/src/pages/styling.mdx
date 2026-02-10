@@ -1,0 +1,171 @@
+import { confirm } from 'affirm';
+import { Preview } from '@/components/Preview';
+
+# Styling
+
+affirm ships with sensible defaults that look great out of the box, but every element of the confirmation dialog can be fully customized. You can target elements using CSS data attributes for global styling, or pass `className` props for one-off adjustments.
+
+## Data attribute selectors
+
+Every element in the dialog exposes a `data-affirm-*` attribute that you can target directly in your CSS. This approach avoids specificity issues since attribute selectors don't compete with class-based utility frameworks.
+
+The full set of available selectors:
+
+- `[data-affirm-dialog]` -- the dialog container
+- `[data-affirm-overlay]` -- the backdrop overlay behind the dialog
+- `[data-affirm-title]` -- the title text
+- `[data-affirm-description]` -- the description text
+- `[data-affirm-confirm]` -- the confirm action button
+- `[data-affirm-cancel]` -- the cancel action button
+
+```css
+/* The dialog container */
+[data-affirm-dialog] {
+  border-radius: 16px;
+}
+
+/* The overlay backdrop */
+[data-affirm-overlay] {
+  background: rgba(0, 0, 0, 0.8);
+}
+
+/* The title */
+[data-affirm-title] {
+  font-size: 18px;
+}
+
+/* The description */
+[data-affirm-description] {
+  font-size: 14px;
+}
+
+/* The confirm button */
+[data-affirm-confirm] {
+  font-weight: 600;
+}
+
+/* The cancel button */
+[data-affirm-cancel] {
+  opacity: 0.7;
+}
+```
+
+## className props
+
+For one-off styling that only applies to a specific confirmation, you can pass `className` and `overlayClassName` directly in the options object. `className` applies to the dialog container, while `overlayClassName` controls the backdrop overlay. These are useful when you need a unique look for a particular confirmation without writing global CSS.
+
+<Preview
+  label="Try it"
+  action={() => confirm({
+    title: 'Custom styled',
+    description: 'This dialog has custom class names applied.',
+    className: 'my-custom-dialog',
+    overlayClassName: 'my-custom-overlay',
+  })}
+  code={`const ok = await confirm({
+  title: 'Delete?',
+  className: 'my-custom-dialog',
+  overlayClassName: 'my-custom-overlay',
+});`}
+/>
+
+## Tailwind CSS
+
+For full Tailwind control, use the `unstyled` prop on `<Confirmer />` to strip all default visual styles, then provide your classes via `classNames`.
+
+**Global Tailwind styling:**
+
+```tsx
+<Confirmer
+  unstyled
+  defaultOptions={{
+    classNames: {
+      dialog: 'bg-white dark:bg-gray-900 rounded-xl p-6 shadow-xl border border-gray-200 dark:border-gray-800 max-w-sm w-full',
+      overlay: 'bg-black/60 backdrop-blur-sm',
+      title: 'text-lg font-semibold text-gray-900 dark:text-gray-100',
+      description: 'text-sm text-gray-500 dark:text-gray-400 mt-2',
+      confirmButton: 'bg-gray-900 dark:bg-white text-white dark:text-gray-900 px-4 py-2 rounded-lg font-medium hover:opacity-90',
+      cancelButton: 'border border-gray-200 dark:border-gray-700 px-4 py-2 rounded-lg font-medium hover:bg-gray-50 dark:hover:bg-gray-800',
+      footer: 'flex justify-end gap-2 mt-6',
+    },
+  }}
+/>
+```
+
+**Per-dialog Tailwind styling:**
+
+```tsx
+const ok = await confirm({
+  title: 'Delete project?',
+  unstyled: true,
+  classNames: {
+    dialog: 'bg-red-50 border-red-200 rounded-xl p-6 max-w-sm w-full',
+    title: 'text-red-900 text-lg font-bold',
+    confirmButton: 'bg-red-600 text-white px-4 py-2 rounded-lg',
+  },
+});
+```
+
+The `classNames` object supports these keys:
+
+| Key | Element |
+| :--- | :--- |
+| dialog | The dialog container |
+| overlay | The backdrop overlay |
+| title | The title text |
+| description | The description text |
+| confirmButton | The confirm button |
+| cancelButton | The cancel button |
+| actionButton | Custom action buttons |
+| icon | The variant icon wrapper |
+| content | The content wrapper |
+| footer | The button row |
+
+## Changing icons
+
+Each confirmation variant (`danger`, `warning`, `info`, `success`) renders a default icon. You can override these at two levels.
+
+**Globally**, set the `icons` prop on the `<Confirmer />` component to replace the default icons across your entire app:
+
+```jsx
+<Confirmer
+  icons={{
+    danger: <TrashIcon />,
+    warning: <AlertIcon />,
+    info: <InfoIcon />,
+    success: <CheckIcon />,
+  }}
+/>
+```
+
+**Per-call**, pass an `icon` prop to override the icon for a single confirmation. Icons can be any valid React element -- an SVG component, an emoji string, or a custom component:
+
+<Preview
+  label="Try with custom icon"
+  action={() => confirm({
+    title: 'Custom icon',
+    description: 'This dialog uses a custom icon.',
+    icon: '🚀',
+  })}
+  code={`const ok = await confirm({
+  title: 'Custom icon',
+  icon: <MyIcon />,
+});`}
+/>
+
+## Dark mode
+
+affirm supports three theme modes: `light`, `dark`, and `system`. Set the `theme` prop on `<Confirmer />` to control which mode is used:
+
+```jsx
+// Follow OS preference
+<Confirmer theme="system" />
+
+// Force dark
+<Confirmer theme="dark" />
+
+// Force light
+<Confirmer theme="light" />
+```
+
+When set to `system`, affirm automatically detects the `.dark` class on your `<html>` element and adjusts accordingly. This works seamlessly with `next-themes`, `tailwind dark mode`, or any library that toggles a `.dark` class -- no additional configuration required.

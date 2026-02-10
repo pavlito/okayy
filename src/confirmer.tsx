@@ -1,26 +1,46 @@
 'use client';
 
-import { useSyncExternalStore, useState, useRef, useEffect, useCallback } from 'react';
-import { createPortal } from 'react-dom';
-import { subscribe, getSnapshot, respond } from './state';
+import React from 'react';
+import ReactDOM from 'react-dom';
+
+import { ConfirmState } from './state';
+import { getAsset } from './assets';
 import { createFocusTrap } from './focus-trap';
 import type { ConfirmerProps } from './types';
 
-export function Confirmer({ theme = 'system', defaultOptions, className }: ConfirmerProps) {
-  const { isOpen, options: stateOptions } = useSyncExternalStore(subscribe, getSnapshot, getSnapshot);
+export function Confirmer({ theme = 'system', defaultOptions, className, icons, unstyled }: ConfirmerProps) {
+  const [storeState, setStoreState] = React.useState(ConfirmState.getSnapshot());
+
+  React.useEffect(() => {
+    return ConfirmState.subscribe((newState) => {
+      // Prevent batching, temp solution.
+      setTimeout(() => {
+        ReactDOM.flushSync(() => {
+          setStoreState(newState);
+        });
+      });
+    });
+  }, []);
+
+  const { isOpen, options: stateOptions } = storeState;
   const options = { ...defaultOptions, ...stateOptions };
 
-  const [visible, setVisible] = useState(false);
-  const [dataState, setDataState] = useState<'open' | 'closed'>('closed');
-  const [isLoading, setIsLoading] = useState(false);
-  const [resolvedTheme, setResolvedTheme] = useState<'light' | 'dark'>('light');
+  const [visible, setVisible] = React.useState(false);
+  const [dataState, setDataState] = React.useState<'open' | 'closed' | 'initial'>('initial');
+  const [isLoading, setIsLoading] = React.useState(false);
+  const [resolvedTheme, setResolvedTheme] = React.useState<'light' | 'dark'>('light');
+  const [confirmInput, setConfirmInput] = React.useState('');
+  const [loadingAction, setLoadingAction] = React.useState<number | null>(null);
 
-  const dialogRef = useRef<HTMLDivElement>(null);
-  const cancelRef = useRef<HTMLButtonElement>(null);
-  const focusTrapRef = useRef<ReturnType<typeof createFocusTrap> | null>(null);
+  const isUnstyled = unstyled || options.unstyled;
+
+  const dialogRef = React.useRef<HTMLDivElement>(null);
+  const cancelRef = React.useRef<HTMLButtonElement>(null);
+  const confirmRef = React.useRef<HTMLButtonElement>(null);
+  const focusTrapRef = React.useRef<ReturnType<typeof createFocusTrap> | null>(null);
 
   // Theme detection
-  useEffect(() => {
+  React.useEffect(() => {
     if (theme === 'light' || theme === 'dark') {
       setResolvedTheme(theme);
       return;
@@ -33,10 +53,12 @@ export function Confirmer({ theme = 'system', defaultOptions, className }: Confi
   }, [theme]);
 
   // Open animation
-  useEffect(() => {
+  React.useEffect(() => {
     if (isOpen) {
       setVisible(true);
       setIsLoading(false);
+      setConfirmInput('');
+      setLoadingAction(null);
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
           setDataState('open');
@@ -46,10 +68,11 @@ export function Confirmer({ theme = 'system', defaultOptions, className }: Confi
   }, [isOpen]);
 
   // Focus trap
-  useEffect(() => {
+  React.useEffect(() => {
     if (visible && dialogRef.current) {
       focusTrapRef.current = createFocusTrap(dialogRef.current);
-      focusTrapRef.current.activate(cancelRef.current);
+      const initialFocus = options.hideCancel ? confirmRef.current : cancelRef.current;
+      focusTrapRef.current.activate(initialFocus);
       return () => {
         focusTrapRef.current?.deactivate();
       };
@@ -57,37 +80,44 @@ export function Confirmer({ theme = 'system', defaultOptions, className }: Confi
   }, [visible]);
 
   // Close animation
-  const handleClose = useCallback((value: boolean) => {
-    if (isLoading) return;
+  const handleClose = React.useCallback((value: boolean) => {
+    if (isLoading || loadingAction !== null) return;
     setDataState('closed');
     const el = dialogRef.current;
     if (el) {
+      let fired = false;
       const onEnd = () => {
-        el.removeEventListener('transitionend', onEnd);
+        if (fired) return;
+        fired = true;
+        el.removeEventListener('animationend', onEnd);
         setVisible(false);
-        respond(value);
+        ConfirmState.respond(value);
       };
-      el.addEventListener('transitionend', onEnd);
-      // Fallback if transitionend doesn't fire
+      el.addEventListener('animationend', onEnd);
+      // Fallback if animationend doesn't fire
       setTimeout(onEnd, 200);
     } else {
       setVisible(false);
-      respond(value);
+      ConfirmState.respond(value);
     }
-  }, [isLoading]);
+  }, [isLoading, loadingAction]);
 
   // Escape key
-  useEffect(() => {
+  React.useEffect(() => {
     if (!visible) return;
     const handler = (e: KeyboardEvent) => {
       if (e.key === 'Escape' && options.dismissible !== false) {
-        options.onCancel?.();
-        handleClose(false);
+        if (options.hideCancel) {
+          handleClose(true);
+        } else {
+          options.onCancel?.();
+          handleClose(false);
+        }
       }
     };
     document.addEventListener('keydown', handler);
     return () => document.removeEventListener('keydown', handler);
-  }, [visible, options.dismissible, options.onCancel, handleClose]);
+  }, [visible, options.dismissible, options.onCancel, options.hideCancel, handleClose]);
 
   const handleConfirm = async () => {
     if (isLoading) return;
@@ -103,6 +133,10 @@ export function Confirmer({ theme = 'system', defaultOptions, className }: Confi
   };
 
   const handleCancel = () => {
+    if (options.hideCancel) {
+      handleClose(true);
+      return;
+    }
     options.onCancel?.();
     handleClose(false);
   };
@@ -116,19 +150,31 @@ export function Confirmer({ theme = 'system', defaultOptions, className }: Confi
   if (!visible) return null;
 
   const variant = options.variant || 'default';
-  const confirmText = options.confirmText || 'Confirm';
+  const confirmText = options.hideCancel
+    ? (options.confirmText || 'OK')
+    : (options.confirmText || 'Confirm');
   const cancelText = options.cancelText || 'Cancel';
 
-  return createPortal(
+  // Icon resolution: false/null = hidden, undefined = use default, ReactNode = custom
+  const hideIcon = options.icon === false || options.icon === null;
+  const icon = hideIcon ? null : (options.icon || icons?.[variant as keyof typeof icons] || getAsset(variant));
+  const showIcon = !hideIcon && icon !== null && (variant !== 'default' || options.icon);
+
+  const keywordMatch = options.confirmationKeyword
+    ? confirmInput === options.confirmationKeyword
+    : true;
+
+  return ReactDOM.createPortal(
     <div
       data-affirm
+      data-unstyled={isUnstyled || undefined}
       className={resolvedTheme === 'dark' ? 'dark' : undefined}
     >
       {/* Overlay */}
       <div
         data-affirm-overlay
         data-state={dataState}
-        className={options.overlayClassName}
+        className={[options.overlayClassName, options.classNames?.overlay].filter(Boolean).join(' ') || undefined}
         onClick={handleOverlayClick}
         aria-hidden="true"
       />
@@ -139,53 +185,102 @@ export function Confirmer({ theme = 'system', defaultOptions, className }: Confi
         data-affirm-dialog
         data-state={dataState}
         data-variant={variant}
-        className={[className, options.className].filter(Boolean).join(' ') || undefined}
+        data-layout={options.layout || 'default'}
+        data-custom={options.custom ? '' : undefined}
+        className={[className, options.className, options.classNames?.dialog].filter(Boolean).join(' ') || undefined}
+        style={options.style}
         role="alertdialog"
         aria-modal="true"
         aria-labelledby="affirm-title"
         aria-describedby={options.description ? 'affirm-description' : undefined}
       >
-        <div data-affirm-content>
-          {/* Icon + Title */}
-          <div data-affirm-header>
-            {options.icon && <span data-affirm-icon>{options.icon}</span>}
-            <h2 id="affirm-title" data-affirm-title>
-              {options.title}
-            </h2>
-          </div>
+        {options.custom ? options.custom(handleClose) : (
+          <>
+            <div data-affirm-content className={options.classNames?.content}>
+              {/* Icon + Title */}
+              <div data-affirm-header>
+                {showIcon && <span data-affirm-icon className={options.classNames?.icon}>{icon}</span>}
+                <h2 id="affirm-title" data-affirm-title className={options.classNames?.title}>
+                  {options.title}
+                </h2>
+              </div>
 
-          {/* Description */}
-          {options.description && (
-            <p id="affirm-description" data-affirm-description>
-              {options.description}
-            </p>
-          )}
-        </div>
+              {/* Description */}
+              {options.description != null && (
+                <div id="affirm-description" data-affirm-description className={options.classNames?.description}>
+                  {options.description}
+                </div>
+              )}
+            </div>
 
-        {/* Actions */}
-        <div data-affirm-footer role="group" aria-label="Dialog actions">
-          <button
-            ref={cancelRef}
-            data-affirm-button
-            data-affirm-cancel
-            onClick={handleCancel}
-            disabled={isLoading}
-          >
-            {cancelText}
-          </button>
-          <button
-            data-affirm-button
-            data-affirm-confirm
-            data-variant={variant}
-            onClick={handleConfirm}
-            disabled={isLoading}
-          >
-            {isLoading && <span data-affirm-spinner aria-hidden="true" />}
-            <span style={isLoading ? { visibility: 'hidden' } : undefined}>
-              {confirmText}
-            </span>
-          </button>
-        </div>
+            {/* Type-to-Confirm */}
+            {options.confirmationKeyword && (
+              <div data-affirm-keyword>
+                <label data-affirm-keyword-label>
+                  Type <strong>{options.confirmationKeyword}</strong> to confirm
+                </label>
+                <input
+                  data-affirm-keyword-input
+                  value={confirmInput}
+                  onChange={(e) => setConfirmInput(e.target.value)}
+                />
+              </div>
+            )}
+
+            {/* Actions */}
+            <div data-affirm-footer role="group" aria-label="Dialog actions" className={options.classNames?.footer}>
+              {!options.hideCancel && (
+                <button
+                  ref={cancelRef}
+                  data-affirm-button
+                  data-affirm-cancel
+                  className={options.classNames?.cancelButton}
+                  onClick={handleCancel}
+                  disabled={isLoading || loadingAction !== null}
+                >
+                  {cancelText}
+                </button>
+              )}
+              {options.actions?.map((action, i) => (
+                <button
+                  key={i}
+                  data-affirm-button
+                  data-affirm-action
+                  className={options.classNames?.actionButton}
+                  onClick={async () => {
+                    setLoadingAction(i);
+                    try {
+                      await action.onClick();
+                    } finally {
+                      setLoadingAction(null);
+                    }
+                    handleClose(false);
+                  }}
+                  disabled={isLoading || loadingAction !== null}
+                >
+                  {loadingAction === i && <span data-affirm-spinner aria-hidden="true" />}
+                  <span style={loadingAction === i ? { visibility: 'hidden' } : undefined}>
+                    {action.label}
+                  </span>
+                </button>
+              ))}
+              <button
+                ref={confirmRef}
+                data-affirm-button
+                data-affirm-confirm
+                data-variant={variant}
+                className={options.classNames?.confirmButton}
+                onClick={handleConfirm}
+                disabled={isLoading || loadingAction !== null || !keywordMatch}
+              >
+                {isLoading && <span data-affirm-spinner aria-hidden="true" />}
+                <span style={isLoading ? { visibility: 'hidden' } : undefined}>
+                  {confirmText}
+                </span>
+              </button>
+            </div>
+          </>
+        )}
       </div>
     </div>,
     document.body

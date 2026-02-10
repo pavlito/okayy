@@ -1,0 +1,64 @@
+import { Tab, Tabs, Steps } from 'nextra-theme-docs';
+
+# Getting Started
+
+affirm is a confirm dialog for React. One function call, beautiful UI, fully customizable.
+
+<Steps>
+### Install
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+  <Tab>
+    ```bash
+    npm install affirm
+    ```
+  </Tab>
+  <Tab>
+    ```bash
+    pnpm add affirm
+    ```
+  </Tab>
+  <Tab>
+    ```bash
+    yarn add affirm
+    ```
+  </Tab>
+  <Tab>
+    ```bash
+    bun add affirm
+    ```
+  </Tab>
+</Tabs>
+
+### Add Confirmer to your app
+
+Place `<Confirmer />` anywhere in your root layout. Import the styles too.
+
+```tsx
+import { Confirmer } from 'affirm';
+import 'affirm/styles.css';
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="en">
+      <body>
+        {children}
+        <Confirmer />
+      </body>
+    </html>
+  );
+}
+```
+
+### Show a confirm dialog
+
+```tsx
+import { confirm } from 'affirm';
+
+async function handleDelete() {
+  const ok = await confirm('Delete this item?');
+  if (ok) deleteItem();
+}
+```
+
+</Steps>

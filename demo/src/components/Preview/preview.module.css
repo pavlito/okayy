@@ -1,0 +1,99 @@
+.container {
+  border: 1px solid var(--gray3);
+  border-radius: 8px;
+  margin-top: 16px;
+  margin-bottom: 24px;
+  overflow: hidden;
+}
+
+.tabBar {
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  border-bottom: 1px solid var(--gray3);
+  height: 44px;
+  gap: 16px;
+}
+
+.tab {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 14px;
+  font-family: var(--font-sans);
+  color: var(--gray9);
+  cursor: pointer;
+  position: relative;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  transition: color 200ms;
+}
+
+.tab:hover {
+  color: var(--gray12);
+}
+
+.tab[data-active='true'] {
+  color: var(--gray12);
+}
+
+.tab[data-active='true']::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--gray12);
+}
+
+.copyButton {
+  margin-left: auto;
+  background: none;
+  border: none;
+  font-size: 13px;
+  font-family: var(--font-sans);
+  color: var(--gray9);
+  cursor: pointer;
+  padding: 4px 0;
+  transition: color 200ms;
+}
+
+.copyButton:hover {
+  color: var(--gray12);
+}
+
+.previewArea {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 240px;
+  padding: 24px;
+  gap: 8px;
+  flex-wrap: wrap;
+  background: var(--gray1);
+}
+
+.codeArea {
+  height: 240px;
+  overflow-y: auto;
+}
+
+.code {
+  padding: 16px;
+  margin: 0;
+  min-height: 100%;
+  background: linear-gradient(to top, var(--gray2), var(--gray1) 16px);
+  line-height: 17px;
+  white-space: pre-wrap;
+  font-size: 12px;
+  font-family: var(--font-mono);
+}
+
+@media (min-width: 1024px) {
+  .previewArea,
+  .codeArea {
+    height: 300px;
+  }
+}

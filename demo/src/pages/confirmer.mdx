@@ -1,0 +1,109 @@
+import { confirm } from 'affirm';
+import { Preview } from '@/components/Preview';
+
+# Confirmer
+
+`<Confirmer />` is the container component that renders and manages all confirm dialogs in your application. It must be present in your component tree for `confirm()` calls to work. Place it once in your root layout or top-level provider — it does not matter where in the tree, as long as it is mounted.
+
+## Basic setup
+
+You only need a single `<Confirmer />` instance in your app. It handles rendering, stacking, and animating every confirm dialog triggered by `confirm()` anywhere in your codebase.
+
+```tsx
+import { Confirmer } from 'affirm';
+import 'affirm/styles.css';
+
+function App() {
+  return (
+    <div>
+      <Confirmer />
+      {/* rest of your app */}
+    </div>
+  );
+}
+```
+
+## Theme
+
+The `theme` prop controls the visual appearance of all confirm dialogs. It accepts three values: `"light"` for a light background, `"dark"` for a dark background, or `"system"` to automatically match the user's OS preference. The default is `"system"`. If you are using `next-themes` or a similar theme provider, set `theme` to `"system"` and it will stay in sync with your app's theme automatically.
+
+```tsx
+<Confirmer theme="dark" />
+```
+
+## Default options
+
+Set base defaults for every `confirm()` call in your app. Any options you pass here will be applied to all dialogs unless explicitly overridden by the individual `confirm()` call. This is useful for standardizing button labels, descriptions, or other shared configuration across your entire application.
+
+<Preview
+  label="Try it"
+  action={() => confirm({ title: 'This uses default options', description: 'confirmText and cancelText are overridden by defaultOptions.' })}
+  code={`<Confirmer
+  defaultOptions={{
+    confirmText: 'OK',
+    cancelText: 'Nope',
+  }}
+/>`}
+/>
+
+## Custom icons
+
+Each confirm dialog variant (`danger`, `warning`, `info`, `success`) ships with a default icon. You can replace any or all of them with your own React elements to match your design system. Pass an object mapping variant names to your custom icon components.
+
+```tsx
+<Confirmer
+  icons={{
+    danger: <TrashIcon />,
+    warning: <AlertIcon />,
+    info: <InfoIcon />,
+    success: <CheckIcon />,
+  }}
+/>
+```
+
+You can also disable a variant's default icon by passing `null`:
+
+```tsx
+<Confirmer
+  icons={{
+    danger: null, // disables the danger icon globally
+  }}
+/>
+```
+
+## Unstyled mode
+
+Set `unstyled` to strip all default visual styles from the dialog. This gives you a blank canvas to style entirely with Tailwind CSS or your own classes via the `classNames` prop. Structural styles (positioning, z-index, flex layout) are preserved.
+
+```tsx
+<Confirmer unstyled />
+```
+
+Combine with `defaultOptions` and `classNames` for a full Tailwind design system:
+
+```tsx
+<Confirmer
+  unstyled
+  defaultOptions={{
+    classNames: {
+      dialog: 'bg-white rounded-xl p-6 shadow-lg max-w-sm w-full',
+      overlay: 'bg-black/50 backdrop-blur-sm',
+      title: 'text-lg font-semibold text-gray-900',
+      description: 'text-sm text-gray-500 mt-2',
+      confirmButton: 'bg-gray-900 text-white px-4 py-2 rounded-lg font-medium',
+      cancelButton: 'border border-gray-300 px-4 py-2 rounded-lg font-medium',
+      footer: 'flex justify-end gap-2 mt-6',
+    },
+  }}
+/>
+```
+
+## API Reference
+
+| Property | Description | Default |
+| :--- | :---: | ---: |
+| theme | Theme mode: `"light"`, `"dark"`, or `"system"` | `"system"` |
+| defaultOptions | Default options applied to all `confirm()` calls | - |
+| className | Custom CSS class on the Confirmer wrapper | - |
+| icons | Default icons per variant | - |
+| unstyled | Strip all default styles for Tailwind-first customization | `false` |

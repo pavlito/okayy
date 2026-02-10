@@ -82,7 +82,7 @@
 
 /* Light */
 [data-affirm] [data-variant='danger'] {
-  --affirm-dialog-bg: #fff1f2;
+  --affirm-dialog-bg: #ffffff;
   --affirm-dialog-border: #fecdd3;
   --affirm-title-color: #991b1b;
   --affirm-desc-color: #b91c1c;
@@ -97,8 +97,8 @@
 /* Dark */
 [data-affirm-theme='dark'] [data-affirm] [data-variant='danger'],
 .dark [data-affirm] [data-variant='danger'] {
-  --affirm-dialog-bg: hsl(358, 76%, 10%);
-  --affirm-dialog-border: hsl(358, 50%, 20%);
+  --affirm-dialog-bg: #0a0a0a;
+  --affirm-dialog-border: #262626;
   --affirm-title-color: #fca5a5;
   --affirm-desc-color: #f87171;
   --affirm-confirm-bg: #ef4444;
@@ -115,10 +115,10 @@
 
 /* Light */
 [data-affirm] [data-variant='warning'] {
-  --affirm-dialog-bg: #fffbeb;
+  --affirm-dialog-bg: #ffffff;
   --affirm-dialog-border: #fde68a;
   --affirm-title-color: #92400e;
-  --affirm-desc-color: #d97706;
+  --affirm-desc-color: #b45309;
   --affirm-confirm-bg: #d97706;
   --affirm-confirm-border: #d97706;
   --affirm-confirm-text: #ffffff;
@@ -130,8 +130,8 @@
 /* Dark */
 [data-affirm-theme='dark'] [data-affirm] [data-variant='warning'],
 .dark [data-affirm] [data-variant='warning'] {
-  --affirm-dialog-bg: hsl(40, 80%, 8%);
-  --affirm-dialog-border: hsl(40, 50%, 20%);
+  --affirm-dialog-bg: #0a0a0a;
+  --affirm-dialog-border: #262626;
   --affirm-title-color: #fcd34d;
   --affirm-desc-color: #fbbf24;
   --affirm-confirm-bg: #d97706;
@@ -148,10 +148,10 @@
 
 /* Light */
 [data-affirm] [data-variant='info'] {
-  --affirm-dialog-bg: #eff6ff;
+  --affirm-dialog-bg: #ffffff;
   --affirm-dialog-border: #bfdbfe;
   --affirm-title-color: #1e40af;
-  --affirm-desc-color: #2563eb;
+  --affirm-desc-color: #1d4ed8;
   --affirm-confirm-bg: #2563eb;
   --affirm-confirm-border: #2563eb;
   --affirm-confirm-text: #ffffff;
@@ -163,8 +163,8 @@
 /* Dark */
 [data-affirm-theme='dark'] [data-affirm] [data-variant='info'],
 .dark [data-affirm] [data-variant='info'] {
-  --affirm-dialog-bg: hsl(215, 80%, 8%);
-  --affirm-dialog-border: hsl(215, 50%, 20%);
+  --affirm-dialog-bg: #0a0a0a;
+  --affirm-dialog-border: #262626;
   --affirm-title-color: #93c5fd;
   --affirm-desc-color: #60a5fa;
   --affirm-confirm-bg: #2563eb;
@@ -181,10 +181,10 @@
 
 /* Light */
 [data-affirm] [data-variant='success'] {
-  --affirm-dialog-bg: #f0fdf4;
+  --affirm-dialog-bg: #ffffff;
   --affirm-dialog-border: #bbf7d0;
   --affirm-title-color: #166534;
-  --affirm-desc-color: #16a34a;
+  --affirm-desc-color: #15803d;
   --affirm-confirm-bg: #16a34a;
   --affirm-confirm-border: #16a34a;
   --affirm-confirm-text: #ffffff;
@@ -196,8 +196,8 @@
 /* Dark */
 [data-affirm-theme='dark'] [data-affirm] [data-variant='success'],
 .dark [data-affirm] [data-variant='success'] {
-  --affirm-dialog-bg: hsl(150, 100%, 6%);
-  --affirm-dialog-border: hsl(150, 50%, 15%);
+  --affirm-dialog-bg: #0a0a0a;
+  --affirm-dialog-border: #262626;
   --affirm-title-color: #86efac;
   --affirm-desc-color: #4ade80;
   --affirm-confirm-bg: #16a34a;
@@ -218,6 +218,10 @@
   background: var(--affirm-overlay-bg);
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
+}
+
+[data-affirm-overlay][data-state='initial'] {
+  opacity: 0;
 }
 
 [data-affirm-overlay][data-state='open'] {
@@ -268,12 +272,21 @@
   outline: none;
 }
 
+[data-affirm-dialog][data-state='initial'] {
+  opacity: 0;
+}
+
 [data-affirm-dialog][data-state='open'] {
   animation: affirm-dialog-in 200ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 [data-affirm-dialog][data-state='closed'] {
   animation: affirm-dialog-out 150ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Custom content: dialog padding handled by user */
+[data-affirm-dialog][data-custom] {
+  padding: 0;
 }
 
 @keyframes affirm-dialog-in {
@@ -323,10 +336,6 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  width: 2.5rem;
-  height: 2.5rem;
-  border-radius: 0.625rem;
-  background: var(--affirm-icon-bg);
   color: var(--affirm-icon-color);
 }
 
@@ -425,6 +434,17 @@
   background: var(--affirm-cancel-hover-bg);
 }
 
+/* Action button (custom actions between cancel and confirm) */
+[data-affirm-action] {
+  background: var(--affirm-cancel-bg);
+  border: 1px solid var(--affirm-cancel-border);
+  color: var(--affirm-cancel-text);
+}
+
+[data-affirm-action]:hover:not(:disabled) {
+  background: var(--affirm-cancel-hover-bg);
+}
+
 /* Confirm button */
 [data-affirm-confirm] {
   background: var(--affirm-confirm-bg);
@@ -434,6 +454,65 @@
 
 [data-affirm-confirm]:hover:not(:disabled) {
   background: var(--affirm-confirm-hover-bg);
+}
+
+/* ============================================
+   Type-to-Confirm Input
+   ============================================ */
+[data-affirm-keyword] {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+  margin-top: 1rem;
+}
+
+[data-affirm-keyword-label] {
+  font-family: var(--affirm-font);
+  font-size: 0.8125rem;
+  font-weight: 400;
+  color: var(--affirm-desc-color);
+}
+
+[data-affirm-keyword-input] {
+  height: 2.25rem;
+  width: 100%;
+  padding: 0 0.75rem;
+  border: 1px solid var(--affirm-dialog-border);
+  border-radius: 0.5rem;
+  background: transparent;
+  font-family: var(--affirm-font);
+  font-size: 0.875rem;
+  color: var(--affirm-title-color);
+  outline: none;
+  box-sizing: border-box;
+  transition: border-color 150ms ease;
+}
+
+[data-affirm-keyword-input]:focus {
+  border-color: var(--affirm-ring-color);
+  box-shadow: 0 0 0 1px var(--affirm-ring-color);
+}
+
+/* ============================================
+   Centered Layout
+   ============================================ */
+[data-layout='centered'] [data-affirm-content] {
+  align-items: center;
+  text-align: center;
+}
+
+[data-layout='centered'] [data-affirm-header] {
+  flex-direction: column;
+  align-items: center;
+}
+
+[data-layout='centered'] [data-affirm-icon] svg {
+  width: 1.75rem;
+  height: 1.75rem;
+}
+
+[data-layout='centered'] [data-affirm-footer] {
+  justify-content: center;
 }
 
 /* ============================================
@@ -585,4 +664,50 @@
     opacity: 0;
     transform: translateY(100%);
   }
+}
+
+/* ============================================
+   Unstyled Mode
+   ============================================ */
+[data-affirm][data-unstyled] [data-affirm-dialog] {
+  background: none;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+  border-radius: 0;
+  animation: none;
+}
+
+[data-affirm][data-unstyled] [data-affirm-overlay] {
+  background: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  animation: none;
+}
+
+[data-affirm][data-unstyled] [data-affirm-button] {
+  background: none;
+  border: none;
+  padding: 0;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+[data-affirm][data-unstyled] [data-affirm-title],
+[data-affirm][data-unstyled] [data-affirm-description] {
+  color: inherit;
+  font: inherit;
+}
+
+[data-affirm][data-unstyled] [data-affirm-keyword-input] {
+  border: none;
+  padding: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+}
+
+[data-affirm][data-unstyled] [data-affirm-icon] {
+  color: inherit;
 }

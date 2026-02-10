@@ -1,0 +1,357 @@
+import React from 'react';
+import { confirm } from 'affirm';
+import { Preview } from '@/components/Preview';
+import { MultiPreview } from '@/components/Preview/multi';
+
+# confirm()
+
+Use it to show a confirm dialog. You can call it from anywhere, even outside of React. It returns a `Promise<boolean>` that resolves to `true` when the user confirms and `false` when they cancel or dismiss the dialog. This makes it easy to gate destructive actions, navigation, or any flow that needs explicit user consent behind a single `await`.
+
+## Basic usage
+
+The simplest way to use `confirm()` is to pass a string. The string becomes the dialog title, and the dialog renders with default "Confirm" and "Cancel" buttons.
+
+<Preview
+  label="Try it"
+  action={() => confirm('Are you sure?')}
+  code={`import { confirm } from 'affirm';
+
+const ok = await confirm('Are you sure?');`}
+/>
+
+For full control over the dialog's appearance and behavior, pass an options object instead. This lets you customize the title, description, button labels, variant, and more.
+
+<Preview
+  label="Try it"
+  action={() => confirm({
+    title: 'Delete item?',
+    description: 'This action cannot be undone.',
+    confirmText: 'Delete',
+    cancelText: 'Keep',
+    variant: 'danger',
+  })}
+  code={`const ok = await confirm({
+  title: 'Delete item?',
+  description: 'This action cannot be undone.',
+  confirmText: 'Delete',
+  cancelText: 'Keep',
+  variant: 'danger',
+});`}
+/>
+
+## Variant shortcuts
+
+Each variant has a shorthand method that automatically applies the corresponding color scheme and icon styling. Use `confirm.danger()` for destructive or irreversible actions, `confirm.warning()` for actions that need caution, `confirm.info()` for neutral informational prompts, and `confirm.success()` for positive or completing actions. The shorthand methods accept the same options object as `confirm()`.
+
+<MultiPreview options={[
+  {
+    name: 'Danger',
+    action: () => confirm.danger({
+      title: 'Delete account?',
+      description: 'This will permanently delete your account.',
+      confirmText: 'Delete Account',
+    }),
+    code: `const ok = await confirm.danger({
+  title: 'Delete account?',
+  description: 'This will permanently delete your account.',
+  confirmText: 'Delete Account',
+});`,
+  },
+  {
+    name: 'Warning',
+    action: () => confirm.warning({
+      title: 'Unsaved changes',
+      description: 'You have unsaved changes. Are you sure you want to leave?',
+      confirmText: 'Leave',
+    }),
+    code: `const ok = await confirm.warning({
+  title: 'Unsaved changes',
+  description: 'You have unsaved changes. Are you sure you want to leave?',
+  confirmText: 'Leave',
+});`,
+  },
+  {
+    name: 'Info',
+    action: () => confirm.info({
+      title: 'Update available',
+      description: 'A new version is available. Would you like to update now?',
+      confirmText: 'Update',
+    }),
+    code: `const ok = await confirm.info({
+  title: 'Update available',
+  description: 'A new version is available. Would you like to update now?',
+  confirmText: 'Update',
+});`,
+  },
+  {
+    name: 'Success',
+    action: () => confirm.success({
+      title: 'Publish changes?',
+      description: 'Your changes will be live immediately.',
+      confirmText: 'Publish',
+    }),
+    code: `const ok = await confirm.success({
+  title: 'Publish changes?',
+  description: 'Your changes will be live immediately.',
+  confirmText: 'Publish',
+});`,
+  },
+]} />
+
+## Alert mode
+
+Use `confirm.alert()` when you need to inform the user about something that does not require a decision. The dialog renders with a single "OK" button and no cancel option, so the returned promise always resolves to `true`. This is ideal for session expirations, completed operations, scheduled maintenance notices, or any message the user simply needs to acknowledge before continuing.
+
+<MultiPreview options={[
+  {
+    name: 'String',
+    action: () => confirm.alert('Your session has expired. Please log in again.'),
+    code: `await confirm.alert('Your session has expired. Please log in again.');`,
+  },
+  {
+    name: 'With options',
+    action: () => confirm.alert({
+      title: 'Maintenance scheduled',
+      description: 'System will be down Sunday 2-4 AM UTC.',
+      variant: 'info',
+    }),
+    code: `await confirm.alert({
+  title: 'Maintenance scheduled',
+  description: 'System will be down Sunday 2-4 AM UTC.',
+  variant: 'info',
+});`,
+  },
+]} />
+
+## Async loading
+
+Pass an `onConfirm` handler that returns a Promise to run an asynchronous action when the user confirms. While the promise is pending, the confirm button is automatically disabled and displays a loading spinner. The cancel button is also disabled, and the dialog stays open until the promise resolves or rejects. This prevents double-submissions and gives the user clear visual feedback that their action is being processed.
+
+<Preview
+  label="Try it (2s delay)"
+  action={() => confirm({
+    title: 'Deploy to production?',
+    description: 'This will deploy your changes to the production environment.',
+    confirmText: 'Deploy',
+    onConfirm: () => new Promise((resolve) => setTimeout(resolve, 2000)),
+  })}
+  code={`const ok = await confirm({
+  title: 'Deploy to production?',
+  description: 'This will deploy your changes.',
+  confirmText: 'Deploy',
+  onConfirm: async () => {
+    await deployToProduction();
+  },
+});`}
+/>
+
+## Type-to-confirm
+
+For high-risk destructive actions where you want an extra layer of safety, use the `confirmationKeyword` option. The confirm button stays disabled until the user types the exact keyword into an input field. This pattern is familiar from services like GitHub, which require you to type the repository name before allowing deletion. It ensures the action is fully intentional and not the result of an accidental click.
+
+<Preview
+  label="Try it"
+  action={() => confirm({
+    title: 'Delete repository?',
+    description: 'This will permanently delete the repository.',
+    confirmText: 'Delete',
+    variant: 'danger',
+    confirmationKeyword: 'DELETE',
+  })}
+  code={`const ok = await confirm({
+  title: 'Delete repository?',
+  description: 'This will permanently delete the repository.',
+  confirmText: 'Delete',
+  variant: 'danger',
+  confirmationKeyword: 'DELETE',
+});`}
+/>
+
+## Centered layout
+
+Set `layout: 'centered'` to position the dialog content in the center of the viewport with centered text alignment. This works well for short, focused prompts where the message is brief and the dialog benefits from a more symmetrical appearance. The default side-aligned layout is better suited for dialogs with longer descriptions or additional form elements.
+
+<Preview
+  label="Try it"
+  action={() => confirm.warning({
+    title: 'Discard draft?',
+    description: 'Your unsaved draft will be permanently lost.',
+    confirmText: 'Discard',
+    layout: 'centered',
+  })}
+  code={`const ok = await confirm.warning({
+  title: 'Discard draft?',
+  description: 'Your unsaved draft will be permanently lost.',
+  confirmText: 'Discard',
+  layout: 'centered',
+});`}
+/>
+
+## Hiding icons
+
+By default, variant dialogs (`danger`, `warning`, `info`, `success`) show an icon. Set `icon` to `false` or `null` to hide it.
+
+<Preview
+  label="Try it"
+  action={() => confirm.danger({
+    title: 'Delete item?',
+    description: 'This action cannot be undone.',
+    confirmText: 'Delete',
+    icon: false,
+  })}
+  code={`const ok = await confirm.danger({
+  title: 'Delete item?',
+  description: 'This action cannot be undone.',
+  confirmText: 'Delete',
+  icon: false,
+});`}
+/>
+
+## Custom actions
+
+Add extra buttons between cancel and confirm using the `actions` array. Each action has a `label` and an `onClick` handler. The dialog closes after the action runs.
+
+<Preview
+  label="Try it"
+  action={() => confirm({
+    title: 'Unsaved changes',
+    description: 'You have unsaved changes. What would you like to do?',
+    confirmText: 'Save',
+    cancelText: 'Cancel',
+    actions: [{ label: "Don't save", onClick: () => {} }],
+  })}
+  code={`const ok = await confirm({
+  title: 'Unsaved changes',
+  description: 'You have unsaved changes.',
+  confirmText: 'Save',
+  cancelText: 'Cancel',
+  actions: [
+    { label: "Don't save", onClick: () => discardChanges() },
+  ],
+});`}
+/>
+
+## Rich descriptions
+
+The `description` prop accepts any React element, not just strings. Use it to render formatted content, lists, or links.
+
+<Preview
+  label="Try it"
+  action={() => confirm({
+    title: 'Terms of Service',
+    description: React.createElement('span', null, 'By continuing you agree to the ', React.createElement('strong', null, 'Terms of Service'), ' and ', React.createElement('strong', null, 'Privacy Policy'), '.'),
+    confirmText: 'I agree',
+    variant: 'info',
+  })}
+  code={`const ok = await confirm({
+  title: 'Terms of Service',
+  description: (
+    <span>
+      By continuing you agree to the{' '}
+      <strong>Terms of Service</strong> and{' '}
+      <strong>Privacy Policy</strong>.
+    </span>
+  ),
+  confirmText: 'I agree',
+  variant: 'info',
+});`}
+/>
+
+## Custom dialog
+
+Use `confirm.custom()` to render a completely custom dialog body. You receive a `close` function that accepts `true` (confirm) or `false` (cancel). The overlay, portal, focus trap, and animations are handled by affirm — you control only what goes inside the dialog.
+
+<Preview
+  label="Try it"
+  action={() => confirm.custom((close) => React.createElement('div', { style: { padding: '1.5rem' } },
+    React.createElement('h3', { style: { margin: '0 0 0.5rem', fontWeight: 600, fontSize: '1rem' } }, 'Custom Dialog'),
+    React.createElement('p', { style: { margin: '0 0 1rem', color: '#737373', fontSize: '0.875rem' } }, 'This is fully custom content rendered inside the dialog.'),
+    React.createElement('div', { style: { display: 'flex', gap: '0.5rem', justifyContent: 'flex-end' } },
+      React.createElement('button', { onClick: () => close(false), style: { padding: '0.5rem 1rem', borderRadius: '0.5rem', border: '1px solid #e5e5e5', background: 'transparent', cursor: 'pointer' } }, 'Cancel'),
+      React.createElement('button', { onClick: () => close(true), style: { padding: '0.5rem 1rem', borderRadius: '0.5rem', border: 'none', background: '#0a0a0a', color: '#fff', cursor: 'pointer' } }, 'Confirm'),
+    ),
+  ))}
+  code={`const ok = await confirm.custom((close) => (
+  <div style={{ padding: '1.5rem' }}>
+    <h3>Custom Dialog</h3>
+    <p>Full control over the dialog body.</p>
+    <div style={{ display: 'flex', gap: '0.5rem', justifyContent: 'flex-end' }}>
+      <button onClick={() => close(false)}>Cancel</button>
+      <button onClick={() => close(true)}>Confirm</button>
+    </div>
+  </div>
+));`}
+/>
+
+## Inline styles
+
+Pass a `style` object for quick one-off visual tweaks without writing CSS. The styles apply to the dialog container element.
+
+<Preview
+  label="Try it"
+  action={() => confirm({
+    title: 'Custom styled',
+    description: 'This dialog has a custom max-width and border radius.',
+    style: { maxWidth: '24rem', borderRadius: '1rem' },
+  })}
+  code={`const ok = await confirm({
+  title: 'Custom styled',
+  description: 'This dialog has custom inline styles.',
+  style: { maxWidth: '24rem', borderRadius: '1rem' },
+});`}
+/>
+
+## Per-element class names
+
+Use `classNames` to target individual dialog elements with CSS classes. This is especially useful with Tailwind CSS where you need per-element class control.
+
+<Preview
+  label="Try it"
+  action={() => confirm({
+    title: 'Per-element styling',
+    description: 'Each element can receive its own CSS class.',
+  })}
+  code={`const ok = await confirm({
+  title: 'Per-element styling',
+  classNames: {
+    dialog: 'rounded-xl shadow-2xl',
+    title: 'text-lg font-bold',
+    description: 'text-gray-500',
+    confirmButton: 'bg-blue-600 text-white',
+    cancelButton: 'border-gray-300',
+    footer: 'gap-3',
+  },
+});`}
+/>
+
+## Programmatic dismiss
+
+Close any open confirm dialog from code. This is useful when you need to dismiss the dialog in response to external events, such as a route change, a WebSocket message, an inactivity timeout, or any situation where the dialog is no longer relevant and should be removed without waiting for user interaction.
+
+```jsx
+confirm.dismiss();
+```
+
+## API Reference
+
+| Property | Description | Default |
+| :--- | :---: | ---: |
+| title | Dialog title — the primary question or statement | - |
+| description | Supporting content below the title — can be a string or React element | - |
+| confirmText | Text for the confirm button | `"Confirm"` |
+| cancelText | Text for the cancel button | `"Cancel"` |
+| variant | Visual variant: `"default"`, `"danger"`, `"warning"`, `"info"`, `"success"` | `"default"` |
+| icon | Custom icon rendered left of the title. Set to `false` to hide. | - |
+| actions | Additional action buttons between cancel and confirm | `-` |
+| onConfirm | Async action on confirm — shows loading spinner | - |
+| onCancel | Called when the user cancels | - |
+| dismissible | Whether Escape/overlay click dismisses | `true` |
+| className | CSS class on the dialog content container | - |
+| overlayClassName | CSS class on the overlay | - |
+| hideCancel | Hide the cancel button (used by `confirm.alert()`) | `false` |
+| confirmationKeyword | Keyword the user must type to enable confirm | - |
+| layout | Dialog layout: `"default"` or `"centered"` | `"default"` |
+| style | Inline CSS styles on the dialog container | - |
+| classNames | Per-element CSS classes (`dialog`, `overlay`, `title`, `description`, `confirmButton`, `cancelButton`, `actionButton`, `icon`, `content`, `footer`) | - |
+| unstyled | Strip all default styles for full Tailwind control | `false` |
+| custom | Render custom dialog body via `confirm.custom()`. Receives `close(boolean)`. | - |

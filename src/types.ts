@@ -1,20 +1,47 @@
-import type { ReactNode } from 'react';
+import type { ReactNode, CSSProperties } from 'react';
 
 export type Variant = 'default' | 'danger' | 'warning' | 'info' | 'success';
+
+export interface ConfirmIcons {
+  danger?: ReactNode;
+  warning?: ReactNode;
+  info?: ReactNode;
+  success?: ReactNode;
+}
+
+export interface ConfirmClassNames {
+  dialog?: string;
+  overlay?: string;
+  title?: string;
+  description?: string;
+  confirmButton?: string;
+  cancelButton?: string;
+  actionButton?: string;
+  icon?: string;
+  content?: string;
+  footer?: string;
+}
+
+export interface ConfirmAction {
+  /** Button label */
+  label: string;
+  /** Click handler — can return a Promise for loading state */
+  onClick: () => void | Promise<void>;
+}
 
 export interface ConfirmOptions {
   /** Dialog title — the primary question or statement */
   title: string;
-  /** Supporting description text below the title */
-  description?: string;
+  /** Supporting content below the title — can be a string or React element */
+  description?: ReactNode;
   /** Text for the confirm button. Default: "Confirm" */
   confirmText?: string;
   /** Text for the cancel button. Default: "Cancel" */
   cancelText?: string;
   /** Visual variant controlling color scheme. Default: "default" */
   variant?: Variant;
-  /** Custom icon rendered left of the title */
-  icon?: ReactNode;
+  /** Custom icon rendered left of the title. Set to `false` or `null` to hide. */
+  icon?: ReactNode | false;
   /** Async action executed on confirm — shows loading state on the button */
   onConfirm?: () => Promise<void> | void;
   /** Called when the user cancels */
@@ -25,6 +52,22 @@ export interface ConfirmOptions {
   className?: string;
   /** Custom CSS class applied to the overlay */
   overlayClassName?: string;
+  /** Hide the cancel button (used by confirm.alert()). Default: false */
+  hideCancel?: boolean;
+  /** Require the user to type this keyword to enable the confirm button */
+  confirmationKeyword?: string;
+  /** Dialog layout. Default: "default" */
+  layout?: 'default' | 'centered';
+  /** Additional action buttons rendered between cancel and confirm */
+  actions?: ConfirmAction[];
+  /** Per-element CSS classes for granular styling (Tailwind-friendly) */
+  classNames?: ConfirmClassNames;
+  /** Strip default styles for this dialog. Use with classNames. */
+  unstyled?: boolean;
+  /** Inline CSS styles applied to the dialog container */
+  style?: CSSProperties;
+  /** Render a fully custom dialog body. Receives a close function. */
+  custom?: (close: (value: boolean) => void) => ReactNode;
 }
 
 export interface ConfirmerProps {
@@ -34,6 +77,10 @@ export interface ConfirmerProps {
   defaultOptions?: Partial<ConfirmOptions>;
   /** Custom CSS class on the Confirmer wrapper */
   className?: string;
+  /** Default icons per variant */
+  icons?: ConfirmIcons;
+  /** Strip all default styles. Use with classNames for full Tailwind control. Default: false */
+  unstyled?: boolean;
 }
 
 export interface ConfirmState {

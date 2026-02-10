@@ -1,0 +1,45 @@
+import { confirm } from 'affirm';
+import { Preview } from '@/components/Preview';
+
+# useAffirm
+
+A React hook that subscribes to the internal confirm dialog state and re-renders your component whenever a dialog opens or closes. This gives you full reactive access to the current dialog lifecycle without managing any state yourself.
+
+This hook is entirely optional. Most users will never need it -- the standard `confirm()` API handles rendering and resolution automatically. Reach for `useAffirm` when you need to build a fully custom dialog UI, observe dialog activity, or synchronize dialog state with an external store.
+
+## Usage
+
+The hook returns the current dialog state. It re-renders your component whenever a dialog is shown or dismissed.
+
+<Preview
+  label="Try it"
+  action={() => confirm('This dialog state is accessible via useAffirm()')}
+  code={`import { useAffirm } from 'affirm';
+
+function MyComponent() {
+  const { state } = useAffirm();
+
+  return (
+    <div>
+      <p>Dialog is {state.isOpen ? 'open' : 'closed'}</p>
+      {state.isOpen && <p>Title: {state.options.title}</p>}
+    </div>
+  );
+}`}
+/>
+
+## Return value
+
+The hook returns an object with a `state` property. The `state` object contains `isOpen`, a boolean indicating whether a dialog is currently visible, and `options`, the full options object passed to the most recent `confirm()` call. When no dialog is active, `isOpen` is `false` and `options` reflects the last call made.
+
+| Property | Type | Description |
+| :--- | :---: | ---: |
+| state.isOpen | `boolean` | Whether the dialog is currently visible |
+| state.options | `ConfirmOptions` | The options passed to the current `confirm()` call |
+
+## Use cases
+
+- **Building a completely custom dialog UI** -- Replace the default dialog with your own markup and animations while letting Affirm handle the confirmation logic and promise resolution.
+- **Syncing dialog state with external state management** -- Mirror `isOpen` and `options` into a Redux store, Zustand slice, or any other state layer so the rest of your application can react to dialog changes.
+- **Analytics and logging when dialogs are shown** -- Fire tracking events or log entries every time a dialog opens or closes, giving you full visibility into how often users encounter confirmation prompts.
+- **Conditional rendering based on dialog state** -- Show or hide surrounding UI elements, disable background interactions, or adjust layout dynamically while a dialog is on screen.

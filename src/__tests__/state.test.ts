@@ -1,9 +1,9 @@
 import { describe, it, expect, vi } from 'vitest';
-import { confirm, respond, subscribe, getSnapshot } from '../state';
+import { confirm, ConfirmState } from '../state';
 
 describe('state', () => {
   it('initial state is closed', () => {
-    const state = getSnapshot();
+    const state = ConfirmState.getSnapshot();
     expect(state.isOpen).toBe(false);
     expect(state.resolve).toBeNull();
   });
@@ -11,88 +11,138 @@ describe('state', () => {
   it('confirm() opens dialog and returns a Promise', () => {
     const promise = confirm('Delete this?');
     expect(promise).toBeInstanceOf(Promise);
-    const state = getSnapshot();
+    const state = ConfirmState.getSnapshot();
     expect(state.isOpen).toBe(true);
     expect(state.options.title).toBe('Delete this?');
-    respond(false); // cleanup
+    ConfirmState.respond(false); // cleanup
   });
 
   it('confirm() accepts string shorthand', () => {
     confirm('Are you sure?');
-    const state = getSnapshot();
+    const state = ConfirmState.getSnapshot();
     expect(state.options.title).toBe('Are you sure?');
-    respond(false); // cleanup
+    ConfirmState.respond(false); // cleanup
   });
 
   it('confirm() accepts options object', () => {
     confirm({ title: 'Delete?', variant: 'danger', confirmText: 'Yes' });
-    const state = getSnapshot();
+    const state = ConfirmState.getSnapshot();
     expect(state.options.title).toBe('Delete?');
     expect(state.options.variant).toBe('danger');
     expect(state.options.confirmText).toBe('Yes');
-    respond(false); // cleanup
+    ConfirmState.respond(false); // cleanup
   });
 
   it('respond(true) resolves the Promise with true', async () => {
     const promise = confirm('Delete?');
-    respond(true);
+    ConfirmState.respond(true);
     const result = await promise;
     expect(result).toBe(true);
   });
 
   it('respond(false) resolves the Promise with false', async () => {
     const promise = confirm('Delete?');
-    respond(false);
+    ConfirmState.respond(false);
     const result = await promise;
     expect(result).toBe(false);
   });
 
   it('respond() resets state to closed', () => {
     confirm('Delete?');
-    respond(true);
-    const state = getSnapshot();
+    ConfirmState.respond(true);
+    const state = ConfirmState.getSnapshot();
     expect(state.isOpen).toBe(false);
     expect(state.resolve).toBeNull();
   });
 
   it('subscribe() notifies listeners on confirm and respond', () => {
     const listener = vi.fn();
-    const unsub = subscribe(listener);
+    const unsub = ConfirmState.subscribe(listener);
     confirm('Delete?');
     expect(listener).toHaveBeenCalledTimes(1);
-    respond(false);
+    ConfirmState.respond(false);
     expect(listener).toHaveBeenCalledTimes(2);
     unsub();
   });
 
   it('unsubscribe removes the listener', () => {
     const listener = vi.fn();
-    const unsub = subscribe(listener);
+    const unsub = ConfirmState.subscribe(listener);
     unsub();
     confirm('Delete?');
     expect(listener).not.toHaveBeenCalled();
-    respond(false); // cleanup
+    ConfirmState.respond(false); // cleanup
+  });
+
+  it('confirm.dismiss() resolves the Promise with false', async () => {
+    const promise = confirm('Delete?');
+    confirm.dismiss();
+    const result = await promise;
+    expect(result).toBe(false);
+  });
+
+  it('confirm.dismiss() resets state to closed', () => {
+    confirm('Delete?');
+    confirm.dismiss();
+    const state = ConfirmState.getSnapshot();
+    expect(state.isOpen).toBe(false);
+    expect(state.resolve).toBeNull();
+  });
+
+  it('confirm.dismiss() is a no-op when no dialog is open', () => {
+    const listener = vi.fn();
+    const unsub = ConfirmState.subscribe(listener);
+    confirm.dismiss();
+    // Still publishes (matches respond behavior), but resolve is null so no error
+    expect(listener).toHaveBeenCalledTimes(1);
+    unsub();
+  });
+
+  it('confirm.alert() sets hideCancel to true', () => {
+    confirm.alert('Notice');
+    const state = ConfirmState.getSnapshot();
+    expect(state.isOpen).toBe(true);
+    expect(state.options.title).toBe('Notice');
+    expect(state.options.hideCancel).toBe(true);
+    ConfirmState.respond(true); // cleanup
+  });
+
+  it('confirm.alert() accepts options object', () => {
+    confirm.alert({ title: 'Alert!', variant: 'info' });
+    const state = ConfirmState.getSnapshot();
+    expect(state.options.title).toBe('Alert!');
+    expect(state.options.variant).toBe('info');
+    expect(state.options.hideCancel).toBe(true);
+    ConfirmState.respond(true); // cleanup
+  });
+
+  it('confirm.alert() returns a Promise', async () => {
+    const promise = confirm.alert('OK?');
+    expect(promise).toBeInstanceOf(Promise);
+    ConfirmState.respond(true);
+    const result = await promise;
+    expect(result).toBe(true);
   });
 
   it('variant shortcuts set the variant', async () => {
     const p1 = confirm.danger({ title: 'Danger?' });
-    expect(getSnapshot().options.variant).toBe('danger');
-    respond(false);
+    expect(ConfirmState.getSnapshot().options.variant).toBe('danger');
+    ConfirmState.respond(false);
     await p1;
 
     const p2 = confirm.warning({ title: 'Warning?' });
-    expect(getSnapshot().options.variant).toBe('warning');
-    respond(false);
+    expect(ConfirmState.getSnapshot().options.variant).toBe('warning');
+    ConfirmState.respond(false);
     await p2;
 
     const p3 = confirm.info({ title: 'Info?' });
-    expect(getSnapshot().options.variant).toBe('info');
-    respond(false);
+    expect(ConfirmState.getSnapshot().options.variant).toBe('info');
+    ConfirmState.respond(false);
     await p3;
 
     const p4 = confirm.success({ title: 'Success?' });
-    expect(getSnapshot().options.variant).toBe('success');
-    respond(false);
+    expect(ConfirmState.getSnapshot().options.variant).toBe('success');
+    ConfirmState.respond(false);
     await p4;
   });
 });
