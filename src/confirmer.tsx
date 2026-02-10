@@ -32,6 +32,10 @@ export function Confirmer({ theme = 'system', defaultOptions, className, icons, 
   const [confirmInput, setConfirmInput] = React.useState('');
   const [loadingAction, setLoadingAction] = React.useState<number | null>(null);
 
+  const affirmId = React.useId();
+  const titleId = `affirm-title-${affirmId}`;
+  const descriptionId = `affirm-description-${affirmId}`;
+
   const isUnstyled = unstyled || options.unstyled;
 
   const dialogRef = React.useRef<HTMLDivElement>(null);
@@ -191,8 +195,8 @@ export function Confirmer({ theme = 'system', defaultOptions, className, icons, 
         style={options.style}
         role="alertdialog"
         aria-modal="true"
-        aria-labelledby="affirm-title"
-        aria-describedby={options.description ? 'affirm-description' : undefined}
+        aria-labelledby={titleId}
+        aria-describedby={options.description ? descriptionId : undefined}
       >
         {options.custom ? options.custom(handleClose) : (
           <>
@@ -200,14 +204,14 @@ export function Confirmer({ theme = 'system', defaultOptions, className, icons, 
               {/* Icon + Title */}
               <div data-affirm-header>
                 {showIcon && <span data-affirm-icon className={options.classNames?.icon}>{icon}</span>}
-                <h2 id="affirm-title" data-affirm-title className={options.classNames?.title}>
+                <h2 id={titleId} data-affirm-title className={options.classNames?.title}>
                   {options.title}
                 </h2>
               </div>
 
               {/* Description */}
               {options.description != null && (
-                <div id="affirm-description" data-affirm-description className={options.classNames?.description}>
+                <div id={descriptionId} data-affirm-description className={options.classNames?.description}>
                   {options.description}
                 </div>
               )}
