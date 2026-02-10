@@ -33,6 +33,7 @@ export function createFocusTrap(container: HTMLElement) {
   }
 
   function setInert(value: boolean) {
+    if (typeof document === 'undefined') return;
     const siblings = document.body.children;
     for (let i = 0; i < siblings.length; i++) {
       const el = siblings[i] as HTMLElement;
@@ -47,6 +48,7 @@ export function createFocusTrap(container: HTMLElement) {
   }
 
   function activate(initialFocusRef?: HTMLElement | null) {
+    if (typeof document === 'undefined') return;
     previouslyFocused = document.activeElement as HTMLElement;
     setInert(true);
     document.addEventListener('keydown', handleKeyDown);
@@ -65,6 +67,7 @@ export function createFocusTrap(container: HTMLElement) {
   }
 
   function deactivate() {
+    if (typeof document === 'undefined') return;
     setInert(false);
     document.removeEventListener('keydown', handleKeyDown);
     previouslyFocused?.focus();
