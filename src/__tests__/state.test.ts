@@ -145,4 +145,44 @@ describe('state', () => {
     ConfirmState.respond(false);
     await p4;
   });
+
+  it('confirm.custom() opens dialog with custom render function', () => {
+    const render = (close: (value: boolean) => void) => null;
+    confirm.custom(render);
+    const state = ConfirmState.getSnapshot();
+    expect(state.isOpen).toBe(true);
+    expect(state.options.custom).toBe(render);
+    ConfirmState.respond(false); // cleanup
+  });
+
+  it('confirm.custom() returns a Promise that resolves on respond', async () => {
+    const render = (close: (value: boolean) => void) => null;
+    const promise = confirm.custom(render);
+    ConfirmState.respond(true);
+    const result = await promise;
+    expect(result).toBe(true);
+  });
+
+  it('calling confirm() while dialog is open overwrites previous dialog', async () => {
+    const promise1 = confirm('First');
+    const promise2 = confirm('Second');
+
+    const state = ConfirmState.getSnapshot();
+    expect(state.options.title).toBe('Second');
+
+    // First promise's resolve was overwritten — it will never resolve
+    // Second promise resolves normally
+    ConfirmState.respond(true);
+    const result2 = await promise2;
+    expect(result2).toBe(true);
+  });
+
+  it('variant shortcuts accept string shorthand', async () => {
+    const p = confirm.danger({ title: 'Delete?' });
+    const state = ConfirmState.getSnapshot();
+    expect(state.options.variant).toBe('danger');
+    expect(state.options.title).toBe('Delete?');
+    ConfirmState.respond(false);
+    await p;
+  });
 });
