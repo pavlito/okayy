@@ -1,5 +1,5 @@
 import { describe, it, expect, afterEach, beforeAll, beforeEach, vi } from 'vitest';
-import { render, screen, waitFor, cleanup } from '@testing-library/react';
+import { render, screen, waitFor, cleanup, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Confirmer } from '../confirmer';
 import { ConfirmState } from '../state';
@@ -160,6 +160,14 @@ describe('Confirmer', () => {
     expect(document.querySelector('[data-testid="my-dialog"]')).toBeInTheDocument();
     expect(document.querySelector('[data-testid="my-dialog-confirm"]')).toBeInTheDocument();
     expect(document.querySelector('[data-testid="my-dialog-cancel"]')).toBeInTheDocument();
+  });
+
+  it('uses custom ariaLabel on the dialog', async () => {
+    render(<Confirmer />);
+    await openDialog({ title: 'Test', ariaLabel: 'Custom label' });
+    const dialog = document.querySelector('[data-affirm-dialog]');
+    expect(dialog).toHaveAttribute('aria-label', 'Custom label');
+    expect(dialog).not.toHaveAttribute('aria-labelledby');
   });
 
   it('calls onDismiss when confirmed', async () => {

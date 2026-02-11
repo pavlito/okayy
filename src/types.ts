@@ -50,6 +50,8 @@ export interface ConfirmOptions {
   onDismiss?: () => void;
   /** Whether pressing Escape or clicking the overlay dismisses. Default: true */
   dismissible?: boolean;
+  /** Custom accessible label for the dialog. Overrides the auto-generated labelledby. Useful for i18n. */
+  ariaLabel?: string;
   /** Custom CSS class applied to the dialog content container */
   className?: string;
   /** Custom CSS class applied to the overlay */

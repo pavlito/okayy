@@ -218,7 +218,8 @@ export function Confirmer({
         data-testid={options.testId || undefined}
         role="alertdialog"
         aria-modal="true"
-        aria-labelledby={titleId}
+        aria-label={options.ariaLabel || undefined}
+        aria-labelledby={options.ariaLabel ? undefined : titleId}
         aria-describedby={options.description ? descriptionId : undefined}
       >
         {options.custom ? (
