@@ -103,6 +103,7 @@ export function Confirmer({
           fired = true;
           el.removeEventListener('animationend', onEnd);
           setVisible(false);
+          options.onDismiss?.();
           ConfirmState.respond(value);
         };
         el.addEventListener('animationend', onEnd);
@@ -110,10 +111,11 @@ export function Confirmer({
         setTimeout(onEnd, 200);
       } else {
         setVisible(false);
+        options.onDismiss?.();
         ConfirmState.respond(value);
       }
     },
-    [isLoading, loadingAction],
+    [isLoading, loadingAction, options.onDismiss],
   );
 
   // Escape key

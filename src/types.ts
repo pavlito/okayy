@@ -46,6 +46,8 @@ export interface ConfirmOptions {
   onConfirm?: () => Promise<void> | void;
   /** Called when the user cancels */
   onCancel?: () => void;
+  /** Called when the dialog is dismissed by any means (confirm, cancel, Escape, overlay click) */
+  onDismiss?: () => void;
   /** Whether pressing Escape or clicking the overlay dismisses. Default: true */
   dismissible?: boolean;
   /** Custom CSS class applied to the dialog content container */
