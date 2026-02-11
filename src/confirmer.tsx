@@ -213,6 +213,7 @@ export function Confirmer({
           undefined
         }
         style={options.style}
+        data-testid={options.testId || undefined}
         role="alertdialog"
         aria-modal="true"
         aria-labelledby={titleId}
@@ -273,6 +274,7 @@ export function Confirmer({
                   ref={cancelRef}
                   data-affirm-button
                   data-affirm-cancel
+                  data-testid={options.testId ? `${options.testId}-cancel` : undefined}
                   className={options.classNames?.cancelButton}
                   onClick={handleCancel}
                   disabled={isLoading || loadingAction !== null}
@@ -307,6 +309,7 @@ export function Confirmer({
                 ref={confirmRef}
                 data-affirm-button
                 data-affirm-confirm
+                data-testid={options.testId ? `${options.testId}-confirm` : undefined}
                 data-variant={variant}
                 className={options.classNames?.confirmButton}
                 onClick={handleConfirm}

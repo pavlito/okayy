@@ -66,6 +66,8 @@ export interface ConfirmOptions {
   unstyled?: boolean;
   /** Inline CSS styles applied to the dialog container */
   style?: CSSProperties;
+  /** Test ID prefix applied as data-testid for E2E testing. Sets data-testid on dialog, confirm button, and cancel button. */
+  testId?: string;
   /** Render a fully custom dialog body. Receives a close function. */
   custom?: (close: (value: boolean) => void) => ReactNode;
 }

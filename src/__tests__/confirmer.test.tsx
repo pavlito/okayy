@@ -154,6 +154,14 @@ describe('Confirmer', () => {
     expect(screen.getByRole('alertdialog')).toBeInTheDocument();
   });
 
+  it('applies data-testid when testId option is set', async () => {
+    render(<Confirmer />);
+    await openDialog({ title: 'Test', testId: 'my-dialog' });
+    expect(document.querySelector('[data-testid="my-dialog"]')).toBeInTheDocument();
+    expect(document.querySelector('[data-testid="my-dialog-confirm"]')).toBeInTheDocument();
+    expect(document.querySelector('[data-testid="my-dialog-cancel"]')).toBeInTheDocument();
+  });
+
   it('disables confirm button until confirmationKeyword is typed', async () => {
     render(<Confirmer />);
     ConfirmState.confirm({ title: 'Delete?', confirmationKeyword: 'DELETE' });
