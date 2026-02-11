@@ -14,6 +14,7 @@ export function Confirmer({
   className,
   icons,
   unstyled,
+  dir,
 }: ConfirmerProps) {
   const [storeState, setStoreState] = React.useState(ConfirmState.getSnapshot());
 
@@ -183,6 +184,7 @@ export function Confirmer({
     <div
       data-affirm
       suppressHydrationWarning
+      dir={dir || undefined}
       data-unstyled={isUnstyled || undefined}
       className={resolvedTheme === 'dark' ? 'dark' : undefined}
     >

@@ -81,6 +81,8 @@ export interface ConfirmerProps {
   icons?: ConfirmIcons;
   /** Strip all default styles. Use with classNames for full Tailwind control. Default: false */
   unstyled?: boolean;
+  /** Text direction for RTL language support */
+  dir?: 'ltr' | 'rtl' | 'auto';
 }
 
 export interface ConfirmState {

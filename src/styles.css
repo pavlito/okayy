@@ -667,6 +667,40 @@
 }
 
 /* ============================================
+   RTL Support
+   ============================================ */
+[data-affirm][dir='rtl'] {
+  direction: rtl;
+}
+
+[data-affirm][dir='rtl'] [data-affirm-header] {
+  direction: rtl;
+}
+
+[data-affirm][dir='rtl'] [data-affirm-description] {
+  text-align: right;
+}
+
+[data-affirm][dir='rtl'] [data-affirm-footer] {
+  flex-direction: row-reverse;
+}
+
+[data-affirm][dir='rtl'] [data-affirm-keyword-label] {
+  text-align: right;
+}
+
+[data-affirm][dir='rtl'] [data-affirm-keyword-input] {
+  text-align: right;
+}
+
+/* RTL mobile: keep column-reverse for footer */
+@media (max-width: 639px) {
+  [data-affirm][dir='rtl'] [data-affirm-footer] {
+    flex-direction: column-reverse;
+  }
+}
+
+/* ============================================
    Unstyled Mode
    ============================================ */
 [data-affirm][data-unstyled] [data-affirm-dialog] {
