@@ -3,9 +3,9 @@ import { ThemeSwitch } from './src/components/ThemeSwitch';
 export default {
   logo: <span style={{ fontWeight: 800, fontSize: 18 }}>affirm</span>,
   project: {
-    link: 'https://github.com/pav-luc/affirm',
+    link: 'https://github.com/pavlito/affirm',
   },
-  docsRepositoryBase: 'https://github.com/pav-luc/affirm/tree/main/demo',
+  docsRepositoryBase: 'https://github.com/pavlito/affirm/tree/main/demo',
   useNextSeoProps() {
     return {
       titleTemplate: '%s – affirm',
