@@ -147,7 +147,7 @@ describe('state', () => {
   });
 
   it('confirm.custom() opens dialog with custom render function', () => {
-    const render = (close: (value: boolean) => void) => null;
+    const render = (_close: (value: boolean) => void) => null;
     confirm.custom(render);
     const state = ConfirmState.getSnapshot();
     expect(state.isOpen).toBe(true);
@@ -156,7 +156,7 @@ describe('state', () => {
   });
 
   it('confirm.custom() returns a Promise that resolves on respond', async () => {
-    const render = (close: (value: boolean) => void) => null;
+    const render = (_close: (value: boolean) => void) => null;
     const promise = confirm.custom(render);
     ConfirmState.respond(true);
     const result = await promise;
@@ -164,7 +164,7 @@ describe('state', () => {
   });
 
   it('calling confirm() while dialog is open overwrites previous dialog', async () => {
-    const promise1 = confirm('First');
+    confirm('First');
     const promise2 = confirm('Second');
 
     const state = ConfirmState.getSnapshot();

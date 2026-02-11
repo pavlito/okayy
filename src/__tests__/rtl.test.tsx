@@ -7,7 +7,7 @@ vi.spyOn(window, 'matchMedia').mockReturnValue({
   matches: false,
   addEventListener: vi.fn(),
   removeEventListener: vi.fn(),
-} as any);
+} as unknown as MediaQueryList);
 
 vi.spyOn(window, 'requestAnimationFrame').mockImplementation((cb) => {
   cb(0);
@@ -28,7 +28,7 @@ describe('RTL support', () => {
       matches: false,
       addEventListener: vi.fn(),
       removeEventListener: vi.fn(),
-    } as any);
+    } as unknown as MediaQueryList);
 
     vi.spyOn(window, 'requestAnimationFrame').mockImplementation((cb) => {
       cb(0);
