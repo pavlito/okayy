@@ -345,7 +345,9 @@ confirm.dismiss();
 | actions | Additional action buttons between cancel and confirm | `-` |
 | onConfirm | Async action on confirm — shows loading spinner | - |
 | onCancel | Called when the user cancels | - |
+| onDismiss | Called when the dialog closes by any means (confirm, cancel, Escape, overlay) | - |
 | dismissible | Whether Escape/overlay click dismisses | `true` |
+| ariaLabel | Custom accessible label for the dialog. Overrides auto-generated labelledby. Useful for i18n. | - |
 | className | CSS class on the dialog content container | - |
 | overlayClassName | CSS class on the overlay | - |
 | hideCancel | Hide the cancel button (used by `confirm.alert()`) | `false` |
@@ -355,3 +357,4 @@ confirm.dismiss();
 | classNames | Per-element CSS classes (`dialog`, `overlay`, `title`, `description`, `confirmButton`, `cancelButton`, `actionButton`, `icon`, `content`, `footer`) | - |
 | unstyled | Strip all default styles for full Tailwind control | `false` |
 | custom | Render custom dialog body via `confirm.custom()`. Receives `close(boolean)`. | - |
+| testId | Test ID prefix. Sets `data-testid` on dialog, `{testId}-confirm` on confirm button, `{testId}-cancel` on cancel button. | - |
