@@ -35,7 +35,6 @@
   --affirm-ring-color: #0a0a0a;
 
   /* Icon */
-  --affirm-icon-bg: #f5f5f5;
   --affirm-icon-color: #0a0a0a;
 
   /* Muted (drag handle, etc.) */
@@ -67,7 +66,6 @@
 
   --affirm-ring-color: #d4d4d4;
 
-  --affirm-icon-bg: #262626;
   --affirm-icon-color: #fafafa;
 
   --affirm-muted: #a3a3a3;
@@ -87,7 +85,6 @@
   --affirm-confirm-border: #dc2626;
   --affirm-confirm-text: #ffffff;
   --affirm-confirm-hover-bg: #b91c1c;
-  --affirm-icon-bg: #fee2e2;
   --affirm-icon-color: #dc2626;
 }
 
@@ -102,7 +99,6 @@
   --affirm-confirm-border: #ef4444;
   --affirm-confirm-text: #ffffff;
   --affirm-confirm-hover-bg: #dc2626;
-  --affirm-icon-bg: hsl(358, 60%, 15%);
   --affirm-icon-color: #ef4444;
 }
 
@@ -120,7 +116,6 @@
   --affirm-confirm-border: #d97706;
   --affirm-confirm-text: #ffffff;
   --affirm-confirm-hover-bg: #b45309;
-  --affirm-icon-bg: #fef3c7;
   --affirm-icon-color: #d97706;
 }
 
@@ -135,7 +130,6 @@
   --affirm-confirm-border: #d97706;
   --affirm-confirm-text: #ffffff;
   --affirm-confirm-hover-bg: #b45309;
-  --affirm-icon-bg: hsl(40, 60%, 12%);
   --affirm-icon-color: #fcd34d;
 }
 
@@ -153,7 +147,6 @@
   --affirm-confirm-border: #2563eb;
   --affirm-confirm-text: #ffffff;
   --affirm-confirm-hover-bg: #1d4ed8;
-  --affirm-icon-bg: #dbeafe;
   --affirm-icon-color: #2563eb;
 }
 
@@ -168,7 +161,6 @@
   --affirm-confirm-border: #2563eb;
   --affirm-confirm-text: #ffffff;
   --affirm-confirm-hover-bg: #1d4ed8;
-  --affirm-icon-bg: hsl(215, 60%, 12%);
   --affirm-icon-color: #93c5fd;
 }
 
@@ -186,7 +178,6 @@
   --affirm-confirm-border: #16a34a;
   --affirm-confirm-text: #ffffff;
   --affirm-confirm-hover-bg: #15803d;
-  --affirm-icon-bg: #dcfce7;
   --affirm-icon-color: #16a34a;
 }
 
@@ -201,7 +192,6 @@
   --affirm-confirm-border: #16a34a;
   --affirm-confirm-text: #ffffff;
   --affirm-confirm-hover-bg: #15803d;
-  --affirm-icon-bg: hsl(150, 60%, 10%);
   --affirm-icon-color: #86efac;
 }
 
@@ -513,19 +503,6 @@
 }
 
 /* ============================================
-   Shake Animation (danger variant emphasis)
-   ============================================ */
-@keyframes affirm-shake {
-  0%, 100% { transform: translateX(0); }
-  10%, 30%, 50%, 70%, 90% { transform: translateX(-4px); }
-  20%, 40%, 60%, 80% { transform: translateX(4px); }
-}
-
-[data-affirm-dialog][data-shake='true'] {
-  animation: affirm-shake 500ms cubic-bezier(0.36, 0.07, 0.19, 0.97);
-}
-
-/* ============================================
    Loading Spinner
    ============================================ */
 [data-affirm-spinner] {
@@ -558,10 +535,6 @@
 
   [data-affirm-dialog][data-state='closed'] {
     animation: affirm-fade-out 150ms ease-in forwards;
-  }
-
-  [data-affirm-dialog][data-shake='true'] {
-    animation: none;
   }
 
   [data-affirm-button]:active {
