@@ -321,7 +321,7 @@
 [data-affirm-title] {
   margin: 0;
   font-family: var(--affirm-font);
-  font-size: 1rem;
+  font-size: 1.125rem;
   font-weight: 600;
   line-height: 1.5;
   letter-spacing: -0.011em;
