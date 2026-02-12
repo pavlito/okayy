@@ -45,7 +45,7 @@ export const Hero = () => {
         >
           Try it
         </button>
-        <a className={styles.button} href="https://github.com/pavlito/affirm" target="_blank">
+        <a className={styles.button} href="https://github.com/pavlito/affirm" target="_blank" rel="noopener noreferrer">
           GitHub
         </a>
       </div>
