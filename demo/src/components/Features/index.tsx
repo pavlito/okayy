@@ -97,11 +97,11 @@ const allFeatures = [
     action: () =>
       confirm.custom((close: (value: boolean) => void) => (
         <div style={{ padding: '1.5rem' }}>
-          <h3 style={{ margin: '0 0 0.5rem', fontWeight: 600, fontSize: '1rem' }}>Custom Dialog</h3>
-          <p style={{ margin: '0 0 1rem', color: '#737373', fontSize: '0.875rem' }}>This is fully custom content rendered inside the dialog.</p>
+          <h3 style={{ margin: '0 0 0.5rem', fontWeight: 600, fontSize: '1rem', color: 'var(--affirm-title-color)' }}>Custom Dialog</h3>
+          <p style={{ margin: '0 0 1rem', color: 'var(--affirm-desc-color)', fontSize: '0.875rem' }}>This is fully custom content rendered inside the dialog.</p>
           <div style={{ display: 'flex', gap: '0.5rem', justifyContent: 'flex-end' }}>
-            <button className="button" onClick={() => close(false)} style={{ margin: 0 }}>Cancel</button>
-            <button className="button" onClick={() => close(true)} style={{ margin: 0 }}>OK</button>
+            <button onClick={() => close(false)} style={{ margin: 0, padding: '0.5rem 1rem', borderRadius: '0.5rem', border: '1px solid var(--affirm-cancel-border)', background: 'var(--affirm-cancel-bg)', color: 'var(--affirm-cancel-text)', cursor: 'pointer' }}>Cancel</button>
+            <button onClick={() => close(true)} style={{ margin: 0, padding: '0.5rem 1rem', borderRadius: '0.5rem', border: '1px solid var(--affirm-confirm-border)', background: 'var(--affirm-confirm-bg)', color: 'var(--affirm-confirm-text)', cursor: 'pointer' }}>OK</button>
           </div>
         </div>
       )),
