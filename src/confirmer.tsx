@@ -39,9 +39,9 @@ export function Confirmer({
   const [confirmInput, setConfirmInput] = React.useState('');
   const [loadingAction, setLoadingAction] = React.useState<number | null>(null);
 
-  const affirmId = React.useId();
-  const titleId = `affirm-title-${affirmId}`;
-  const descriptionId = `affirm-description-${affirmId}`;
+  const okayyId = React.useId();
+  const titleId = `okayy-title-${okayyId}`;
+  const descriptionId = `okayy-description-${okayyId}`;
 
   const isUnstyled = unstyled || options.unstyled;
 
@@ -184,7 +184,7 @@ export function Confirmer({
 
   return ReactDOM.createPortal(
     <div
-      data-affirm
+      data-okayy
       suppressHydrationWarning
       dir={dir || undefined}
       data-unstyled={isUnstyled || undefined}
@@ -192,7 +192,7 @@ export function Confirmer({
     >
       {/* Overlay */}
       <div
-        data-affirm-overlay
+        data-okayy-overlay
         data-state={dataState}
         className={
           [options.overlayClassName, options.classNames?.overlay].filter(Boolean).join(' ') ||
@@ -205,7 +205,7 @@ export function Confirmer({
       {/* Dialog */}
       <div
         ref={dialogRef}
-        data-affirm-dialog
+        data-okayy-dialog
         data-state={dataState}
         data-variant={variant}
         data-layout={options.layout || 'default'}
@@ -226,15 +226,15 @@ export function Confirmer({
           options.custom(handleClose)
         ) : (
           <>
-            <div data-affirm-content className={options.classNames?.content}>
+            <div data-okayy-content className={options.classNames?.content}>
               {/* Icon + Title */}
-              <div data-affirm-header>
+              <div data-okayy-header>
                 {showIcon && (
-                  <span data-affirm-icon className={options.classNames?.icon}>
+                  <span data-okayy-icon className={options.classNames?.icon}>
                     {icon}
                   </span>
                 )}
-                <h2 id={titleId} data-affirm-title className={options.classNames?.title}>
+                <h2 id={titleId} data-okayy-title className={options.classNames?.title}>
                   {options.title}
                 </h2>
               </div>
@@ -243,7 +243,7 @@ export function Confirmer({
               {options.description != null && (
                 <div
                   id={descriptionId}
-                  data-affirm-description
+                  data-okayy-description
                   className={options.classNames?.description}
                 >
                   {options.description}
@@ -253,12 +253,12 @@ export function Confirmer({
 
             {/* Type-to-Confirm */}
             {options.confirmationKeyword && (
-              <div data-affirm-keyword>
-                <label data-affirm-keyword-label>
+              <div data-okayy-keyword>
+                <label data-okayy-keyword-label>
                   Type <strong>{options.confirmationKeyword}</strong> to confirm
                 </label>
                 <input
-                  data-affirm-keyword-input
+                  data-okayy-keyword-input
                   value={confirmInput}
                   onChange={(e) => setConfirmInput(e.target.value)}
                 />
@@ -267,7 +267,7 @@ export function Confirmer({
 
             {/* Actions */}
             <div
-              data-affirm-footer
+              data-okayy-footer
               role="group"
               aria-label="Dialog actions"
               className={options.classNames?.footer}
@@ -275,8 +275,8 @@ export function Confirmer({
               {!options.hideCancel && (
                 <button
                   ref={cancelRef}
-                  data-affirm-button
-                  data-affirm-cancel
+                  data-okayy-button
+                  data-okayy-cancel
                   data-testid={options.testId ? `${options.testId}-cancel` : undefined}
                   className={options.classNames?.cancelButton}
                   onClick={handleCancel}
@@ -288,8 +288,8 @@ export function Confirmer({
               {options.actions?.map((action, i) => (
                 <button
                   key={i}
-                  data-affirm-button
-                  data-affirm-action
+                  data-okayy-button
+                  data-okayy-action
                   className={options.classNames?.actionButton}
                   onClick={async () => {
                     setLoadingAction(i);
@@ -302,7 +302,7 @@ export function Confirmer({
                   }}
                   disabled={isLoading || loadingAction !== null}
                 >
-                  {loadingAction === i && <span data-affirm-spinner aria-hidden="true" />}
+                  {loadingAction === i && <span data-okayy-spinner aria-hidden="true" />}
                   <span style={loadingAction === i ? { visibility: 'hidden' } : undefined}>
                     {action.label}
                   </span>
@@ -310,15 +310,15 @@ export function Confirmer({
               ))}
               <button
                 ref={confirmRef}
-                data-affirm-button
-                data-affirm-confirm
+                data-okayy-button
+                data-okayy-confirm
                 data-testid={options.testId ? `${options.testId}-confirm` : undefined}
                 data-variant={variant}
                 className={options.classNames?.confirmButton}
                 onClick={handleConfirm}
                 disabled={isLoading || loadingAction !== null || !keywordMatch}
               >
-                {isLoading && <span data-affirm-spinner aria-hidden="true" />}
+                {isLoading && <span data-okayy-spinner aria-hidden="true" />}
                 <span style={isLoading ? { visibility: 'hidden' } : undefined}>{confirmText}</span>
               </button>
             </div>

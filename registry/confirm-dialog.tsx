@@ -387,8 +387,8 @@ export function Confirmer({ defaultOptions, className }: ConfirmerProps) {
         )}
         role="alertdialog"
         aria-modal="true"
-        aria-labelledby="affirm-title"
-        aria-describedby={options.description ? "affirm-description" : undefined}
+        aria-labelledby="okayy-title"
+        aria-describedby={options.description ? "okayy-description" : undefined}
       >
         <div className="flex flex-col">
           {/* Icon + Title */}
@@ -404,7 +404,7 @@ export function Confirmer({ defaultOptions, className }: ConfirmerProps) {
               </span>
             )}
             <h2
-              id="affirm-title"
+              id="okayy-title"
               className={cn(
                 "text-base font-semibold leading-6 tracking-tight",
                 styles.title,
@@ -417,7 +417,7 @@ export function Confirmer({ defaultOptions, className }: ConfirmerProps) {
           {/* Description */}
           {options.description && (
             <p
-              id="affirm-description"
+              id="okayy-description"
               className={cn(
                 "mt-2 text-sm leading-relaxed",
                 styles.description,

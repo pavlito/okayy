@@ -1,5 +1,5 @@
 import React from 'react';
-import { confirm } from 'affirm';
+import { confirm } from 'okayy';
 import { CodeBlock } from '../CodeBlock';
 
 export const Features = () => {
@@ -97,11 +97,11 @@ const allFeatures = [
     action: () =>
       confirm.custom((close: (value: boolean) => void) => (
         <div style={{ padding: '1.5rem' }}>
-          <h3 style={{ margin: '0 0 0.5rem', fontWeight: 600, fontSize: '1rem', color: 'var(--affirm-text-color)' }}>Custom Dialog</h3>
-          <p style={{ margin: '0 0 1rem', color: 'var(--affirm-text-color)', fontSize: '0.875rem' }}>This is fully custom content rendered inside the dialog.</p>
+          <h3 style={{ margin: '0 0 0.5rem', fontWeight: 600, fontSize: '1rem', color: 'var(--okayy-text-color)' }}>Custom Dialog</h3>
+          <p style={{ margin: '0 0 1rem', color: 'var(--okayy-text-color)', fontSize: '0.875rem' }}>This is fully custom content rendered inside the dialog.</p>
           <div style={{ display: 'flex', gap: '0.5rem', justifyContent: 'flex-end' }}>
-            <button onClick={() => close(false)} style={{ margin: 0, padding: '0.5rem 1rem', borderRadius: '0.5rem', border: '1px solid var(--affirm-cancel-border)', background: 'var(--affirm-cancel-bg)', color: 'var(--affirm-cancel-text)', cursor: 'pointer' }}>Cancel</button>
-            <button onClick={() => close(true)} style={{ margin: 0, padding: '0.5rem 1rem', borderRadius: '0.5rem', border: '1px solid var(--affirm-confirm-border)', background: 'var(--affirm-confirm-bg)', color: 'var(--affirm-confirm-text)', cursor: 'pointer' }}>OK</button>
+            <button onClick={() => close(false)} style={{ margin: 0, padding: '0.5rem 1rem', borderRadius: '0.5rem', border: '1px solid var(--okayy-cancel-border)', background: 'var(--okayy-cancel-bg)', color: 'var(--okayy-cancel-text)', cursor: 'pointer' }}>Cancel</button>
+            <button onClick={() => close(true)} style={{ margin: 0, padding: '0.5rem 1rem', borderRadius: '0.5rem', border: '1px solid var(--okayy-confirm-border)', background: 'var(--okayy-confirm-bg)', color: 'var(--okayy-confirm-text)', cursor: 'pointer' }}>OK</button>
           </div>
         </div>
       )),

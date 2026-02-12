@@ -5,8 +5,8 @@ export const Usage = () => {
     <div>
       <h2>Usage</h2>
       <p>Render the Confirmer in the root of your app, then call confirm() anywhere.</p>
-      <CodeBlock initialHeight={270}>{`import { Confirmer, confirm } from 'affirm';
-import 'affirm/styles.css';
+      <CodeBlock initialHeight={270}>{`import { Confirmer, confirm } from 'okayy';
+import 'okayy/styles.css';
 
 // Add Confirmer to your root layout
 function App() {

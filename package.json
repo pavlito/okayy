@@ -1,5 +1,5 @@
 {
-  "name": "affirm",
+  "name": "okayy",
   "version": "0.0.1",
   "description": "A confirm dialog for React. One line. Beautiful.",
   "license": "MIT",
@@ -13,13 +13,13 @@
     "alert",
     "confirm-dialog"
   ],
-  "homepage": "https://pavlito.github.io/affirm",
+  "homepage": "https://pavlito.github.io/okayy",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/pavlito/affirm.git"
+    "url": "git+https://github.com/pavlito/okayy.git"
   },
   "bugs": {
-    "url": "https://github.com/pavlito/affirm/issues"
+    "url": "https://github.com/pavlito/okayy/issues"
   },
   "type": "module",
   "main": "./dist/index.cjs",

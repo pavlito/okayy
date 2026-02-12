@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "affirm": "file:..",
+    "okayy": "file:..",
     "copy-to-clipboard": "^3.3.3",
     "framer-motion": "^9.0.1",
     "next": "13.4.19",

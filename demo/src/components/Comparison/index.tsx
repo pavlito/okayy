@@ -3,12 +3,12 @@ import { CodeBlock } from '../CodeBlock';
 export const Comparison = () => {
   return (
     <div>
-      <h2>Why affirm?</h2>
+      <h2>Why okayy?</h2>
       <p>Less code. Same power.</p>
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
         <div>
-          <p style={{ fontSize: 13, fontWeight: 500, marginBottom: 0 }}>affirm — 3 lines</p>
-          <CodeBlock>{`import { confirm } from 'affirm';
+          <p style={{ fontSize: 13, fontWeight: 500, marginBottom: 0 }}>okayy — 3 lines</p>
+          <CodeBlock>{`import { confirm } from 'okayy';
 
 const ok = await confirm('Delete?');
 if (ok) deleteItem();`}</CodeBlock>

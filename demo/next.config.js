@@ -11,9 +11,9 @@ const isGithubPages = process.env.GITHUB_PAGES === 'true';
 module.exports = withNextra({
   output: 'export',
   images: { unoptimized: true },
-  basePath: isGithubPages ? '/affirm' : '',
-  assetPrefix: isGithubPages ? '/affirm/' : '',
-  transpilePackages: ['affirm'],
+  basePath: isGithubPages ? '/okayy' : '',
+  assetPrefix: isGithubPages ? '/okayy/' : '',
+  transpilePackages: ['okayy'],
   webpack: (config) => {
     config.resolve.alias = {
       ...config.resolve.alias,

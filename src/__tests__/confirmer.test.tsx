@@ -38,7 +38,7 @@ describe('Confirmer', () => {
       ConfirmState.respond(false);
     }
     // Remove any stale portal elements from document.body
-    document.body.querySelectorAll('[data-affirm]').forEach((el) => el.remove());
+    document.body.querySelectorAll('[data-okayy]').forEach((el) => el.remove());
   });
 
   it('renders nothing when no dialog is open', () => {
@@ -165,7 +165,7 @@ describe('Confirmer', () => {
   it('uses custom ariaLabel on the dialog', async () => {
     render(<Confirmer />);
     await openDialog({ title: 'Test', ariaLabel: 'Custom label' });
-    const dialog = document.querySelector('[data-affirm-dialog]');
+    const dialog = document.querySelector('[data-okayy-dialog]');
     expect(dialog).toHaveAttribute('aria-label', 'Custom label');
     expect(dialog).not.toHaveAttribute('aria-labelledby');
   });
@@ -221,7 +221,7 @@ describe('Confirmer', () => {
     const confirmBtn = screen.getByText('Confirm').closest('button')!;
     expect(confirmBtn).toBeDisabled();
 
-    const input = document.querySelector('[data-affirm-keyword-input]') as HTMLInputElement;
+    const input = document.querySelector('[data-okayy-keyword-input]') as HTMLInputElement;
     fireEvent.change(input, { target: { value: 'DELETE' } });
 
     await waitFor(

@@ -1,5 +1,5 @@
 <p align="center">
-  <h1 align="center">affirm</h1>
+  <h1 align="center">okayy</h1>
 </p>
 
 <p align="center">
@@ -7,15 +7,15 @@
 </p>
 
 <p align="center">
-  <a href="https://www.npmjs.com/package/affirm"><img src="https://img.shields.io/npm/v/affirm.svg" alt="npm version" /></a>
-  <a href="https://github.com/pavlito/affirm/actions/workflows/ci.yml"><img src="https://github.com/pavlito/affirm/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
-  <a href="https://github.com/pavlito/affirm/blob/main/LICENSE"><img src="https://img.shields.io/npm/l/affirm.svg" alt="License" /></a>
-  <a href="https://bundlephobia.com/package/affirm"><img src="https://img.shields.io/bundlephobia/minzip/affirm" alt="Bundle size" /></a>
+  <a href="https://www.npmjs.com/package/okayy"><img src="https://img.shields.io/npm/v/okayy.svg" alt="npm version" /></a>
+  <a href="https://github.com/pavlito/okayy/actions/workflows/ci.yml"><img src="https://github.com/pavlito/okayy/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
+  <a href="https://github.com/pavlito/okayy/blob/main/LICENSE"><img src="https://img.shields.io/npm/l/okayy.svg" alt="License" /></a>
+  <a href="https://bundlephobia.com/package/okayy"><img src="https://img.shields.io/bundlephobia/minzip/okayy" alt="Bundle size" /></a>
 </p>
 
 <p align="center">
-  <a href="https://pavlito.github.io/affirm">Documentation</a> ·
-  <a href="https://pavlito.github.io/affirm/getting-started">Getting Started</a>
+  <a href="https://pavlito.github.io/okayy">Documentation</a> ·
+  <a href="https://pavlito.github.io/okayy/getting-started">Getting Started</a>
 </p>
 
 ---
@@ -23,13 +23,13 @@
 ## Usage
 
 ```bash
-npm install affirm
+npm install okayy
 ```
 
 ```jsx
 // app/layout.tsx
-import { Confirmer } from 'affirm';
-import 'affirm/styles.css';
+import { Confirmer } from 'okayy';
+import 'okayy/styles.css';
 
 export default function Layout({ children }) {
   return (
@@ -42,7 +42,7 @@ export default function Layout({ children }) {
 ```
 
 ```jsx
-import { confirm } from 'affirm';
+import { confirm } from 'okayy';
 
 async function handleDelete() {
   if (await confirm('Delete this item?')) {
@@ -66,7 +66,7 @@ async function handleDelete() {
 
 ## Documentation
 
-Visit [pavlito.github.io/affirm](https://pavlito.github.io/affirm) for full documentation, examples, and API reference.
+Visit [pavlito.github.io/okayy](https://pavlito.github.io/okayy) for full documentation, examples, and API reference.
 
 ## License
 

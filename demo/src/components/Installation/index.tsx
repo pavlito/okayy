@@ -13,7 +13,7 @@ export const Installation = () => {
   const [copying, setCopying] = React.useState(0);
 
   const onCopy = React.useCallback(() => {
-    copy('npm install affirm');
+    copy('npm install okayy');
     setCopying((c) => c + 1);
     setTimeout(() => {
       setCopying((c) => c - 1);
@@ -24,7 +24,7 @@ export const Installation = () => {
     <div>
       <h2>Installation</h2>
       <code className={styles.code} onClick={onCopy}>
-        npm install affirm{' '}
+        npm install okayy{' '}
         <button aria-label="Copy code" className={styles.copy}>
           <MotionConfig transition={{ duration: 0.15 }}>
             <AnimatePresence initial={false} mode="wait">

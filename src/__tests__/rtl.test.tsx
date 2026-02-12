@@ -20,7 +20,7 @@ describe('RTL support', () => {
     if (ConfirmState.getSnapshot().isOpen) {
       ConfirmState.respond(false);
     }
-    document.body.querySelectorAll('[data-affirm]').forEach((el) => el.remove());
+    document.body.querySelectorAll('[data-okayy]').forEach((el) => el.remove());
     vi.restoreAllMocks();
 
     // Re-apply mocks after restore
@@ -44,7 +44,7 @@ describe('RTL support', () => {
       expect(screen.getByRole('alertdialog')).toBeInTheDocument();
     });
 
-    const wrapper = document.querySelector('[data-affirm]');
+    const wrapper = document.querySelector('[data-okayy]');
     expect(wrapper).not.toBeNull();
     expect(wrapper!.getAttribute('dir')).toBe('rtl');
   });
@@ -57,7 +57,7 @@ describe('RTL support', () => {
       expect(screen.getByRole('alertdialog')).toBeInTheDocument();
     });
 
-    const wrapper = document.querySelector('[data-affirm]');
+    const wrapper = document.querySelector('[data-okayy]');
     expect(wrapper).not.toBeNull();
     expect(wrapper!.getAttribute('dir')).toBe('ltr');
   });
@@ -70,7 +70,7 @@ describe('RTL support', () => {
       expect(screen.getByRole('alertdialog')).toBeInTheDocument();
     });
 
-    const wrapper = document.querySelector('[data-affirm]');
+    const wrapper = document.querySelector('[data-okayy]');
     expect(wrapper).not.toBeNull();
     expect(wrapper!.hasAttribute('dir')).toBe(false);
   });

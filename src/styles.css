@@ -1,72 +1,72 @@
 /* ============================================
-   Affirm — Confirm Dialog Stylesheet
+   Okayy — Confirm Dialog Stylesheet
    ============================================ */
 
 /* --- CSS Custom Properties (Light Theme) --- */
-[data-affirm] {
-  --affirm-font: 'Geist Sans', 'Inter', ui-sans-serif, system-ui, -apple-system,
+[data-okayy] {
+  --okayy-font: 'Geist Sans', 'Inter', ui-sans-serif, system-ui, -apple-system,
     sans-serif;
 
   /* Overlay */
-  --affirm-overlay-bg: rgba(0, 0, 0, 0.8);
+  --okayy-overlay-bg: rgba(0, 0, 0, 0.8);
 
   /* Dialog */
-  --affirm-dialog-bg: #ffffff;
-  --affirm-dialog-shadow: 0 0 0 1px rgba(0, 0, 0, 0.03),
+  --okayy-dialog-bg: #ffffff;
+  --okayy-dialog-shadow: 0 0 0 1px rgba(0, 0, 0, 0.03),
     0 2px 4px rgba(0, 0, 0, 0.04), 0 12px 24px rgba(0, 0, 0, 0.08);
-  --affirm-dialog-border: #e5e5e5;
+  --okayy-dialog-border: #e5e5e5;
 
   /* Typography */
-  --affirm-text-color: #0a0a0a;
+  --okayy-text-color: #0a0a0a;
 
   /* Buttons */
-  --affirm-cancel-bg: transparent;
-  --affirm-cancel-border: #e5e5e5;
-  --affirm-cancel-text: #0a0a0a;
-  --affirm-cancel-hover-bg: #f5f5f5;
+  --okayy-cancel-bg: transparent;
+  --okayy-cancel-border: #e5e5e5;
+  --okayy-cancel-text: #0a0a0a;
+  --okayy-cancel-hover-bg: #f5f5f5;
 
-  --affirm-confirm-bg: #0a0a0a;
-  --affirm-confirm-border: #0a0a0a;
-  --affirm-confirm-text: #fafafa;
-  --affirm-confirm-hover-bg: #171717;
+  --okayy-confirm-bg: #0a0a0a;
+  --okayy-confirm-border: #0a0a0a;
+  --okayy-confirm-text: #fafafa;
+  --okayy-confirm-hover-bg: #171717;
 
   /* Focus ring */
-  --affirm-ring-color: #0a0a0a;
+  --okayy-ring-color: #0a0a0a;
 
   /* Icon */
-  --affirm-icon-color: #0a0a0a;
+  --okayy-icon-color: #0a0a0a;
 
   /* Muted (drag handle, etc.) */
-  --affirm-muted: #737373;
+  --okayy-muted: #737373;
 }
 
 /* --- Dark Theme --- */
-[data-affirm-theme='dark'] [data-affirm],
-.dark [data-affirm] {
-  --affirm-overlay-bg: rgba(0, 0, 0, 0.8);
+[data-okayy-theme='dark'] [data-okayy],
+.dark [data-okayy] {
+  --okayy-overlay-bg: rgba(0, 0, 0, 0.8);
 
-  --affirm-dialog-bg: #0a0a0a;
-  --affirm-dialog-shadow: 0 0 0 1px rgba(255, 255, 255, 0.05),
+  --okayy-dialog-bg: #0a0a0a;
+  --okayy-dialog-shadow: 0 0 0 1px rgba(255, 255, 255, 0.05),
     0 2px 4px rgba(0, 0, 0, 0.2), 0 12px 24px rgba(0, 0, 0, 0.4);
-  --affirm-dialog-border: #262626;
+  --okayy-dialog-border: #262626;
 
-  --affirm-text-color: #fafafa;
+  --okayy-text-color: #fafafa;
 
-  --affirm-cancel-bg: transparent;
-  --affirm-cancel-border: #262626;
-  --affirm-cancel-text: #fafafa;
-  --affirm-cancel-hover-bg: #171717;
+  --okayy-cancel-bg: transparent;
+  --okayy-cancel-border: #262626;
+  --okayy-cancel-text: #fafafa;
+  --okayy-cancel-hover-bg: #171717;
 
-  --affirm-confirm-bg: #fafafa;
-  --affirm-confirm-border: #fafafa;
-  --affirm-confirm-text: #0a0a0a;
-  --affirm-confirm-hover-bg: #e5e5e5;
+  --okayy-confirm-bg: #fafafa;
+  --okayy-confirm-border: #fafafa;
+  --okayy-confirm-text: #0a0a0a;
+  --okayy-confirm-hover-bg: #e5e5e5;
 
-  --affirm-ring-color: #d4d4d4;
+  --okayy-ring-color: #d4d4d4;
 
-  --affirm-icon-color: #fafafa;
+  --okayy-icon-color: #fafafa;
 
-  --affirm-muted: #a3a3a3;
+  --okayy-muted: #a3a3a3;
 }
 
 /* ============================================
@@ -74,26 +74,26 @@
    ============================================ */
 
 /* Light */
-[data-affirm] [data-variant='danger'] {
-  --affirm-dialog-bg: #ffffff;
-  --affirm-dialog-border: #fecdd3;
-  --affirm-confirm-bg: #dc2626;
-  --affirm-confirm-border: #dc2626;
-  --affirm-confirm-text: #ffffff;
-  --affirm-confirm-hover-bg: #b91c1c;
-  --affirm-icon-color: #dc2626;
+[data-okayy] [data-variant='danger'] {
+  --okayy-dialog-bg: #ffffff;
+  --okayy-dialog-border: #fecdd3;
+  --okayy-confirm-bg: #dc2626;
+  --okayy-confirm-border: #dc2626;
+  --okayy-confirm-text: #ffffff;
+  --okayy-confirm-hover-bg: #b91c1c;
+  --okayy-icon-color: #dc2626;
 }
 
 /* Dark */
-[data-affirm-theme='dark'] [data-affirm] [data-variant='danger'],
-.dark [data-affirm] [data-variant='danger'] {
-  --affirm-dialog-bg: #0a0a0a;
-  --affirm-dialog-border: #262626;
-  --affirm-confirm-bg: #ef4444;
-  --affirm-confirm-border: #ef4444;
-  --affirm-confirm-text: #ffffff;
-  --affirm-confirm-hover-bg: #dc2626;
-  --affirm-icon-color: #ef4444;
+[data-okayy-theme='dark'] [data-okayy] [data-variant='danger'],
+.dark [data-okayy] [data-variant='danger'] {
+  --okayy-dialog-bg: #0a0a0a;
+  --okayy-dialog-border: #262626;
+  --okayy-confirm-bg: #ef4444;
+  --okayy-confirm-border: #ef4444;
+  --okayy-confirm-text: #ffffff;
+  --okayy-confirm-hover-bg: #dc2626;
+  --okayy-icon-color: #ef4444;
 }
 
 /* ============================================
@@ -101,26 +101,26 @@
    ============================================ */
 
 /* Light */
-[data-affirm] [data-variant='warning'] {
-  --affirm-dialog-bg: #ffffff;
-  --affirm-dialog-border: #fde68a;
-  --affirm-confirm-bg: #d97706;
-  --affirm-confirm-border: #d97706;
-  --affirm-confirm-text: #ffffff;
-  --affirm-confirm-hover-bg: #b45309;
-  --affirm-icon-color: #d97706;
+[data-okayy] [data-variant='warning'] {
+  --okayy-dialog-bg: #ffffff;
+  --okayy-dialog-border: #fde68a;
+  --okayy-confirm-bg: #d97706;
+  --okayy-confirm-border: #d97706;
+  --okayy-confirm-text: #ffffff;
+  --okayy-confirm-hover-bg: #b45309;
+  --okayy-icon-color: #d97706;
 }
 
 /* Dark */
-[data-affirm-theme='dark'] [data-affirm] [data-variant='warning'],
-.dark [data-affirm] [data-variant='warning'] {
-  --affirm-dialog-bg: #0a0a0a;
-  --affirm-dialog-border: #262626;
-  --affirm-confirm-bg: #d97706;
-  --affirm-confirm-border: #d97706;
-  --affirm-confirm-text: #ffffff;
-  --affirm-confirm-hover-bg: #b45309;
-  --affirm-icon-color: #fcd34d;
+[data-okayy-theme='dark'] [data-okayy] [data-variant='warning'],
+.dark [data-okayy] [data-variant='warning'] {
+  --okayy-dialog-bg: #0a0a0a;
+  --okayy-dialog-border: #262626;
+  --okayy-confirm-bg: #d97706;
+  --okayy-confirm-border: #d97706;
+  --okayy-confirm-text: #ffffff;
+  --okayy-confirm-hover-bg: #b45309;
+  --okayy-icon-color: #fcd34d;
 }
 
 /* ============================================
@@ -128,26 +128,26 @@
    ============================================ */
 
 /* Light */
-[data-affirm] [data-variant='info'] {
-  --affirm-dialog-bg: #ffffff;
-  --affirm-dialog-border: #bfdbfe;
-  --affirm-confirm-bg: #2563eb;
-  --affirm-confirm-border: #2563eb;
-  --affirm-confirm-text: #ffffff;
-  --affirm-confirm-hover-bg: #1d4ed8;
-  --affirm-icon-color: #2563eb;
+[data-okayy] [data-variant='info'] {
+  --okayy-dialog-bg: #ffffff;
+  --okayy-dialog-border: #bfdbfe;
+  --okayy-confirm-bg: #2563eb;
+  --okayy-confirm-border: #2563eb;
+  --okayy-confirm-text: #ffffff;
+  --okayy-confirm-hover-bg: #1d4ed8;
+  --okayy-icon-color: #2563eb;
 }
 
 /* Dark */
-[data-affirm-theme='dark'] [data-affirm] [data-variant='info'],
-.dark [data-affirm] [data-variant='info'] {
-  --affirm-dialog-bg: #0a0a0a;
-  --affirm-dialog-border: #262626;
-  --affirm-confirm-bg: #2563eb;
-  --affirm-confirm-border: #2563eb;
-  --affirm-confirm-text: #ffffff;
-  --affirm-confirm-hover-bg: #1d4ed8;
-  --affirm-icon-color: #93c5fd;
+[data-okayy-theme='dark'] [data-okayy] [data-variant='info'],
+.dark [data-okayy] [data-variant='info'] {
+  --okayy-dialog-bg: #0a0a0a;
+  --okayy-dialog-border: #262626;
+  --okayy-confirm-bg: #2563eb;
+  --okayy-confirm-border: #2563eb;
+  --okayy-confirm-text: #ffffff;
+  --okayy-confirm-hover-bg: #1d4ed8;
+  --okayy-icon-color: #93c5fd;
 }
 
 /* ============================================
@@ -155,58 +155,58 @@
    ============================================ */
 
 /* Light */
-[data-affirm] [data-variant='success'] {
-  --affirm-dialog-bg: #ffffff;
-  --affirm-dialog-border: #bbf7d0;
-  --affirm-confirm-bg: #16a34a;
-  --affirm-confirm-border: #16a34a;
-  --affirm-confirm-text: #ffffff;
-  --affirm-confirm-hover-bg: #15803d;
-  --affirm-icon-color: #16a34a;
+[data-okayy] [data-variant='success'] {
+  --okayy-dialog-bg: #ffffff;
+  --okayy-dialog-border: #bbf7d0;
+  --okayy-confirm-bg: #16a34a;
+  --okayy-confirm-border: #16a34a;
+  --okayy-confirm-text: #ffffff;
+  --okayy-confirm-hover-bg: #15803d;
+  --okayy-icon-color: #16a34a;
 }
 
 /* Dark */
-[data-affirm-theme='dark'] [data-affirm] [data-variant='success'],
-.dark [data-affirm] [data-variant='success'] {
-  --affirm-dialog-bg: #0a0a0a;
-  --affirm-dialog-border: #262626;
-  --affirm-confirm-bg: #16a34a;
-  --affirm-confirm-border: #16a34a;
-  --affirm-confirm-text: #ffffff;
-  --affirm-confirm-hover-bg: #15803d;
-  --affirm-icon-color: #86efac;
+[data-okayy-theme='dark'] [data-okayy] [data-variant='success'],
+.dark [data-okayy] [data-variant='success'] {
+  --okayy-dialog-bg: #0a0a0a;
+  --okayy-dialog-border: #262626;
+  --okayy-confirm-bg: #16a34a;
+  --okayy-confirm-border: #16a34a;
+  --okayy-confirm-text: #ffffff;
+  --okayy-confirm-hover-bg: #15803d;
+  --okayy-icon-color: #86efac;
 }
 
 /* ============================================
    Overlay
    ============================================ */
-[data-affirm-overlay] {
+[data-okayy-overlay] {
   position: fixed;
   inset: 0;
   z-index: 49;
-  background: var(--affirm-overlay-bg);
+  background: var(--okayy-overlay-bg);
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
 }
 
-[data-affirm-overlay][data-state='initial'] {
+[data-okayy-overlay][data-state='initial'] {
   opacity: 0;
 }
 
-[data-affirm-overlay][data-state='open'] {
-  animation: affirm-overlay-in 200ms ease-out forwards;
+[data-okayy-overlay][data-state='open'] {
+  animation: okayy-overlay-in 200ms ease-out forwards;
 }
 
-[data-affirm-overlay][data-state='closed'] {
-  animation: affirm-overlay-out 150ms ease-in forwards;
+[data-okayy-overlay][data-state='closed'] {
+  animation: okayy-overlay-out 150ms ease-in forwards;
 }
 
-@keyframes affirm-overlay-in {
+@keyframes okayy-overlay-in {
   from { opacity: 0; }
   to { opacity: 1; }
 }
 
-@keyframes affirm-overlay-out {
+@keyframes okayy-overlay-out {
   from { opacity: 1; }
   to { opacity: 0; }
 }
@@ -214,7 +214,7 @@
 /* ============================================
    Dialog Container (centering wrapper)
    ============================================ */
-[data-affirm] {
+[data-okayy] {
   position: fixed;
   inset: 0;
   z-index: 50;
@@ -222,43 +222,43 @@
   align-items: center;
   justify-content: center;
   padding: 1rem;
-  font-family: var(--affirm-font);
+  font-family: var(--okayy-font);
 }
 
 /* ============================================
    Dialog
    ============================================ */
-[data-affirm-dialog] {
+[data-okayy-dialog] {
   position: relative;
   z-index: 51;
   width: 100%;
   max-width: 28rem;
   padding: 1.5rem;
   border-radius: 0.75rem;
-  background: var(--affirm-dialog-bg);
-  border: 1px solid var(--affirm-dialog-border);
-  box-shadow: var(--affirm-dialog-shadow);
+  background: var(--okayy-dialog-bg);
+  border: 1px solid var(--okayy-dialog-border);
+  box-shadow: var(--okayy-dialog-shadow);
   outline: none;
 }
 
-[data-affirm-dialog][data-state='initial'] {
+[data-okayy-dialog][data-state='initial'] {
   opacity: 0;
 }
 
-[data-affirm-dialog][data-state='open'] {
-  animation: affirm-dialog-in 200ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+[data-okayy-dialog][data-state='open'] {
+  animation: okayy-dialog-in 200ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-[data-affirm-dialog][data-state='closed'] {
-  animation: affirm-dialog-out 150ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+[data-okayy-dialog][data-state='closed'] {
+  animation: okayy-dialog-out 150ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 /* Custom content: dialog padding handled by user */
-[data-affirm-dialog][data-custom] {
+[data-okayy-dialog][data-custom] {
   padding: 0;
 }
 
-@keyframes affirm-dialog-in {
+@keyframes okayy-dialog-in {
   from {
     opacity: 0;
     transform: scale(0.95) translateY(4px);
@@ -269,7 +269,7 @@
   }
 }
 
-@keyframes affirm-dialog-out {
+@keyframes okayy-dialog-out {
   from {
     opacity: 1;
     transform: scale(1) translateY(0);
@@ -283,7 +283,7 @@
 /* ============================================
    Content
    ============================================ */
-[data-affirm-content] {
+[data-okayy-content] {
   display: flex;
   flex-direction: column;
 }
@@ -291,7 +291,7 @@
 /* ============================================
    Header
    ============================================ */
-[data-affirm-header] {
+[data-okayy-header] {
   display: flex;
   align-items: flex-start;
   gap: 0.75rem;
@@ -300,15 +300,15 @@
 /* ============================================
    Icon
    ============================================ */
-[data-affirm-icon] {
+[data-okayy-icon] {
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  color: var(--affirm-icon-color);
+  color: var(--okayy-icon-color);
 }
 
-[data-affirm-icon] svg {
+[data-okayy-icon] svg {
   width: 1.25rem;
   height: 1.25rem;
 }
@@ -316,30 +316,30 @@
 /* ============================================
    Typography
    ============================================ */
-[data-affirm-title] {
+[data-okayy-title] {
   margin: 0;
-  font-family: var(--affirm-font);
+  font-family: var(--okayy-font);
   font-size: 1.125rem;
   font-weight: 600;
   line-height: 1.5;
   letter-spacing: -0.011em;
-  color: var(--affirm-text-color);
+  color: var(--okayy-text-color);
 }
 
-[data-affirm-description] {
+[data-okayy-description] {
   margin: 0.5rem 0 0;
-  font-family: var(--affirm-font);
+  font-family: var(--okayy-font);
   font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.5;
   letter-spacing: -0.006em;
-  color: var(--affirm-text-color);
+  color: var(--okayy-text-color);
 }
 
 /* ============================================
    Footer
    ============================================ */
-[data-affirm-footer] {
+[data-okayy-footer] {
   display: flex;
   justify-content: flex-end;
   gap: 0.5rem;
@@ -349,7 +349,7 @@
 /* ============================================
    Buttons
    ============================================ */
-[data-affirm-button] {
+[data-okayy-button] {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -358,7 +358,7 @@
   height: 2.25rem;
   padding: 0.5rem 1rem;
   border-radius: 0.5rem;
-  font-family: var(--affirm-font);
+  font-family: var(--okayy-font);
   font-size: 0.875rem;
   font-weight: 500;
   line-height: 1;
@@ -373,131 +373,131 @@
     background-color 150ms ease;
 }
 
-[data-affirm-button]:hover {
+[data-okayy-button]:hover {
   opacity: 0.9;
 }
 
-[data-affirm-button]:active {
+[data-okayy-button]:active {
   transform: scale(0.97);
 }
 
-[data-affirm-button]:focus-visible {
-  outline: 2px solid var(--affirm-ring-color);
+[data-okayy-button]:focus-visible {
+  outline: 2px solid var(--okayy-ring-color);
   outline-offset: 2px;
 }
 
-[data-affirm-button]:disabled {
+[data-okayy-button]:disabled {
   opacity: 0.5;
   cursor: not-allowed;
   pointer-events: none;
 }
 
 /* Cancel button */
-[data-affirm-cancel] {
-  background: var(--affirm-cancel-bg);
-  border: 1px solid var(--affirm-cancel-border);
-  color: var(--affirm-cancel-text);
+[data-okayy-cancel] {
+  background: var(--okayy-cancel-bg);
+  border: 1px solid var(--okayy-cancel-border);
+  color: var(--okayy-cancel-text);
 }
 
-[data-affirm-cancel]:hover:not(:disabled) {
-  background: var(--affirm-cancel-hover-bg);
+[data-okayy-cancel]:hover:not(:disabled) {
+  background: var(--okayy-cancel-hover-bg);
 }
 
 /* Action button (custom actions between cancel and confirm) */
-[data-affirm-action] {
-  background: var(--affirm-cancel-bg);
-  border: 1px solid var(--affirm-cancel-border);
-  color: var(--affirm-cancel-text);
+[data-okayy-action] {
+  background: var(--okayy-cancel-bg);
+  border: 1px solid var(--okayy-cancel-border);
+  color: var(--okayy-cancel-text);
 }
 
-[data-affirm-action]:hover:not(:disabled) {
-  background: var(--affirm-cancel-hover-bg);
+[data-okayy-action]:hover:not(:disabled) {
+  background: var(--okayy-cancel-hover-bg);
 }
 
 /* Confirm button */
-[data-affirm-confirm] {
-  background: var(--affirm-confirm-bg);
-  border: 1px solid var(--affirm-confirm-border);
-  color: var(--affirm-confirm-text);
+[data-okayy-confirm] {
+  background: var(--okayy-confirm-bg);
+  border: 1px solid var(--okayy-confirm-border);
+  color: var(--okayy-confirm-text);
 }
 
-[data-affirm-confirm]:hover:not(:disabled) {
-  background: var(--affirm-confirm-hover-bg);
+[data-okayy-confirm]:hover:not(:disabled) {
+  background: var(--okayy-confirm-hover-bg);
 }
 
 /* ============================================
    Type-to-Confirm Input
    ============================================ */
-[data-affirm-keyword] {
+[data-okayy-keyword] {
   display: flex;
   flex-direction: column;
   gap: 0.375rem;
   margin-top: 1rem;
 }
 
-[data-affirm-keyword-label] {
-  font-family: var(--affirm-font);
+[data-okayy-keyword-label] {
+  font-family: var(--okayy-font);
   font-size: 0.8125rem;
   font-weight: 400;
-  color: var(--affirm-text-color);
+  color: var(--okayy-text-color);
 }
 
-[data-affirm-keyword-input] {
+[data-okayy-keyword-input] {
   height: 2.25rem;
   width: 100%;
   padding: 0 0.75rem;
-  border: 1px solid var(--affirm-dialog-border);
+  border: 1px solid var(--okayy-dialog-border);
   border-radius: 0.5rem;
   background: transparent;
-  font-family: var(--affirm-font);
+  font-family: var(--okayy-font);
   font-size: 0.875rem;
-  color: var(--affirm-text-color);
+  color: var(--okayy-text-color);
   outline: none;
   box-sizing: border-box;
   transition: border-color 150ms ease;
 }
 
-[data-affirm-keyword-input]:focus {
-  border-color: var(--affirm-ring-color);
-  box-shadow: 0 0 0 1px var(--affirm-ring-color);
+[data-okayy-keyword-input]:focus {
+  border-color: var(--okayy-ring-color);
+  box-shadow: 0 0 0 1px var(--okayy-ring-color);
 }
 
 /* ============================================
    Centered Layout
    ============================================ */
-[data-layout='centered'] [data-affirm-content] {
+[data-layout='centered'] [data-okayy-content] {
   align-items: center;
   text-align: center;
 }
 
-[data-layout='centered'] [data-affirm-header] {
+[data-layout='centered'] [data-okayy-header] {
   flex-direction: column;
   align-items: center;
 }
 
-[data-layout='centered'] [data-affirm-icon] svg {
+[data-layout='centered'] [data-okayy-icon] svg {
   width: 1.75rem;
   height: 1.75rem;
 }
 
-[data-layout='centered'] [data-affirm-footer] {
+[data-layout='centered'] [data-okayy-footer] {
   justify-content: center;
 }
 
 /* ============================================
    Loading Spinner
    ============================================ */
-[data-affirm-spinner] {
+[data-okayy-spinner] {
   position: absolute;
   width: 1rem;
   height: 1rem;
   border: 2px solid currentColor;
   border-right-color: transparent;
   border-radius: 50%;
-  animation: affirm-spin 600ms linear infinite;
+  animation: okayy-spin 600ms linear infinite;
 }
 
-@keyframes affirm-spin {
+@keyframes okayy-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
@@ -506,30 +506,30 @@
    Reduced Motion
    ============================================ */
 @media (prefers-reduced-motion: reduce) {
-  [data-affirm-overlay][data-state='open'],
-  [data-affirm-overlay][data-state='closed'] {
+  [data-okayy-overlay][data-state='open'],
+  [data-okayy-overlay][data-state='closed'] {
     animation-duration: 1ms;
   }
 
-  [data-affirm-dialog][data-state='open'] {
-    animation: affirm-fade-in 200ms ease-out forwards;
+  [data-okayy-dialog][data-state='open'] {
+    animation: okayy-fade-in 200ms ease-out forwards;
   }
 
-  [data-affirm-dialog][data-state='closed'] {
-    animation: affirm-fade-out 150ms ease-in forwards;
+  [data-okayy-dialog][data-state='closed'] {
+    animation: okayy-fade-out 150ms ease-in forwards;
   }
 
-  [data-affirm-button]:active {
+  [data-okayy-button]:active {
     transform: none;
   }
 }
 
-@keyframes affirm-fade-in {
+@keyframes okayy-fade-in {
   from { opacity: 0; }
   to { opacity: 1; }
 }
 
-@keyframes affirm-fade-out {
+@keyframes okayy-fade-out {
   from { opacity: 1; }
   to { opacity: 0; }
 }
@@ -538,59 +538,59 @@
    Mobile Bottom Sheet (< 640px)
    ============================================ */
 @media (max-width: 639px) {
-  [data-affirm] {
+  [data-okayy] {
     align-items: flex-end;
     padding: 0;
   }
 
-  [data-affirm-dialog] {
+  [data-okayy-dialog] {
     max-width: 100%;
     border-radius: 1rem 1rem 0 0;
     padding-bottom: calc(1.5rem + env(safe-area-inset-bottom));
   }
 
-  [data-affirm-dialog][data-state='open'] {
-    animation: affirm-sheet-in 350ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  [data-okayy-dialog][data-state='open'] {
+    animation: okayy-sheet-in 350ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
   }
 
-  [data-affirm-dialog][data-state='closed'] {
-    animation: affirm-sheet-out 200ms ease-in forwards;
+  [data-okayy-dialog][data-state='closed'] {
+    animation: okayy-sheet-out 200ms ease-in forwards;
   }
 
   /* Drag handle */
-  [data-affirm-dialog]::before {
+  [data-okayy-dialog]::before {
     content: '';
     display: block;
     width: 2.5rem;
     height: 0.25rem;
-    background: var(--affirm-muted, #737373);
+    background: var(--okayy-muted, #737373);
     opacity: 0.3;
     border-radius: 9999px;
     margin: 0 auto 1rem;
   }
 
   /* Stack buttons vertically */
-  [data-affirm-footer] {
+  [data-okayy-footer] {
     flex-direction: column-reverse;
   }
 
-  [data-affirm-button] {
+  [data-okayy-button] {
     width: 100%;
   }
 
   /* Reduced motion on mobile */
   @media (prefers-reduced-motion: reduce) {
-    [data-affirm-dialog][data-state='open'] {
-      animation: affirm-fade-in 200ms ease-out forwards;
+    [data-okayy-dialog][data-state='open'] {
+      animation: okayy-fade-in 200ms ease-out forwards;
     }
 
-    [data-affirm-dialog][data-state='closed'] {
-      animation: affirm-fade-out 150ms ease-in forwards;
+    [data-okayy-dialog][data-state='closed'] {
+      animation: okayy-fade-out 150ms ease-in forwards;
     }
   }
 }
 
-@keyframes affirm-sheet-in {
+@keyframes okayy-sheet-in {
   from {
     opacity: 0;
     transform: translateY(100%);
@@ -601,7 +601,7 @@
   }
 }
 
-@keyframes affirm-sheet-out {
+@keyframes okayy-sheet-out {
   from {
     opacity: 1;
     transform: translateY(0);
@@ -615,33 +615,33 @@
 /* ============================================
    RTL Support
    ============================================ */
-[data-affirm][dir='rtl'] {
+[data-okayy][dir='rtl'] {
   direction: rtl;
 }
 
-[data-affirm][dir='rtl'] [data-affirm-header] {
+[data-okayy][dir='rtl'] [data-okayy-header] {
   direction: rtl;
 }
 
-[data-affirm][dir='rtl'] [data-affirm-description] {
+[data-okayy][dir='rtl'] [data-okayy-description] {
   text-align: right;
 }
 
-[data-affirm][dir='rtl'] [data-affirm-footer] {
+[data-okayy][dir='rtl'] [data-okayy-footer] {
   flex-direction: row-reverse;
 }
 
-[data-affirm][dir='rtl'] [data-affirm-keyword-label] {
+[data-okayy][dir='rtl'] [data-okayy-keyword-label] {
   text-align: right;
 }
 
-[data-affirm][dir='rtl'] [data-affirm-keyword-input] {
+[data-okayy][dir='rtl'] [data-okayy-keyword-input] {
   text-align: right;
 }
 
 /* RTL mobile: keep column-reverse for footer */
 @media (max-width: 639px) {
-  [data-affirm][dir='rtl'] [data-affirm-footer] {
+  [data-okayy][dir='rtl'] [data-okayy-footer] {
     flex-direction: column-reverse;
   }
 }
@@ -649,7 +649,7 @@
 /* ============================================
    Unstyled Mode
    ============================================ */
-[data-affirm][data-unstyled] [data-affirm-dialog] {
+[data-okayy][data-unstyled] [data-okayy-dialog] {
   background: none;
   border: none;
   box-shadow: none;
@@ -658,14 +658,14 @@
   animation: none;
 }
 
-[data-affirm][data-unstyled] [data-affirm-overlay] {
+[data-okayy][data-unstyled] [data-okayy-overlay] {
   background: none;
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
   animation: none;
 }
 
-[data-affirm][data-unstyled] [data-affirm-button] {
+[data-okayy][data-unstyled] [data-okayy-button] {
   background: none;
   border: none;
   padding: 0;
@@ -674,13 +674,13 @@
   cursor: pointer;
 }
 
-[data-affirm][data-unstyled] [data-affirm-title],
-[data-affirm][data-unstyled] [data-affirm-description] {
+[data-okayy][data-unstyled] [data-okayy-title],
+[data-okayy][data-unstyled] [data-okayy-description] {
   color: inherit;
   font: inherit;
 }
 
-[data-affirm][data-unstyled] [data-affirm-keyword-input] {
+[data-okayy][data-unstyled] [data-okayy-keyword-input] {
   border: none;
   padding: 0;
   background: none;
@@ -688,6 +688,6 @@
   font: inherit;
 }
 
-[data-affirm][data-unstyled] [data-affirm-icon] {
+[data-okayy][data-unstyled] [data-okayy-icon] {
   color: inherit;
 }

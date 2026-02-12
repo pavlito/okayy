@@ -2,7 +2,7 @@ import { Tab, Tabs, Steps } from 'nextra-theme-docs';
 
 # Getting Started
 
-affirm is a confirm dialog for React. One function call, beautiful UI, fully customizable.
+okayy is a confirm dialog for React. One function call, beautiful UI, fully customizable.
 
 <Steps>
 ### Install
@@ -10,22 +10,22 @@ affirm is a confirm dialog for React. One function call, beautiful UI, fully cus
 <Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
   <Tab>
     ```bash
-    npm install affirm
+    npm install okayy
     ```
   </Tab>
   <Tab>
     ```bash
-    pnpm add affirm
+    pnpm add okayy
     ```
   </Tab>
   <Tab>
     ```bash
-    yarn add affirm
+    yarn add okayy
     ```
   </Tab>
   <Tab>
     ```bash
-    bun add affirm
+    bun add okayy
     ```
   </Tab>
 </Tabs>
@@ -35,8 +35,8 @@ affirm is a confirm dialog for React. One function call, beautiful UI, fully cus
 Place `<Confirmer />` anywhere in your root layout. Import the styles too.
 
 ```tsx
-import { Confirmer } from 'affirm';
-import 'affirm/styles.css';
+import { Confirmer } from 'okayy';
+import 'okayy/styles.css';
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -53,7 +53,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 ### Show a confirm dialog
 
 ```tsx
-import { confirm } from 'affirm';
+import { confirm } from 'okayy';
 
 async function handleDelete() {
   const ok = await confirm('Delete this item?');

@@ -1,5 +1,5 @@
 import React from 'react';
-import { confirm } from 'affirm';
+import { confirm } from 'okayy';
 import { CodeBlock } from '../CodeBlock';
 
 export const Variants = () => {

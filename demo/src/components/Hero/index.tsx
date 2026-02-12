@@ -1,4 +1,4 @@
-import { confirm } from 'affirm';
+import { confirm } from 'okayy';
 import Link from 'next/link';
 
 import styles from './hero.module.css';
@@ -6,7 +6,7 @@ import styles from './hero.module.css';
 export const Hero = () => {
   return (
     <div className={styles.wrapper}>
-      <h1 className={styles.heading}>affirm</h1>
+      <h1 className={styles.heading}>okayy</h1>
       <p style={{ marginTop: 0, fontSize: 18, textAlign: 'center' }}>
         A confirm dialog for React. One line. Beautiful.
       </p>
@@ -26,7 +26,7 @@ export const Hero = () => {
         >
           Try it
         </button>
-        <a className={styles.button} href="https://github.com/pavlito/affirm" target="_blank" rel="noopener noreferrer">
+        <a className={styles.button} href="https://github.com/pavlito/okayy" target="_blank" rel="noopener noreferrer">
           GitHub
         </a>
       </div>
