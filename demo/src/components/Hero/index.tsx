@@ -6,25 +6,6 @@ import styles from './hero.module.css';
 export const Hero = () => {
   return (
     <div className={styles.wrapper}>
-      <div className={styles.dialogPreview} aria-hidden="true">
-        <div className={styles.mockDialog}>
-          <div className={styles.mockHeader}>
-            <div className={styles.mockIcon}>
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" width="16" height="16">
-                <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-5a.75.75 0 01.75.75v4.5a.75.75 0 01-1.5 0v-4.5A.75.75 0 0110 5zm0 10a1 1 0 100-2 1 1 0 000 2z" clipRule="evenodd" />
-              </svg>
-            </div>
-            <div>
-              <p className={styles.mockTitle}>Delete project?</p>
-              <p className={styles.mockDescription}>This action cannot be undone.</p>
-            </div>
-          </div>
-          <div className={styles.mockFooter}>
-            <button className={`${styles.mockButton} ${styles.mockCancel}`} tabIndex={-1}>Cancel</button>
-            <button className={`${styles.mockButton} ${styles.mockConfirm}`} tabIndex={-1}>Delete</button>
-          </div>
-        </div>
-      </div>
       <h1 className={styles.heading}>affirm</h1>
       <p style={{ marginTop: 0, fontSize: 18, textAlign: 'center' }}>
         A confirm dialog for React. One line. Beautiful.
