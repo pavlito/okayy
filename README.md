@@ -1,12 +1,13 @@
 <p align="center">
   <h1 align="center">okayy</h1>
 </p>
-https://github.com/user-attachments/assets/b73ce2a5-25ed-4546-8156-3b16b9e5d891
 
 <p align="center">
   A confirm dialog for React. One line. Beautiful.
 </p>
-https://github.com/user-attachments/assets/b73ce2a5-25ed-4546-8156-3b16b9e5d891
+
+![okayy](https://github.com/user-attachments/assets/b73ce2a5-25ed-4546-8156-3b16b9e5d891)
+
 <p align="center">
   <a href="https://www.npmjs.com/package/okayy"><img src="https://img.shields.io/npm/v/okayy.svg" alt="npm version" /></a>
   <a href="https://github.com/pavlito/okayy/actions/workflows/ci.yml"><img src="https://github.com/pavlito/okayy/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
@@ -18,7 +19,6 @@ https://github.com/user-attachments/assets/b73ce2a5-25ed-4546-8156-3b16b9e5d891
   <a href="https://pavlito.github.io/okayy">Documentation</a> ·
   <a href="https://pavlito.github.io/okayy/getting-started">Getting Started</a>
 </p>
-https://github.com/user-attachments/assets/b73ce2a5-25ed-4546-8156-3b16b9e5d891
 
 ---
 
