@@ -1,6 +1,6 @@
 export { confirm } from './state';
 export { Confirmer } from './confirmer';
-export { useAffirm } from './hooks';
+export { useOkayy } from './hooks';
 export type {
   ConfirmOptions,
   ConfirmIcons,

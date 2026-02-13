@@ -15,9 +15,9 @@
     "title": "Confirmer",
     "href": "/confirmer"
   },
-  "use-affirm": {
-    "title": "useAffirm",
-    "href": "/use-affirm"
+  "use-okayy": {
+    "title": "useOkayy",
+    "href": "/use-okayy"
   },
   "-- Guides": {
     "type": "separator",

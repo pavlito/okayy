@@ -1,9 +1,9 @@
 import { describe, it, expect, afterEach } from 'vitest';
 import { renderHook, act } from '@testing-library/react';
-import { useAffirm } from '../hooks';
+import { useOkayy } from '../hooks';
 import { ConfirmState } from '../state';
 
-describe('useAffirm', () => {
+describe('useOkayy', () => {
   afterEach(() => {
     if (ConfirmState.getSnapshot().isOpen) {
       ConfirmState.respond(false);
@@ -11,12 +11,12 @@ describe('useAffirm', () => {
   });
 
   it('returns initial closed state', () => {
-    const { result } = renderHook(() => useAffirm());
+    const { result } = renderHook(() => useOkayy());
     expect(result.current.state.isOpen).toBe(false);
   });
 
   it('updates when confirm is called', async () => {
-    const { result } = renderHook(() => useAffirm());
+    const { result } = renderHook(() => useOkayy());
 
     act(() => {
       ConfirmState.confirm('Are you sure?');
@@ -31,7 +31,7 @@ describe('useAffirm', () => {
   });
 
   it('updates when dialog is responded to', async () => {
-    const { result } = renderHook(() => useAffirm());
+    const { result } = renderHook(() => useOkayy());
 
     act(() => {
       ConfirmState.confirm('Delete?');

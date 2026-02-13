@@ -1,11 +1,11 @@
 import { confirm } from 'okayy';
 import { Preview } from '@/components/Preview';
 
-# useAffirm
+# useOkayy
 
 A React hook that subscribes to the internal confirm dialog state and re-renders your component whenever a dialog opens or closes. This gives you full reactive access to the current dialog lifecycle without managing any state yourself.
 
-This hook is entirely optional. Most users will never need it -- the standard `confirm()` API handles rendering and resolution automatically. Reach for `useAffirm` when you need to build a fully custom dialog UI, observe dialog activity, or synchronize dialog state with an external store.
+This hook is entirely optional. Most users will never need it -- the standard `confirm()` API handles rendering and resolution automatically. Reach for `useOkayy` when you need to build a fully custom dialog UI, observe dialog activity, or synchronize dialog state with an external store.
 
 ## Usage
 
@@ -13,11 +13,11 @@ The hook returns the current dialog state. It re-renders your component whenever
 
 <Preview
   label="Try it"
-  action={() => confirm('This dialog state is accessible via useAffirm()')}
-  code={`import { useAffirm } from 'okayy';
+  action={() => confirm('This dialog state is accessible via useOkayy()')}
+  code={`import { useOkayy } from 'okayy';
 
 function MyComponent() {
-  const { state } = useAffirm();
+  const { state } = useOkayy();
 
   return (
     <div>

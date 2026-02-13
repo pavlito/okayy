@@ -11,7 +11,11 @@
     "modal",
     "confirmation",
     "alert",
-    "confirm-dialog"
+    "promise",
+    "accessible",
+    "a11y",
+    "confirm-dialog",
+    "react-confirm"
   ],
   "homepage": "https://pavlito.github.io/okayy",
   "repository": {

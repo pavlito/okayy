@@ -6,7 +6,7 @@ import ReactDOM from 'react-dom';
 import { ConfirmState } from './state';
 import type { ConfirmOptions } from './types';
 
-export function useAffirm() {
+export function useOkayy() {
   const [state, setState] = React.useState<{ isOpen: boolean; options: ConfirmOptions }>({
     isOpen: false,
     options: {} as ConfirmOptions,
