@@ -34,12 +34,11 @@ export function createFocusTrap(container: HTMLElement) {
 
   function setInert(value: boolean) {
     if (typeof document === 'undefined') return;
-    const siblings = document.body.children;
-    for (let i = 0; i < siblings.length; i++) {
-      const el = siblings[i] as HTMLElement;
-      if (!container.contains(el) && el !== container.parentElement) {
+    const siblings = Array.from(document.body.children);
+    for (const el of siblings) {
+      if (el instanceof HTMLElement && !container.contains(el) && el !== container.parentElement) {
         if (value) {
-          el.setAttribute('inert', '');
+          if (!el.hasAttribute('data-okayy')) el.setAttribute('inert', '');
         } else {
           el.removeAttribute('inert');
         }

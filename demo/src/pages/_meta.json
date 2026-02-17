@@ -26,5 +26,8 @@
   "styling": {
     "title": "Styling",
     "href": "/styling"
+  },
+  "e2e-harness": {
+    "display": "hidden"
   }
 }

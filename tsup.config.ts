@@ -1,5 +1,5 @@
 import { defineConfig } from 'tsup';
-import { copyFileSync } from 'fs';
+import { readFileSync, writeFileSync, copyFileSync } from 'fs';
 
 export default defineConfig({
   entry: ['src/index.tsx'],
@@ -13,6 +13,12 @@ export default defineConfig({
     js: '"use client";',
   },
   onSuccess: async () => {
-    copyFileSync('src/styles.css', 'dist/styles.css');
+    const css = readFileSync('src/styles.css', 'utf-8');
+    const minified = css
+      .replace(/\/\*[\s\S]*?\*\//g, '')
+      .replace(/\s+/g, ' ')
+      .replace(/\s*([{}:;,])\s*/g, '$1')
+      .trim();
+    writeFileSync('dist/styles.css', minified);
   },
 });

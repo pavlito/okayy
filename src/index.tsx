@@ -6,6 +6,7 @@ export type {
   ConfirmIcons,
   ConfirmAction,
   ConfirmClassNames,
+  ConfirmTranslations,
   ConfirmerProps,
   Variant,
 } from './types';

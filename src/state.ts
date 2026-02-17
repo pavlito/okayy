@@ -1,26 +1,26 @@
 import type { ConfirmOptions, ConfirmState as ConfirmStateType } from './types';
 
 class Observer {
-  subscribers: Array<(state: ConfirmStateType) => void>;
+  subscribers: Array<() => void>;
   state: ConfirmStateType;
+  private queue: Array<{ options: ConfirmOptions; resolve: (v: boolean) => void }>;
 
   constructor() {
     this.subscribers = [];
     this.state = { isOpen: false, options: {} as ConfirmOptions, resolve: null };
+    this.queue = [];
   }
 
-  // We use arrow functions to maintain the correct `this` reference
-  subscribe = (subscriber: (state: ConfirmStateType) => void) => {
-    this.subscribers.push(subscriber);
-
+  subscribe = (callback: () => void) => {
+    this.subscribers.push(callback);
     return () => {
-      const index = this.subscribers.indexOf(subscriber);
-      this.subscribers.splice(index, 1);
+      const index = this.subscribers.indexOf(callback);
+      if (index > -1) this.subscribers.splice(index, 1);
     };
   };
 
-  publish = (data: ConfirmStateType) => {
-    this.subscribers.forEach((subscriber) => subscriber(data));
+  publish = () => {
+    this.subscribers.forEach((callback) => callback());
   };
 
   getSnapshot = () => {
@@ -28,9 +28,20 @@ class Observer {
   };
 
   respond = (value: boolean) => {
+    if (!this.state.isOpen) return;
     this.state.resolve?.(value);
-    this.state = { isOpen: false, options: {} as ConfirmOptions, resolve: null };
-    this.publish(this.state);
+    const next = this.queue.shift();
+    if (next) {
+      this.state = { isOpen: false, options: {} as ConfirmOptions, resolve: null };
+      this.publish();
+      queueMicrotask(() => {
+        this.state = { isOpen: true, options: next.options, resolve: next.resolve };
+        this.publish();
+      });
+    } else {
+      this.state = { isOpen: false, options: {} as ConfirmOptions, resolve: null };
+      this.publish();
+    }
   };
 
   confirm = (messageOrOptions: string | ConfirmOptions): Promise<boolean> => {
@@ -38,8 +49,12 @@ class Observer {
       typeof messageOrOptions === 'string' ? { title: messageOrOptions } : messageOrOptions;
 
     return new Promise<boolean>((resolve) => {
+      if (this.state.isOpen) {
+        this.queue.push({ options, resolve });
+        return;
+      }
       this.state = { isOpen: true, options, resolve };
-      this.publish(this.state);
+      this.publish();
     });
   };
 
@@ -66,35 +81,33 @@ class Observer {
   };
 
   custom = (render: (close: (value: boolean) => void) => import('react').ReactNode) => {
-    return new Promise<boolean>((resolve) => {
-      this.state = {
-        isOpen: true,
-        options: { title: '', custom: render } as ConfirmOptions,
-        resolve,
-      };
-      this.publish(this.state);
-    });
+    return this.confirm({ title: '', custom: render } as ConfirmOptions);
   };
 
   dismiss = () => {
-    this.respond(false);
+    if (!this.state.isOpen) return;
+    this.state = { ...this.state, dismissCount: (this.state.dismissCount || 0) + 1 };
+    this.publish();
   };
 
   isOpen = () => {
     return this.state.isOpen;
   };
+
+  clearQueue = () => {
+    this.queue.forEach(({ resolve }) => resolve(false));
+    this.queue = [];
+  };
 }
 
 export const ConfirmState = new Observer();
 
-// bind this to the confirm function
 const confirmFunction = (messageOrOptions: string | ConfirmOptions) => {
   return ConfirmState.confirm(messageOrOptions);
 };
 
 const basicConfirm = confirmFunction;
 
-// We use `Object.assign` to maintain the correct types as we would lose them otherwise
 export const confirm = Object.assign(basicConfirm, {
   danger: ConfirmState.danger,
   warning: ConfirmState.warning,
@@ -104,4 +117,5 @@ export const confirm = Object.assign(basicConfirm, {
   custom: ConfirmState.custom,
   dismiss: ConfirmState.dismiss,
   isOpen: ConfirmState.isOpen,
+  clearQueue: ConfirmState.clearQueue,
 });

@@ -11,12 +11,32 @@ Every element in the dialog exposes a `data-okayy-*` attribute that you can targ
 
 The full set of available selectors:
 
-- `[data-okayy-dialog]` -- the dialog container
+- `[data-okayy]` -- the portal root wrapper
 - `[data-okayy-overlay]` -- the backdrop overlay behind the dialog
+- `[data-okayy-dialog]` -- the dialog container
+- `[data-okayy-content]` -- the content area (title + description)
+- `[data-okayy-header]` -- the header row (icon + title)
+- `[data-okayy-icon]` -- the variant icon wrapper
 - `[data-okayy-title]` -- the title text
 - `[data-okayy-description]` -- the description text
-- `[data-okayy-confirm]` -- the confirm action button
-- `[data-okayy-cancel]` -- the cancel action button
+- `[data-okayy-keyword]` -- the type-to-confirm wrapper
+- `[data-okayy-keyword-label]` -- the keyword label text
+- `[data-okayy-keyword-input]` -- the keyword input field
+- `[data-okayy-footer]` -- the button row
+- `[data-okayy-button]` -- all buttons (base selector)
+- `[data-okayy-cancel]` -- the cancel button
+- `[data-okayy-action]` -- custom action buttons
+- `[data-okayy-confirm]` -- the confirm button
+- `[data-okayy-spinner]` -- the loading spinner
+
+State and variant attributes on the dialog:
+
+- `[data-state="initial|open|closed"]` -- animation state (on overlay and dialog)
+- `[data-variant="default|danger|warning|info|success"]` -- visual variant
+- `[data-layout="default|centered"]` -- layout mode
+- `[data-size="sm|md|lg|xl|full"]` -- size preset
+- `[data-custom]` -- present when using `confirm.custom()`
+- `[data-unstyled]` -- present when `unstyled: true`
 
 ```css
 /* The dialog container */
@@ -169,3 +189,59 @@ okayy supports three theme modes: `light`, `dark`, and `system`. Set the `theme`
 ```
 
 When set to `system`, okayy automatically detects the `.dark` class on your `<html>` element and adjusts accordingly. This works seamlessly with `next-themes`, `tailwind dark mode`, or any library that toggles a `.dark` class -- no additional configuration required.
+
+## CSS custom properties
+
+Override these variables on `[data-okayy]` to customize colors, fonts, and shadows without writing component-level CSS. All variables are set in light mode by default and overridden inside `.dark [data-okayy]` for dark mode.
+
+| Variable | Description | Light default |
+| :--- | :--- | :--- |
+| `--okayy-font` | Font family stack | Geist Sans, Inter, system-ui |
+| `--okayy-overlay-bg` | Overlay backdrop color | `rgba(0, 0, 0, 0.8)` |
+| `--okayy-dialog-bg` | Dialog background | `#ffffff` |
+| `--okayy-dialog-shadow` | Dialog box-shadow | Multi-layer shadow |
+| `--okayy-dialog-border` | Dialog border color | `#e5e5e5` |
+| `--okayy-text-color` | Primary text color | `#0a0a0a` |
+| `--okayy-cancel-bg` | Cancel button background | `transparent` |
+| `--okayy-cancel-border` | Cancel button border | `#e5e5e5` |
+| `--okayy-cancel-text` | Cancel button text color | `#0a0a0a` |
+| `--okayy-cancel-hover-bg` | Cancel button hover background | `#f5f5f5` |
+| `--okayy-confirm-bg` | Confirm button background | `#0a0a0a` |
+| `--okayy-confirm-border` | Confirm button border | `#0a0a0a` |
+| `--okayy-confirm-text` | Confirm button text color | `#fafafa` |
+| `--okayy-confirm-hover-bg` | Confirm button hover background | `#171717` |
+| `--okayy-ring-color` | Focus ring color | `#0a0a0a` |
+| `--okayy-icon-color` | Variant icon color | `#0a0a0a` |
+| `--okayy-muted` | Muted text/accents | `#737373` |
+
+Each variant (`danger`, `warning`, `info`, `success`) overrides `--okayy-confirm-*`, `--okayy-icon-color`, and `--okayy-ring-color` with its own palette.
+
+```css
+/* Example: brand-colored confirm button */
+[data-okayy] {
+  --okayy-confirm-bg: #4f46e5;
+  --okayy-confirm-border: #4f46e5;
+  --okayy-confirm-hover-bg: #4338ca;
+  --okayy-ring-color: #4f46e5;
+}
+```
+
+## Responsive behavior
+
+On viewports narrower than `640px`, the dialog automatically switches to a bottom sheet layout — sliding up from the bottom with a drag handle indicator. Buttons stack vertically with `44px` minimum touch targets, and safe-area insets are respected for devices with notches.
+
+No configuration is needed — the responsive layout is handled entirely in CSS via `@media (max-width: 639px)`.
+
+## Animations
+
+okayy uses CSS keyframe animations controlled by the `data-state` attribute:
+
+- `data-state="initial"` — dialog is mounted but not yet visible
+- `data-state="open"` — animating in (scale + fade on desktop, slide up on mobile)
+- `data-state="closed"` — animating out
+
+When `prefers-reduced-motion: reduce` is active, scale and slide animations are replaced with a simple fade, respecting the user's accessibility preference.
+
+## RTL support
+
+Set `dir="rtl"` on individual dialogs or globally via the `<Confirmer dir="rtl" />` prop. The dialog layout, button order, and text alignment all flip automatically. Use `dir="auto"` to detect direction from the page's `<html>` element.

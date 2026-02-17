@@ -15,19 +15,14 @@ export function Confirmer({
   icons,
   unstyled,
   dir,
+  translations,
+  spinner: globalSpinner,
 }: ConfirmerProps) {
-  const [storeState, setStoreState] = React.useState(ConfirmState.getSnapshot());
-
-  React.useEffect(() => {
-    return ConfirmState.subscribe((newState) => {
-      // Prevent batching, temp solution.
-      setTimeout(() => {
-        ReactDOM.flushSync(() => {
-          setStoreState(newState);
-        });
-      });
-    });
-  }, []);
+  const storeState = React.useSyncExternalStore(
+    ConfirmState.subscribe,
+    ConfirmState.getSnapshot,
+    ConfirmState.getSnapshot,
+  );
 
   const { isOpen, options: stateOptions } = storeState;
   const options = { ...defaultOptions, ...stateOptions };
@@ -49,6 +44,11 @@ export function Confirmer({
   const cancelRef = React.useRef<HTMLButtonElement>(null);
   const confirmRef = React.useRef<HTMLButtonElement>(null);
   const focusTrapRef = React.useRef<ReturnType<typeof createFocusTrap> | null>(null);
+  const generationRef = React.useRef(0);
+  const closeTimeoutRef = React.useRef<ReturnType<typeof setTimeout>>();
+  const dismissCountRef = React.useRef(0);
+
+  const t = translations || {};
 
   // Theme detection
   React.useEffect(() => {
@@ -66,6 +66,7 @@ export function Confirmer({
   // Open animation
   React.useEffect(() => {
     if (isOpen) {
+      generationRef.current++;
       setDataState('initial');
       setVisible(true);
       setIsLoading(false);
@@ -87,35 +88,99 @@ export function Confirmer({
         focusTrapRef.current?.deactivate();
       };
     }
+  }, [visible, options.hideCancel]);
+
+  // Scroll lock
+  React.useEffect(() => {
+    if (!visible || typeof document === 'undefined') return;
+
+    const body = document.body;
+    const savedOverflow = body.style.overflow;
+    const savedPaddingRight = body.style.paddingRight;
+
+    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+    body.style.overflow = 'hidden';
+    if (scrollbarWidth > 0) {
+      body.style.paddingRight = `${scrollbarWidth}px`;
+    }
+
+    return () => {
+      body.style.overflow = savedOverflow;
+      body.style.paddingRight = savedPaddingRight;
+    };
   }, [visible]);
 
   // Close animation
   const handleClose = React.useCallback(
     (value: boolean) => {
-      if (isLoading || loadingAction !== null) return;
+      if (isLoading || loadingAction !== null) {
+        if (!(options.cancelableWhileLoading && !value)) return;
+      }
       setDataState('closed');
       const el = dialogRef.current;
+      const gen = generationRef.current;
       if (el) {
         let fired = false;
         const onEnd = () => {
-          if (fired) return;
+          if (fired || generationRef.current !== gen) return;
           fired = true;
           el.removeEventListener('animationend', onEnd);
           setVisible(false);
-          options.onDismiss?.();
+          try {
+            options.onDismiss?.();
+          } catch {
+            /* swallow */
+          }
+          if (typeof window !== 'undefined') {
+            window.dispatchEvent(new CustomEvent(value ? 'okayy:confirm' : 'okayy:cancel'));
+            window.dispatchEvent(new CustomEvent('okayy:close', { detail: { confirmed: value } }));
+          }
           ConfirmState.respond(value);
         };
         el.addEventListener('animationend', onEnd);
-        // Fallback if animationend doesn't fire
-        setTimeout(onEnd, 200);
+        closeTimeoutRef.current = setTimeout(onEnd, 200);
       } else {
         setVisible(false);
-        options.onDismiss?.();
+        try {
+          options.onDismiss?.();
+        } catch {
+          /* swallow */
+        }
+        if (typeof window !== 'undefined') {
+          window.dispatchEvent(new CustomEvent(value ? 'okayy:confirm' : 'okayy:cancel'));
+          window.dispatchEvent(new CustomEvent('okayy:close', { detail: { confirmed: value } }));
+        }
         ConfirmState.respond(value);
       }
     },
-    [isLoading, loadingAction, options.onDismiss],
+    [isLoading, loadingAction, options.onDismiss, options.cancelableWhileLoading],
   );
+
+  // Dismiss effect (reacts to dismiss() calls via counter)
+  React.useEffect(() => {
+    const count = storeState.dismissCount || 0;
+    if (count > dismissCountRef.current) {
+      dismissCountRef.current = count;
+      handleCancel('dismiss');
+    }
+  }, [storeState.dismissCount]);
+
+  // Cleanup close timeout on unmount
+  React.useEffect(
+    () => () => {
+      if (closeTimeoutRef.current) clearTimeout(closeTimeoutRef.current);
+    },
+    [],
+  );
+
+  // Unmount cleanup — respond false if dialog is still open
+  React.useEffect(() => {
+    return () => {
+      if (ConfirmState.getSnapshot().isOpen) {
+        ConfirmState.respond(false);
+      }
+    };
+  }, []);
 
   // Escape key
   React.useEffect(() => {
@@ -125,50 +190,56 @@ export function Confirmer({
         if (options.hideCancel) {
           handleClose(true);
         } else {
-          options.onCancel?.();
-          handleClose(false);
+          handleCancel('escape');
         }
       }
     };
     document.addEventListener('keydown', handler);
     return () => document.removeEventListener('keydown', handler);
-  }, [visible, options.dismissible, options.onCancel, options.hideCancel, handleClose]);
+  }, [visible, options.dismissible, options.hideCancel, handleClose]);
 
   const handleConfirm = async () => {
     if (isLoading) return;
     if (options.onConfirm) {
       setIsLoading(true);
       try {
-        await options.onConfirm();
-      } finally {
+        const result = await options.onConfirm();
+        if (result === false) {
+          setIsLoading(false);
+          return;
+        }
+      } catch {
         setIsLoading(false);
+        return;
       }
+      setIsLoading(false);
     }
     handleClose(true);
   };
 
-  const handleCancel = () => {
+  const handleCancel = (reason: 'button' | 'escape' | 'overlay' | 'dismiss' = 'button') => {
     if (options.hideCancel) {
       handleClose(true);
       return;
     }
-    options.onCancel?.();
+    options.onCancel?.(reason);
     handleClose(false);
   };
 
   const handleOverlayClick = () => {
     if (options.dismissible !== false) {
-      handleCancel();
+      handleCancel('overlay');
     }
   };
 
   if (!visible) return null;
 
   const variant = options.variant || 'default';
+
   const confirmText = options.hideCancel
-    ? options.confirmText || 'OK'
-    : options.confirmText || 'Confirm';
-  const cancelText = options.cancelText || 'Cancel';
+    ? options.confirmText || t.ok || 'OK'
+    : options.confirmText || t.confirm || 'Confirm';
+  const cancelText = options.cancelText || t.cancel || 'Cancel';
 
   // Icon resolution: false/null = hidden, undefined = use default, ReactNode = custom
   const hideIcon = options.icon === false || options.icon === null;
@@ -181,11 +252,45 @@ export function Confirmer({
     ? confirmInput === options.confirmationKeyword
     : true;
 
+  // Spinner resolution: options.spinner ?? globalSpinner ?? default
+  const spinnerNode = (() => {
+    const s = options.spinner ?? globalSpinner;
+    if (s === false) return null;
+    if (s) return s;
+    return <span data-okayy-spinner aria-hidden="true" />;
+  })();
+
+  // RTL resolution
+  const resolvedDir = (() => {
+    const d = options.dir || dir;
+    if (!d || d === 'auto') {
+      const docDir = typeof document !== 'undefined' ? document.documentElement.dir : '';
+      return docDir === 'rtl' ? 'rtl' : d === 'auto' ? undefined : undefined;
+    }
+    return d;
+  })();
+
+  // Keyword label resolution
+  const keywordLabelNode = (() => {
+    const kl = t.keywordLabel;
+    if (typeof kl === 'function') return kl(options.confirmationKeyword!);
+    if (typeof kl === 'string') return kl;
+    return (
+      <>
+        Type{' '}
+        <bdi>
+          <strong>{options.confirmationKeyword}</strong>
+        </bdi>{' '}
+        to confirm
+      </>
+    );
+  })();
+
   return ReactDOM.createPortal(
     <div
       data-okayy
       suppressHydrationWarning
-      dir={dir || undefined}
+      dir={resolvedDir || undefined}
       data-unstyled={isUnstyled || undefined}
       className={resolvedTheme === 'dark' ? 'dark' : undefined}
     >
@@ -209,17 +314,19 @@ export function Confirmer({
         data-variant={variant}
         data-layout={options.layout || 'default'}
         data-custom={options.custom ? '' : undefined}
+        data-size={options.size || undefined}
         className={
           [className, options.className, options.classNames?.dialog].filter(Boolean).join(' ') ||
           undefined
         }
         style={options.style}
         data-testid={options.testId || undefined}
-        role="alertdialog"
+        role={variant === 'danger' || variant === 'warning' ? 'alertdialog' : 'dialog'}
         aria-modal="true"
         aria-label={options.ariaLabel || undefined}
         aria-labelledby={options.ariaLabel ? undefined : titleId}
         aria-describedby={options.description ? descriptionId : undefined}
+        aria-busy={isLoading || loadingAction !== null || undefined}
       >
         {options.custom ? (
           options.custom(handleClose)
@@ -229,7 +336,7 @@ export function Confirmer({
               {/* Icon + Title */}
               <div data-okayy-header>
                 {showIcon && (
-                  <span data-okayy-icon className={options.classNames?.icon}>
+                  <span data-okayy-icon aria-hidden="true" className={options.classNames?.icon}>
                     {icon}
                   </span>
                 )}
@@ -253,13 +360,12 @@ export function Confirmer({
             {/* Type-to-Confirm */}
             {options.confirmationKeyword && (
               <div data-okayy-keyword>
-                <label data-okayy-keyword-label>
-                  Type <strong>{options.confirmationKeyword}</strong> to confirm
-                </label>
+                <label data-okayy-keyword-label>{keywordLabelNode}</label>
                 <input
                   data-okayy-keyword-input
                   value={confirmInput}
                   onChange={(e) => setConfirmInput(e.target.value)}
+                  aria-invalid={!keywordMatch ? 'true' : undefined}
                 />
               </div>
             )}
@@ -268,7 +374,7 @@ export function Confirmer({
             <div
               data-okayy-footer
               role="group"
-              aria-label="Dialog actions"
+              aria-label={t.dialogActions || 'Dialog actions'}
               className={options.classNames?.footer}
             >
               {!options.hideCancel && (
@@ -278,8 +384,10 @@ export function Confirmer({
                   data-okayy-cancel
                   data-testid={options.testId ? `${options.testId}-cancel` : undefined}
                   className={options.classNames?.cancelButton}
-                  onClick={handleCancel}
-                  disabled={isLoading || loadingAction !== null}
+                  onClick={() => handleCancel('button')}
+                  disabled={
+                    options.cancelableWhileLoading ? false : isLoading || loadingAction !== null
+                  }
                 >
                   {cancelText}
                 </button>
@@ -294,14 +402,16 @@ export function Confirmer({
                     setLoadingAction(i);
                     try {
                       await action.onClick();
-                    } finally {
+                    } catch {
                       setLoadingAction(null);
+                      return;
                     }
+                    setLoadingAction(null);
                     handleClose(false);
                   }}
                   disabled={isLoading || loadingAction !== null}
                 >
-                  {loadingAction === i && <span data-okayy-spinner aria-hidden="true" />}
+                  {loadingAction === i && spinnerNode}
                   <span style={loadingAction === i ? { visibility: 'hidden' } : undefined}>
                     {action.label}
                   </span>
@@ -317,10 +427,17 @@ export function Confirmer({
                 onClick={handleConfirm}
                 disabled={isLoading || loadingAction !== null || !keywordMatch}
               >
-                {isLoading && <span data-okayy-spinner aria-hidden="true" />}
+                {isLoading && spinnerNode}
                 <span style={isLoading ? { visibility: 'hidden' } : undefined}>{confirmText}</span>
               </button>
             </div>
+
+            {/* Screen reader loading announcement */}
+            {(isLoading || loadingAction !== null) && (
+              <span role="status" data-okayy-sr-only>
+                {t.loading || 'Loading...'}
+              </span>
+            )}
           </>
         )}
       </div>

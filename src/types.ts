@@ -29,6 +29,15 @@ export interface ConfirmAction {
   onClick: () => void | Promise<void>;
 }
 
+export interface ConfirmTranslations {
+  confirm?: string;
+  cancel?: string;
+  ok?: string;
+  keywordLabel?: string | ((keyword: string) => ReactNode);
+  dialogActions?: string;
+  loading?: string;
+}
+
 export interface ConfirmOptions {
   /** Dialog title — the primary question or statement */
   title: string;
@@ -42,10 +51,10 @@ export interface ConfirmOptions {
   variant?: Variant;
   /** Custom icon rendered left of the title. Set to `false` or `null` to hide. */
   icon?: ReactNode | false;
-  /** Async action executed on confirm — shows loading state on the button */
-  onConfirm?: () => Promise<void> | void;
-  /** Called when the user cancels */
-  onCancel?: () => void;
+  /** Async action executed on confirm — shows loading state on the button. Return `false` to keep dialog open. */
+  onConfirm?: () => Promise<void | false> | void | false;
+  /** Called when the user cancels with a reason for the cancellation */
+  onCancel?: (reason?: 'button' | 'escape' | 'overlay' | 'dismiss') => void;
   /** Called when the dialog is dismissed by any means (confirm, cancel, Escape, overlay click) */
   onDismiss?: () => void;
   /** Whether pressing Escape or clicking the overlay dismisses. Default: true */
@@ -74,6 +83,14 @@ export interface ConfirmOptions {
   testId?: string;
   /** Render a fully custom dialog body. Receives a close function. */
   custom?: (close: (value: boolean) => void) => ReactNode;
+  /** Whether the cancel button is clickable while loading. Default: false */
+  cancelableWhileLoading?: boolean;
+  /** Custom spinner element. Set to `false` to hide spinner (buttons still disabled). */
+  spinner?: ReactNode | false;
+  /** Dialog size preset. Default: "md" */
+  size?: 'sm' | 'md' | 'lg' | 'xl' | 'full';
+  /** Text direction override for this dialog */
+  dir?: 'ltr' | 'rtl' | 'auto';
 }
 
 export interface ConfirmerProps {
@@ -89,10 +106,15 @@ export interface ConfirmerProps {
   unstyled?: boolean;
   /** Text direction for RTL language support */
   dir?: 'ltr' | 'rtl' | 'auto';
+  /** Translation overrides for all dialogs */
+  translations?: ConfirmTranslations;
+  /** Custom spinner element for all dialogs. Set to `false` to hide spinner globally. */
+  spinner?: ReactNode | false;
 }
 
 export interface ConfirmState {
   isOpen: boolean;
   options: ConfirmOptions;
   resolve: ((value: boolean) => void) | null;
+  dismissCount?: number;
 }

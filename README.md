@@ -59,14 +59,28 @@ async function handleDelete() {
 - **Async confirm** — loading spinner on the button during `onConfirm`
 - **Type-to-confirm** — `confirmationKeyword` for dangerous actions
 - **Custom rendering** — `confirm.custom((close) => <YourComponent />)`
-- **Accessible** — focus trap, `role="alertdialog"`, `aria-modal`, `inert`
-- **Mobile** — bottom sheet with drag handle and safe-area padding
+- **Accessible** — focus trap, ARIA roles (`dialog`/`alertdialog`), `aria-modal`, `inert`
+- **Mobile** — bottom sheet with safe-area padding
 - **Themeable** — light/dark/system, CSS variables, unstyled mode
-- **Tiny** — ~3 kB gzipped
+- **Tiny** — ~3.6 kB gzipped
 
 ## Documentation
 
 Visit [pavlito.github.io/okayy](https://pavlito.github.io/okayy) for full documentation, examples, and API reference.
+
+## Development
+
+```bash
+npm install              # Install dependencies
+npm run dev:all          # Watch library + demo site
+npm run test             # Unit tests (vitest)
+npm run test:e2e         # E2E tests (Playwright — chromium, firefox, webkit, mobile)
+npm run test:e2e:ui      # E2E tests with interactive UI
+npm run build            # Build library
+npm run type-check       # TypeScript check
+npm run lint             # ESLint
+npm run size             # Check bundle size (4.0 kB budget)
+```
 
 ## License
 

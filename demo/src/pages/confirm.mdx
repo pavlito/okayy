@@ -125,7 +125,7 @@ Use `confirm.alert()` when you need to inform the user about something that does
 
 ## Async loading
 
-Pass an `onConfirm` handler that returns a Promise to run an asynchronous action when the user confirms. While the promise is pending, the confirm button is automatically disabled and displays a loading spinner. The cancel button is also disabled, and the dialog stays open until the promise resolves or rejects. This prevents double-submissions and gives the user clear visual feedback that their action is being processed.
+Pass an `onConfirm` handler that returns a Promise to run an asynchronous action when the user confirms. While the promise is pending, the confirm button is automatically disabled and displays a loading spinner. The cancel button is also disabled, and the dialog stays open until the promise resolves. If the promise rejects (throws an error), the dialog stays open and the loading state is reset — the error does not close the dialog. You can also return `false` from `onConfirm` to explicitly keep the dialog open. This prevents double-submissions and gives the user clear visual feedback that their action is being processed.
 
 <Preview
   label="Try it (2s delay)"
@@ -141,6 +141,32 @@ Pass an `onConfirm` handler that returns a Promise to run an asynchronous action
   confirmText: 'Deploy',
   onConfirm: async () => {
     await deployToProduction();
+    // throw an error to keep dialog open
+    // return false to keep dialog open
+  },
+});`}
+/>
+
+### Cancel while loading
+
+By default, the cancel button is disabled during loading. Set `cancelableWhileLoading` to `true` to let users cancel even while an async action is in progress.
+
+<Preview
+  label="Try it (5s delay)"
+  action={() => confirm({
+    title: 'Processing...',
+    description: 'You can cancel this at any time.',
+    confirmText: 'Start',
+    cancelableWhileLoading: true,
+    onConfirm: () => new Promise((resolve) => setTimeout(resolve, 5000)),
+  })}
+  code={`const ok = await confirm({
+  title: 'Processing...',
+  description: 'You can cancel this at any time.',
+  confirmText: 'Start',
+  cancelableWhileLoading: true,
+  onConfirm: async () => {
+    await longRunningTask();
   },
 });`}
 />
@@ -324,12 +350,75 @@ Use `classNames` to target individual dialog elements with CSS classes. This is 
 });`}
 />
 
+## Dialog size
+
+Use the `size` option to control the dialog width. Available presets: `"sm"` (22rem), `"md"` (28rem, default), `"lg"` (36rem), `"xl"` (48rem), `"full"` (full viewport width minus padding).
+
+<Preview
+  label="Try it"
+  action={() => confirm({
+    title: 'Large dialog',
+    description: 'This dialog uses the large size preset for more content room.',
+    size: 'lg',
+  })}
+  code={`const ok = await confirm({
+  title: 'Large dialog',
+  description: 'More content room.',
+  size: 'lg',
+});`}
+/>
+
+## Cancel events
+
+The `onCancel` callback receives a `reason` parameter indicating how the dialog was cancelled: `"button"`, `"escape"`, `"overlay"`, or `"dismiss"`. This lets you handle different cancel sources differently, for example logging analytics or performing cleanup only on explicit user cancellation.
+
+```tsx
+const ok = await confirm({
+  title: 'Delete?',
+  onCancel: (reason) => {
+    console.log('Cancelled via:', reason);
+    // reason is 'button' | 'escape' | 'overlay' | 'dismiss'
+  },
+});
+```
+
+okayy also dispatches CustomEvents on `window` when dialogs close:
+
+```tsx
+window.addEventListener('okayy:confirm', () => console.log('confirmed'));
+window.addEventListener('okayy:cancel', () => console.log('cancelled'));
+window.addEventListener('okayy:close', (e) => console.log('closed', e.detail.confirmed));
+```
+
+## Dialog queue
+
+When `confirm()` is called while a dialog is already open, the new dialog is queued and shown after the current one closes. Each call returns its own `Promise<boolean>` that resolves when that specific dialog is handled.
+
+```tsx
+// These dialogs show one after another
+const a = await confirm('Step 1');
+const b = await confirm('Step 2');
+const c = await confirm('Step 3');
+```
+
+Use `confirm.clearQueue()` to discard all pending dialogs. Each pending promise resolves with `false`.
+
 ## Programmatic dismiss
 
-Close any open confirm dialog from code. This is useful when you need to dismiss the dialog in response to external events, such as a route change, a WebSocket message, an inactivity timeout, or any situation where the dialog is no longer relevant and should be removed without waiting for user interaction.
+Close any open confirm dialog from code. This triggers the `onCancel` callback with reason `"dismiss"` and calls `onDismiss`. This is useful when you need to dismiss the dialog in response to external events, such as a route change, a WebSocket message, an inactivity timeout, or any situation where the dialog is no longer relevant and should be removed without waiting for user interaction.
 
 ```jsx
 confirm.dismiss();
+```
+
+## Check open state
+
+Use `confirm.isOpen()` to check whether a dialog is currently open. Returns `true` if a dialog is visible, `false` otherwise.
+
+```tsx
+if (confirm.isOpen()) {
+  // a dialog is currently open
+}
 ```
 
 ## API Reference
@@ -342,17 +431,21 @@ confirm.dismiss();
 | cancelText | Text for the cancel button | `"Cancel"` |
 | variant | Visual variant: `"default"`, `"danger"`, `"warning"`, `"info"`, `"success"` | `"default"` |
 | icon | Custom icon rendered left of the title. Set to `false` to hide. | - |
-| actions | Additional action buttons between cancel and confirm | `-` |
-| onConfirm | Async action on confirm — shows loading spinner | - |
-| onCancel | Called when the user cancels | - |
+| actions | Additional action buttons between cancel and confirm | - |
+| onConfirm | Async action on confirm — shows loading spinner. Return `false` to keep dialog open. Errors keep dialog open. | - |
+| onCancel | Called when the user cancels. Receives reason: `"button"`, `"escape"`, `"overlay"`, `"dismiss"` | - |
 | onDismiss | Called when the dialog closes by any means (confirm, cancel, Escape, overlay) | - |
 | dismissible | Whether Escape/overlay click dismisses | `true` |
+| cancelableWhileLoading | Whether the cancel button stays enabled during async loading | `false` |
 | ariaLabel | Custom accessible label for the dialog. Overrides auto-generated labelledby. Useful for i18n. | - |
 | className | CSS class on the dialog content container | - |
 | overlayClassName | CSS class on the overlay | - |
 | hideCancel | Hide the cancel button (used by `confirm.alert()`) | `false` |
 | confirmationKeyword | Keyword the user must type to enable confirm | - |
 | layout | Dialog layout: `"default"` or `"centered"` | `"default"` |
+| size | Dialog width preset: `"sm"`, `"md"`, `"lg"`, `"xl"`, `"full"` | `"md"` |
+| dir | Text direction override: `"ltr"`, `"rtl"`, `"auto"` | - |
+| spinner | Custom spinner element. Set to `false` to hide spinner (buttons still disabled). | - |
 | style | Inline CSS styles on the dialog container | - |
 | classNames | Per-element CSS classes (`dialog`, `overlay`, `title`, `description`, `confirmButton`, `cancelButton`, `actionButton`, `icon`, `content`, `footer`) | - |
 | unstyled | Strip all default styles for full Tailwind control | `false` |

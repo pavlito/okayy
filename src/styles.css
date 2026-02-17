@@ -2,6 +2,14 @@
    Okayy — Confirm Dialog Stylesheet
    ============================================ */
 
+/* --- Box Sizing Reset --- */
+[data-okayy],
+[data-okayy] *,
+[data-okayy] *::before,
+[data-okayy] *::after {
+  box-sizing: border-box;
+}
+
 /* --- CSS Custom Properties (Light Theme) --- */
 [data-okayy] {
   --okayy-font: 'Geist Sans', 'Inter', ui-sans-serif, system-ui, -apple-system,
@@ -41,7 +49,6 @@
 }
 
 /* --- Dark Theme --- */
-[data-okayy-theme='dark'] [data-okayy],
 .dark [data-okayy] {
   --okayy-overlay-bg: rgba(0, 0, 0, 0.8);
 
@@ -85,7 +92,6 @@
 }
 
 /* Dark */
-[data-okayy-theme='dark'] [data-okayy] [data-variant='danger'],
 .dark [data-okayy] [data-variant='danger'] {
   --okayy-dialog-bg: #0a0a0a;
   --okayy-dialog-border: #262626;
@@ -112,7 +118,6 @@
 }
 
 /* Dark */
-[data-okayy-theme='dark'] [data-okayy] [data-variant='warning'],
 .dark [data-okayy] [data-variant='warning'] {
   --okayy-dialog-bg: #0a0a0a;
   --okayy-dialog-border: #262626;
@@ -139,7 +144,6 @@
 }
 
 /* Dark */
-[data-okayy-theme='dark'] [data-okayy] [data-variant='info'],
 .dark [data-okayy] [data-variant='info'] {
   --okayy-dialog-bg: #0a0a0a;
   --okayy-dialog-border: #262626;
@@ -166,7 +170,6 @@
 }
 
 /* Dark */
-[data-okayy-theme='dark'] [data-okayy] [data-variant='success'],
 .dark [data-okayy] [data-variant='success'] {
   --okayy-dialog-bg: #0a0a0a;
   --okayy-dialog-border: #262626;
@@ -235,7 +238,8 @@
   position: relative;
   z-index: 51;
   width: 100%;
-  max-width: 28rem;
+  max-width: var(--okayy-dialog-max-width, 28rem);
+  max-height: calc(100vh - 2rem);
   padding: 1.5rem;
   border-radius: 0.75rem;
   background: var(--okayy-dialog-bg);
@@ -260,6 +264,12 @@
 [data-okayy-dialog][data-custom] {
   padding: 0;
 }
+
+/* Size presets */
+[data-okayy-dialog][data-size='sm']   { --okayy-dialog-max-width: 22rem; }
+[data-okayy-dialog][data-size='lg']   { --okayy-dialog-max-width: 36rem; }
+[data-okayy-dialog][data-size='xl']   { --okayy-dialog-max-width: 48rem; }
+[data-okayy-dialog][data-size='full'] { --okayy-dialog-max-width: calc(100vw - 2rem); }
 
 @keyframes okayy-dialog-in {
   from {
@@ -289,6 +299,7 @@
 [data-okayy-content] {
   display: flex;
   flex-direction: column;
+  overflow-y: auto;
 }
 
 /* ============================================
@@ -506,6 +517,20 @@
 }
 
 /* ============================================
+   Screen Reader Only
+   ============================================ */
+[data-okayy-sr-only] {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+/* ============================================
    Reduced Motion
    ============================================ */
 @media (prefers-reduced-motion: reduce) {
@@ -525,6 +550,12 @@
   [data-okayy-button]:active {
     transform: none;
   }
+
+  [data-okayy-spinner] {
+    animation: none;
+    border-right-color: currentColor;
+    opacity: 0.5;
+  }
 }
 
 @keyframes okayy-fade-in {
@@ -535,6 +566,23 @@
 @keyframes okayy-fade-out {
   from { opacity: 1; }
   to { opacity: 0; }
+}
+
+/* ============================================
+   Forced Colors (High Contrast)
+   ============================================ */
+@media (forced-colors: active) {
+  [data-okayy-overlay] {
+    background: Canvas;
+    opacity: 0.8;
+  }
+  [data-okayy-dialog] {
+    border: 2px solid ButtonText;
+  }
+  [data-okayy-confirm] {
+    background: ButtonText;
+    color: ButtonFace;
+  }
 }
 
 /* ============================================
@@ -579,6 +627,7 @@
 
   [data-okayy-button] {
     width: 100%;
+    height: 2.75rem; /* 44px touch target on mobile */
   }
 
   /* Reduced motion on mobile */
@@ -652,6 +701,14 @@
 /* ============================================
    Unstyled Mode
    ============================================ */
+[data-okayy][data-unstyled] {
+  position: static;
+  inset: auto;
+  z-index: auto;
+  display: block;
+  padding: 0;
+}
+
 [data-okayy][data-unstyled] [data-okayy-dialog] {
   background: none;
   border: none;
@@ -672,9 +729,24 @@
   background: none;
   border: none;
   padding: 0;
+  height: auto;
   color: inherit;
   font: inherit;
   cursor: pointer;
+  transition: none;
+  border-radius: 0;
+}
+
+[data-okayy][data-unstyled] [data-okayy-button]:hover {
+  opacity: 1;
+}
+
+[data-okayy][data-unstyled] [data-okayy-button]:active {
+  transform: none;
+}
+
+[data-okayy][data-unstyled] [data-okayy-button]:focus-visible {
+  outline: revert;
 }
 
 [data-okayy][data-unstyled] [data-okayy-title],
@@ -691,6 +763,38 @@
   font: inherit;
 }
 
+[data-okayy][data-unstyled] [data-okayy-keyword-label] {
+  font: inherit;
+  color: inherit;
+}
+
 [data-okayy][data-unstyled] [data-okayy-icon] {
   color: inherit;
+}
+
+[data-okayy][data-unstyled] [data-okayy-spinner] {
+  animation: none;
+}
+
+[data-okayy][data-unstyled] [data-okayy-footer] {
+  margin-top: 0;
+  gap: 0;
+}
+
+[data-okayy][data-unstyled] [data-okayy-content] {
+  gap: 0;
+}
+
+[data-okayy][data-unstyled] [data-okayy-header] {
+  gap: 0;
+}
+
+[data-okayy][data-unstyled] [data-okayy-keyword] {
+  margin-top: 0;
+  gap: 0;
+}
+
+/* Drag handle */
+[data-okayy][data-unstyled] [data-okayy-dialog]::before {
+  display: none;
 }

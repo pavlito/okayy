@@ -1,6 +1,6 @@
 {
   "name": "okayy",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "description": "A confirm dialog for React. One line. Beautiful.",
   "license": "MIT",
   "author": "Pavle Lucic",
@@ -58,7 +58,9 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "type-check": "tsc --noEmit",
-    "dev:all": "concurrently -n lib,demo -c blue,green \"npm run dev\" \"cd demo && npm run dev\""
+    "dev:all": "concurrently -n lib,demo -c blue,green \"npm run dev\" \"cd demo && npm run dev\"",
+    "test:e2e": "playwright test --config e2e/playwright.config.ts",
+    "test:e2e:ui": "playwright test --config e2e/playwright.config.ts --ui"
   },
   "peerDependencies": {
     "react": "^18.0.0 || ^19.0.0",
@@ -82,12 +84,13 @@
     "size-limit": "^11.0.0",
     "tsup": "^8.0.0",
     "typescript": "^5.0.0",
+    "@playwright/test": "^1.40.0",
     "vitest": "^2.0.0"
   },
   "size-limit": [
     {
       "path": "dist/index.js",
-      "limit": "3.2 kB"
+      "limit": "4.0 kB"
     }
   ]
 }

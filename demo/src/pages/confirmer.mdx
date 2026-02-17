@@ -71,9 +71,46 @@ You can also disable a variant's default icon by passing `null`:
 />
 ```
 
+## Translations (i18n)
+
+Pass a `translations` object to override the default English button labels globally. This works for confirm/cancel/OK buttons, the keyword label, the footer aria-label, and the loading screen reader announcement.
+
+```tsx
+<Confirmer
+  translations={{
+    confirm: 'Confirmer',
+    cancel: 'Annuler',
+    ok: 'D\'accord',
+    keywordLabel: (keyword) => <>Tapez <strong>{keyword}</strong> pour confirmer</>,
+    dialogActions: 'Actions du dialogue',
+    loading: 'Chargement...',
+  }}
+/>
+```
+
+Individual `confirm()` calls can still override button text with `confirmText` and `cancelText` — those take priority over `translations`.
+
+## Custom spinner
+
+Replace the default loading spinner with your own React element. Set to `false` to hide the spinner entirely (buttons are still disabled during loading).
+
+```tsx
+<Confirmer spinner={<MySpinner />} />
+```
+
+You can also set `spinner` per-dialog in the `confirm()` options:
+
+```tsx
+const ok = await confirm({
+  title: 'Processing...',
+  spinner: <MyCustomSpinner />,
+  onConfirm: async () => { ... },
+});
+```
+
 ## Unstyled mode
 
-Set `unstyled` to strip all default visual styles from the dialog. This gives you a blank canvas to style entirely with Tailwind CSS or your own classes via the `classNames` prop. Structural styles (positioning, z-index, flex layout) are preserved.
+Set `unstyled` to strip all default visual styles from the dialog. This gives you a blank canvas to style entirely with Tailwind CSS or your own classes via the `classNames` prop. All positioning, layout, animation, button styling, and spacing are removed.
 
 ```tsx
 <Confirmer unstyled />
@@ -108,3 +145,5 @@ Combine with `defaultOptions` and `classNames` for a full Tailwind design system
 | icons | Default icons per variant | - |
 | unstyled | Strip all default styles for Tailwind-first customization | `false` |
 | dir | Text direction for RTL support: `"ltr"`, `"rtl"`, or `"auto"` | - |
+| translations | Translation overrides for button labels, keyword label, and screen reader text | - |
+| spinner | Custom spinner element for all dialogs. Set to `false` to hide. | - |

@@ -1,7 +1,7 @@
-import { describe, it, expect, afterEach, vi } from 'vitest';
+import { describe, it, expect, afterEach, beforeEach, vi } from 'vitest';
 import { render, screen, waitFor, cleanup } from '@testing-library/react';
 import { Confirmer } from '../confirmer';
-import { ConfirmState } from '../state';
+import { ConfirmState, confirm } from '../state';
 
 vi.spyOn(window, 'matchMedia').mockReturnValue({
   matches: false,
@@ -15,11 +15,16 @@ vi.spyOn(window, 'requestAnimationFrame').mockImplementation((cb) => {
 });
 
 describe('RTL support', () => {
+  beforeEach(() => {
+    confirm.clearQueue();
+  });
+
   afterEach(() => {
     cleanup();
     if (ConfirmState.getSnapshot().isOpen) {
       ConfirmState.respond(false);
     }
+    confirm.clearQueue();
     document.body.querySelectorAll('[data-okayy]').forEach((el) => el.remove());
     vi.restoreAllMocks();
 
@@ -41,7 +46,7 @@ describe('RTL support', () => {
     ConfirmState.confirm({ title: 'Test' });
 
     await waitFor(() => {
-      expect(screen.getByRole('alertdialog')).toBeInTheDocument();
+      expect(screen.getByRole('dialog')).toBeInTheDocument();
     });
 
     const wrapper = document.querySelector('[data-okayy]');
@@ -54,7 +59,7 @@ describe('RTL support', () => {
     ConfirmState.confirm({ title: 'Test' });
 
     await waitFor(() => {
-      expect(screen.getByRole('alertdialog')).toBeInTheDocument();
+      expect(screen.getByRole('dialog')).toBeInTheDocument();
     });
 
     const wrapper = document.querySelector('[data-okayy]');
@@ -67,11 +72,24 @@ describe('RTL support', () => {
     ConfirmState.confirm({ title: 'Test' });
 
     await waitFor(() => {
-      expect(screen.getByRole('alertdialog')).toBeInTheDocument();
+      expect(screen.getByRole('dialog')).toBeInTheDocument();
     });
 
     const wrapper = document.querySelector('[data-okayy]');
     expect(wrapper).not.toBeNull();
     expect(wrapper!.hasAttribute('dir')).toBe(false);
+  });
+
+  it('per-dialog dir overrides component dir', async () => {
+    render(<Confirmer dir="ltr" />);
+    ConfirmState.confirm({ title: 'Test', dir: 'rtl' });
+
+    await waitFor(() => {
+      expect(screen.getByRole('dialog')).toBeInTheDocument();
+    });
+
+    const wrapper = document.querySelector('[data-okayy]');
+    expect(wrapper).not.toBeNull();
+    expect(wrapper!.getAttribute('dir')).toBe('rtl');
   });
 });
